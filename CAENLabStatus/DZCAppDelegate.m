@@ -1,31 +1,28 @@
-//
-//  DZCAppDelegate.m
-//  CAENLabStatus
-//
-//  Created by Chris Dzombak on 1/27/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
 #import "DZCAppDelegate.h"
-
-#import "DZCViewController.h"
+#import "DZCLabsViewController.h"
 
 @implementation DZCAppDelegate
 
-@synthesize window = _window;
-@synthesize viewController = _viewController;
+@synthesize window = _window, rootViewController = _viewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.viewController = [[DZCViewController alloc] initWithNibName:@"DZCViewController_iPhone" bundle:nil];
+        UIViewController *buildingsViewController = [[DZCLabsViewController alloc] initWithStyle:UITableViewStylePlain];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:buildingsViewController];
+        
+        //navController.navigationBar.barStyle = UIBarStyleBlack;
+        
+        self.rootViewController = navController;
     } else {
-        self.viewController = [[DZCViewController alloc] initWithNibName:@"DZCViewController_iPad" bundle:nil];
+        // TODO
+        //self.rootViewController = [[DZCRootViewController alloc] initWithNibName:@"DZCRootViewController_iPad" bundle:nil];
     }
-    self.window.rootViewController = self.viewController;
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = self.rootViewController;
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
