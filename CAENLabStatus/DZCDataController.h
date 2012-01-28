@@ -13,15 +13,15 @@ typedef enum {
 
 @interface DZCDataController : NSObject
 
-- (void)labsWithStatus:(DZCLabStatus)status withBlock:(void(^)(NSArray *))block;
+- (void)reloadLabStatusesWithBlock:(void(^)(NSError *error))block;
+
+- (void)labsAndStatusesWithBlock:(void(^)(NSArray *labs))block;
 
 // TODO do I need this?
 //- (DZCLabStatus)statusForLab:(DZCLab *)lab;
 
-- (NSInteger *)machinesUsedInLab:(DZCLab *)lab;
+//- (NSInteger *)machinesUsedInLab:(DZCLab *)lab;
 
-- (NSInteger *)machinesTotalInLab:(DZCLab *)lab;
-
-- (void)reloadLabStatuses;
+//- (NSInteger *)machinesTotalInLab:(DZCLab *)lab;
 
 @end

@@ -1,6 +1,7 @@
 #import "DZCLabsViewController.h"
 #import "DZCTableViewCellOpenLab.h"
 #import "DZCTableViewCellClosedLab.h"
+#import "DZCDataController.h"
 
 enum DZCLabsTableViewSections {
     DZCLabsTableViewSectionOpen = 0,
@@ -22,8 +23,16 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     }
 }
 
+@interface DZCLabsViewController () 
+
+@property (nonatomic, strong) NSArray *labs;
+
+@end
+
 
 @implementation DZCLabsViewController
+
+@synthesize dataController = _dataController, labs = _labs;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -132,6 +141,21 @@ __attribute__((constructor)) static void __InitTableViewStrings()
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+#pragma mark - Property overrides
+
+- (NSArray *)labs
+{
+    if(!_labs) {
+        _labs = [NSMutableArray array];
+        
+        // TODO there must be a better way to build a 2D array of NSArray
+        for (int i=0; i<DZCLabStatusNumStatuses; ++i) {
+            [(NSMutableArray *)_labs addObject:[NSArray array]];
+        }
+    }
+    return _labs;
 }
 
 @end
