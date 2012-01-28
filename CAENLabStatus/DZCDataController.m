@@ -1,8 +1,10 @@
 #import "DZCDataController.h"
 #import "DZCLab.h"
+#import "DZCApiClient.h"
 
 @interface DZCDataController ()
 
+@property (nonatomic, strong) DZCApiClient *apiClient;
 @property (nonatomic, strong) NSMutableSet *labsDownloaded;
 @property (nonatomic, readonly, strong) NSSet *labs;
 
@@ -10,7 +12,7 @@
 
 @implementation DZCDataController
 
-@synthesize labsDownloaded = _labsDownloaded, labs = _labs;
+@synthesize labsDownloaded = _labsDownloaded, labs = _labs, apiClient = _apiClient;
 
 - (NSArray *)labsWithStatus:(DZCLabStatus)status
 {
@@ -41,6 +43,13 @@
                 nil];
     }
     return _labs;
+}
+
+- (DZCApiClient *)apiClient {
+    if (!_apiClient) {
+        _apiClient = [[DZCApiClient alloc] init];
+    }
+    return _apiClient;
 }
 
 @end
