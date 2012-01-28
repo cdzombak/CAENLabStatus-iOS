@@ -18,6 +18,8 @@
 		93D9F69114D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69014D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m */; };
 		93D9F69314D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93D9F69214D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib */; };
 		93D9F69614D3E16500AD2152 /* DZCTableViewCellClosedLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69514D3E16500AD2152 /* DZCTableViewCellClosedLab.m */; };
+		93D9F69914D4827700AD2152 /* DZCDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69814D4827700AD2152 /* DZCDataController.m */; };
+		93D9F69C14D483E400AD2152 /* DZCLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69B14D483E400AD2152 /* DZCLab.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,10 @@
 		93D9F69214D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DZCTableViewCellClosedLab.xib; sourceTree = "<group>"; };
 		93D9F69414D3E16500AD2152 /* DZCTableViewCellClosedLab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCTableViewCellClosedLab.h; sourceTree = "<group>"; };
 		93D9F69514D3E16500AD2152 /* DZCTableViewCellClosedLab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCTableViewCellClosedLab.m; sourceTree = "<group>"; };
+		93D9F69714D4827700AD2152 /* DZCDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCDataController.h; sourceTree = "<group>"; };
+		93D9F69814D4827700AD2152 /* DZCDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCDataController.m; sourceTree = "<group>"; };
+		93D9F69A14D483E400AD2152 /* DZCLab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLab.h; sourceTree = "<group>"; };
+		93D9F69B14D483E400AD2152 /* DZCLab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLab.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +99,7 @@
 				93D9F69414D3E16500AD2152 /* DZCTableViewCellClosedLab.h */,
 				93D9F69514D3E16500AD2152 /* DZCTableViewCellClosedLab.m */,
 				93D9F69214D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib */,
+				93D9F69D14D483E700AD2152 /* Data */,
 				93D9F66A14D3997600AD2152 /* Supporting Files */,
 				93D9F68814D39C2B00AD2152 /* View Controllers */,
 			);
@@ -117,6 +124,17 @@
 				93D9F68614D39C2500AD2152 /* DZCLabsViewController.m */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		93D9F69D14D483E700AD2152 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				93D9F69714D4827700AD2152 /* DZCDataController.h */,
+				93D9F69814D4827700AD2152 /* DZCDataController.m */,
+				93D9F69A14D483E400AD2152 /* DZCLab.h */,
+				93D9F69B14D483E400AD2152 /* DZCLab.m */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +205,8 @@
 				93D9F68714D39C2500AD2152 /* DZCLabsViewController.m in Sources */,
 				93D9F69114D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m in Sources */,
 				93D9F69614D3E16500AD2152 /* DZCTableViewCellClosedLab.m in Sources */,
+				93D9F69914D4827700AD2152 /* DZCDataController.m in Sources */,
+				93D9F69C14D483E400AD2152 /* DZCLab.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
