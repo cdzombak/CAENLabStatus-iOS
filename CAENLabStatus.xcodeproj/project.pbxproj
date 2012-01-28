@@ -1,0 +1,295 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		93D9F66414D3997600AD2152 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66314D3997600AD2152 /* UIKit.framework */; };
+		93D9F66614D3997600AD2152 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66514D3997600AD2152 /* Foundation.framework */; };
+		93D9F66814D3997600AD2152 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66714D3997600AD2152 /* CoreGraphics.framework */; };
+		93D9F66E14D3997600AD2152 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93D9F66C14D3997600AD2152 /* InfoPlist.strings */; };
+		93D9F67014D3997600AD2152 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F66F14D3997600AD2152 /* main.m */; };
+		93D9F67414D3997600AD2152 /* DZCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F67314D3997600AD2152 /* DZCAppDelegate.m */; };
+		93D9F67714D3997600AD2152 /* DZCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F67614D3997600AD2152 /* DZCViewController.m */; };
+		93D9F67A14D3997600AD2152 /* DZCViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93D9F67814D3997600AD2152 /* DZCViewController_iPhone.xib */; };
+		93D9F67D14D3997600AD2152 /* DZCViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93D9F67B14D3997600AD2152 /* DZCViewController_iPad.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		93D9F65F14D3997600AD2152 /* CAENLabStatus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAENLabStatus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		93D9F66314D3997600AD2152 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		93D9F66514D3997600AD2152 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		93D9F66714D3997600AD2152 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		93D9F66B14D3997600AD2152 /* CAENLabStatus-Info.plist */ = {isa = PBXFileReference; path = "CAENLabStatus-Info.plist"; sourceTree = "<group>"; };
+		93D9F66D14D3997600AD2152 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		93D9F66F14D3997600AD2152 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		93D9F67114D3997600AD2152 /* CAENLabStatus-Prefix.pch */ = {isa = PBXFileReference; path = "CAENLabStatus-Prefix.pch"; sourceTree = "<group>"; };
+		93D9F67214D3997600AD2152 /* DZCAppDelegate.h */ = {isa = PBXFileReference; path = DZCAppDelegate.h; sourceTree = "<group>"; };
+		93D9F67314D3997600AD2152 /* DZCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DZCAppDelegate.m; sourceTree = "<group>"; };
+		93D9F67514D3997600AD2152 /* DZCViewController.h */ = {isa = PBXFileReference; path = DZCViewController.h; sourceTree = "<group>"; };
+		93D9F67614D3997600AD2152 /* DZCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DZCViewController.m; sourceTree = "<group>"; };
+		93D9F67914D3997600AD2152 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DZCViewController_iPhone.xib; sourceTree = "<group>"; };
+		93D9F67C14D3997600AD2152 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DZCViewController_iPad.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		93D9F65C14D3997600AD2152 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93D9F66414D3997600AD2152 /* UIKit.framework in Frameworks */,
+				93D9F66614D3997600AD2152 /* Foundation.framework in Frameworks */,
+				93D9F66814D3997600AD2152 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		93D9F65414D3997600AD2152 = {
+			isa = PBXGroup;
+			children = (
+				93D9F66914D3997600AD2152 /* CAENLabStatus */,
+				93D9F66214D3997600AD2152 /* Frameworks */,
+				93D9F66014D3997600AD2152 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		93D9F66014D3997600AD2152 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				93D9F65F14D3997600AD2152 /* CAENLabStatus.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		93D9F66214D3997600AD2152 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				93D9F66314D3997600AD2152 /* UIKit.framework */,
+				93D9F66514D3997600AD2152 /* Foundation.framework */,
+				93D9F66714D3997600AD2152 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		93D9F66914D3997600AD2152 /* CAENLabStatus */ = {
+			isa = PBXGroup;
+			children = (
+				93D9F67214D3997600AD2152 /* DZCAppDelegate.h */,
+				93D9F67314D3997600AD2152 /* DZCAppDelegate.m */,
+				93D9F67514D3997600AD2152 /* DZCViewController.h */,
+				93D9F67614D3997600AD2152 /* DZCViewController.m */,
+				93D9F67814D3997600AD2152 /* DZCViewController_iPhone.xib */,
+				93D9F67B14D3997600AD2152 /* DZCViewController_iPad.xib */,
+				93D9F66A14D3997600AD2152 /* Supporting Files */,
+			);
+			path = CAENLabStatus;
+			sourceTree = "<group>";
+		};
+		93D9F66A14D3997600AD2152 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				93D9F66B14D3997600AD2152 /* CAENLabStatus-Info.plist */,
+				93D9F66C14D3997600AD2152 /* InfoPlist.strings */,
+				93D9F66F14D3997600AD2152 /* main.m */,
+				93D9F67114D3997600AD2152 /* CAENLabStatus-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		93D9F65E14D3997600AD2152 /* CAENLabStatus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93D9F68014D3997600AD2152 /* Build configuration list for PBXNativeTarget "CAENLabStatus" */;
+			buildPhases = (
+				93D9F65B14D3997600AD2152 /* Sources */,
+				93D9F65C14D3997600AD2152 /* Frameworks */,
+				93D9F65D14D3997600AD2152 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CAENLabStatus;
+			productName = CAENLabStatus;
+			productReference = 93D9F65F14D3997600AD2152 /* CAENLabStatus.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		93D9F65614D3997600AD2152 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 93D9F65914D3997600AD2152 /* Build configuration list for PBXProject "CAENLabStatus" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 93D9F65414D3997600AD2152;
+			productRefGroup = 93D9F66014D3997600AD2152 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				93D9F65E14D3997600AD2152 /* CAENLabStatus */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		93D9F65D14D3997600AD2152 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93D9F66E14D3997600AD2152 /* InfoPlist.strings in Resources */,
+				93D9F67A14D3997600AD2152 /* DZCViewController_iPhone.xib in Resources */,
+				93D9F67D14D3997600AD2152 /* DZCViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		93D9F65B14D3997600AD2152 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93D9F67014D3997600AD2152 /* main.m in Sources */,
+				93D9F67414D3997600AD2152 /* DZCAppDelegate.m in Sources */,
+				93D9F67714D3997600AD2152 /* DZCViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		93D9F66C14D3997600AD2152 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				93D9F66D14D3997600AD2152 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		93D9F67814D3997600AD2152 /* DZCViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				93D9F67914D3997600AD2152 /* en */,
+			);
+			name = DZCViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		93D9F67B14D3997600AD2152 /* DZCViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				93D9F67C14D3997600AD2152 /* en */,
+			);
+			name = DZCViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		93D9F67E14D3997600AD2152 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		93D9F67F14D3997600AD2152 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		93D9F68114D3997600AD2152 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CAENLabStatus/CAENLabStatus-Prefix.pch";
+				INFOPLIST_FILE = "CAENLabStatus/CAENLabStatus-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		93D9F68214D3997600AD2152 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CAENLabStatus/CAENLabStatus-Prefix.pch";
+				INFOPLIST_FILE = "CAENLabStatus/CAENLabStatus-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		93D9F65914D3997600AD2152 /* Build configuration list for PBXProject "CAENLabStatus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93D9F67E14D3997600AD2152 /* Debug */,
+				93D9F67F14D3997600AD2152 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93D9F68014D3997600AD2152 /* Build configuration list for PBXNativeTarget "CAENLabStatus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93D9F68114D3997600AD2152 /* Debug */,
+				93D9F68214D3997600AD2152 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 93D9F65614D3997600AD2152 /* Project object */;
+}
