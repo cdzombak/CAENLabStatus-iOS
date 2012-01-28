@@ -2,21 +2,47 @@
 #import "DZCLab.h"
 #import "DZCApiClient.h"
 
+static NSString *DZCLabStatusStrings[DZCLabStatusNumStatuses];
+
+__attribute__((constructor)) static void __InitStatusStrings()
+{
+    @autoreleasepool {
+        DZCLabStatusStrings[DZCLabStatusOpen] = @"Open";
+        DZCLabStatusStrings[DZCLabStatusClosed] = @"Closed";
+        DZCLabStatusStrings[DZCLabStatusReserved] = @"Reserved";
+        DZCLabStatusStrings[DZCLabStatusReservedSoon] = @"Reserved Soon";
+        DZCLabStatusStrings[DZCLabStatusPartiallyReserved] = @"Partially Reserved";
+    }
+}
+
 @interface DZCDataController ()
 
 @property (nonatomic, strong) DZCApiClient *apiClient;
 @property (nonatomic, strong) NSMutableSet *labsDownloaded;
 @property (nonatomic, readonly, strong) NSSet *labs;
+@property (nonatomic, strong) id labStatuses;
 
 @end
 
 @implementation DZCDataController
 
-@synthesize labsDownloaded = _labsDownloaded, labs = _labs, apiClient = _apiClient;
+@synthesize labsDownloaded = _labsDownloaded, labs = _labs, apiClient = _apiClient, labStatuses = _labStatuses;
 
-- (NSArray *)labsWithStatus:(DZCLabStatus)status
+- (void)reloadLabStatuses
 {
-#warning TODO
+    [self.apiClient getPath:@"lab-statuses.php"
+                 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                     if (responseObject != nil) {
+                         self.labStatuses = responseObject;
+                     }
+                 }
+                    failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                        NSLog(@"error");
+                    }];
+}
+
+- (void)labsWithStatus:(DZCLabStatus)status withBlock:(void(^)(NSArray *))block
+{
     
 }
 

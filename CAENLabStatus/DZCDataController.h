@@ -7,12 +7,13 @@ typedef enum {
     DZCLabStatusClosed,
     DZCLabStatusReserved,
     DZCLabStatusReservedSoon,
-    DZCLabStatusPartiallyReserved
+    DZCLabStatusPartiallyReserved,
+    DZCLabStatusNumStatuses
 } DZCLabStatus;
 
 @interface DZCDataController : NSObject
 
-- (NSArray *)labsWithStatus:(DZCLabStatus)status;
+- (void)labsWithStatus:(DZCLabStatus)status withBlock:(void(^)(NSArray *))block;
 
 // TODO do I need this?
 //- (DZCLabStatus)statusForLab:(DZCLab *)lab;
@@ -20,5 +21,7 @@ typedef enum {
 - (NSInteger *)machinesUsedInLab:(DZCLab *)lab;
 
 - (NSInteger *)machinesTotalInLab:(DZCLab *)lab;
+
+- (void)reloadLabStatuses;
 
 @end
