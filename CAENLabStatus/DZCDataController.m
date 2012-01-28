@@ -35,7 +35,7 @@
 - (NSSet *)labs
 {
     // TODO there must be a better way to get an initial dataset into the codebase
-    if (_labs != nil) {
+    if (!_labs) {
         _labs = [NSSet setWithObjects:
                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B507" humanName:@"Pierpont B507"],
                 nil];
