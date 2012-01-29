@@ -2,6 +2,7 @@
 #import "DZCTableViewCellOpenLab.h"
 #import "DZCTableViewCellClosedLab.h"
 #import "DZCDataController.h"
+#import "DZCLab.h"
 
 enum DZCLabsTableViewSections {
     DZCLabsTableViewSectionOpen = 0,
@@ -34,47 +35,37 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 
 @synthesize dataController = _dataController, labs = _labs;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 #pragma mark - UIViewController View lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     self.navigationItem.title = NSLocalizedString(@"CAEN Labs", nil);
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
+    
+    [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labs, NSError *error) {
+        // map statuses to sections for display
+        // TODO this mapping can be made cleaner
+        
+        NSArray* sortedKeys = [[labs allKeys] sortedArrayUsingSelector:@selector(compareHumanName:)];
+        
+        for (id lab in sortedKeys) {
+            DZCLabStatus status = [(NSNumber *)[labs objectForKey:lab] intValue];
+            
+            switch(status) {
+                case DZCLabStatusOpen:
+                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionOpen] addObject:lab];
+                    break;
+                case DZCLabStatusClosed:
+                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionClosed] addObject:lab];
+                    break;
+                default:
+                    NSLog(@"unknown status encountered %d", status);
+            }
+        }
+        
+        [self.tableView reloadData];
+    }];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -91,8 +82,7 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    return 3;
+    return [(NSArray *)[self.labs objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -104,18 +94,17 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellIdentifier owner:self options:nil];
         cell = (UITableViewCell *)[nib objectAtIndex:0];
-        
-        //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        //cell.selectionStyle = UITableViewCellSelectionStyleGray;
     }
+    
+    DZCLab *lab = [(NSArray *)[self.labs objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
     switch (indexPath.section) {
         case DZCLabsTableViewSectionOpen:
-            ((DZCTableViewCellOpenLab *) cell).labNameLabel.text = [NSString stringWithFormat:@"%d.%d", indexPath.section, indexPath.row];
+            ((DZCTableViewCellOpenLab *) cell).labNameLabel.text = lab.humanName;
             break;
             
         case DZCLabsTableViewSectionClosed:
-            ((DZCTableViewCellClosedLab *) cell).labNameLabel.text = [NSString stringWithFormat:@"%d.%d", indexPath.section, indexPath.row];
+            ((DZCTableViewCellClosedLab *) cell).labNameLabel.text = lab.humanName;
             break;
             
         default:
@@ -141,6 +130,8 @@ __attribute__((constructor)) static void __InitTableViewStrings()
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    
+    NSLog(@"pressed %d.%d", indexPath.section, indexPath.row);
 }
 
 #pragma mark - Property overrides
@@ -151,8 +142,8 @@ __attribute__((constructor)) static void __InitTableViewStrings()
         _labs = [NSMutableArray array];
         
         // TODO there must be a better way to build a 2D array of NSArray
-        for (int i=0; i<DZCLabStatusNumStatuses; ++i) {
-            [(NSMutableArray *)_labs addObject:[NSArray array]];
+        for (int i=0; i<DZCLabsTableViewNumSections; ++i) {
+            [(NSMutableArray *)_labs addObject:[NSMutableArray array]];
         }
     }
     return _labs;

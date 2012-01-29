@@ -25,4 +25,20 @@
     return self;
 }
 
+/**
+ * Sort labs based on human name.
+ */
+- (NSComparisonResult)compareHumanName:(DZCLab *)aLab
+{
+    return [self.humanName compare:aLab.humanName];
+}
+
+#pragma mark - NSCopying methods
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    DZCLab *copy = [[[self class] allocWithZone: zone] initWithBuilding:self.building room:self.room humanName:self.humanName];
+    return copy;
+}
+
 @end

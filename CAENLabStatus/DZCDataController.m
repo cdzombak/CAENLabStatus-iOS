@@ -19,7 +19,7 @@ __attribute__((constructor)) static void __InitStatusStrings()
 
 @property (nonatomic, strong) DZCApiClient *apiClient;
 @property (nonatomic, strong) NSMutableSet *labsDownloadedHostInfo;
-@property (nonatomic, readonly, strong) NSSet *labs;
+@property (nonatomic, readonly, strong) NSArray *labs;
 @property (nonatomic, strong) id labStatuses;
 
 - (NSString *)apiIdForLab:(DZCLab *)lab;
@@ -41,6 +41,7 @@ __attribute__((constructor)) static void __InitStatusStrings()
  */
 - (void)reloadLabStatusesWithBlock:(void(^)(NSError *error))block
 {
+    NSLog(@"Kicking off lab status request...");
     [self.apiClient getPath:@"lab-statuses.php"
                  parameters:nil 
                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -59,61 +60,55 @@ __attribute__((constructor)) static void __InitStatusStrings()
 
 /**
  * Gets each known lab and its status.
+ * 
+ * Returns a dictionary with key DZCLab, object DZCLabStatus.
  */
-- (void)labsWithStatus:(DZCLabStatus)status withBlock:(void(^)(NSArray *labs))block
+- (void)labsAndStatusesWithBlock:(void(^)(NSDictionary *labs, NSError *error))block
 {
     void (^labsReady)(void) = ^ {
-        NSMutableArray *matchingLabs = [NSMutableArray array];
+        NSMutableDictionary *labsResult = [NSMutableDictionary dictionary];
         
         for (id lab in self.labs) {
-            NSString* result = [self.labStatuses objectForKey:[self apiIdForLab:lab]];
-            if (result && [result isEqualToString:DZCLabStatusStrings[status]]) {
-                [matchingLabs addObject:lab];
-            } else if (result == nil && status == DZCLabStatusClosed) {
-                // I hate the data that comes from this API
-                [matchingLabs addObject:lab];
+            NSString* statusString = [self.labStatuses objectForKey:[self apiIdForLab:lab]];
+            NSNumber* status = nil;
+            
+            if (statusString == nil) {
+                // I hate this API. this means it is either closed or not present but open
+                status = [NSNumber numberWithInt:DZCLabStatusClosed];
+            } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusOpen]]) {
+                status = [NSNumber numberWithInt:DZCLabStatusOpen];
+            } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusReserved]]) {
+                status = [NSNumber numberWithInt:DZCLabStatusReserved];
+            } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusReservedSoon]]) {
+                status = [NSNumber numberWithInt:DZCLabStatusReservedSoon];
+            } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusPartiallyReserved]]) {
+                status = [NSNumber numberWithInt:DZCLabStatusPartiallyReserved];
             }
+            
+            [labsResult setObject:status forKey:lab];
         }
         
-        if (block) block(matchingLabs);
+        if (block) block(labsResult, nil);
     };
     
     if (self.labStatuses) {
         labsReady();
     } else {
         [self reloadLabStatusesWithBlock:^(NSError *error) {
-            // TODO handle error
-            if (error) assert(0);
-            
+            if (error) assert(0); // TODO handle error
             labsReady();
         }];
     }
 }
 
-- (NSInteger *)machinesUsedInLab:(DZCLab *)lab
-{
-#warning TODO
-    
-}
+#pragma mark - Private helper methods
 
-- (NSInteger *)machinesTotalInLab:(DZCLab *)lab
+- (NSString *)apiIdForLab:(DZCLab *)lab
 {
-#warning TODO
-    
+    return [NSString stringWithFormat:@"%@%@", lab.building, lab.room];
 }
 
 #pragma mark - Property Overrides
-
-- (NSSet *)labs
-{
-    // TODO there must be a better way to get an initial dataset into the codebase
-    if (!_labs) {
-        _labs = [NSSet setWithObjects:
-                [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B507" humanName:@"Pierpont B507"],
-                nil];
-    }
-    return _labs;
-}
 
 - (DZCApiClient *)apiClient {
     if (!_apiClient) {
@@ -122,11 +117,35 @@ __attribute__((constructor)) static void __InitStatusStrings()
     return _apiClient;
 }
 
-#pragma mark - Private helper methods
-
-- (NSString *)apiIdForLab:(DZCLab *)lab
+- (NSArray *)labs
 {
-    return [NSString stringWithFormat:@"%@%@", lab.building, lab.room];
+    // TODO there must be a better way to get this initial dataset into the codebase
+
+    // I have to do this because the way the API is designed requires prior knowledge of all the labs
+    // for various reasons: to determine whether one is closed, to weed out duplicates (!), etc.
+    
+    if (!_labs) {
+        _labs = [NSArray arrayWithObjects:
+                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B505" humanName:@"Pierpont B505"],
+                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B507" humanName:@"Pierpont B507"],
+                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B521" humanName:@"Pierpont B521"],
+                 [[DZCLab alloc] initWithBuilding:@"CSE" room:@"1695" humanName:@"CSE 1695"],
+                 [[DZCLab alloc] initWithBuilding:@"CSE" room:@"1620" humanName:@"CSE 1620"],
+                 [[DZCLab alloc] initWithBuilding:@"EECS" room:@"1230" humanName:@"EECS 1230"],
+                 [[DZCLab alloc] initWithBuilding:@"EECS" room:@"2331" humanName:@"EECS 2331"],
+                 [[DZCLab alloc] initWithBuilding:@"EECS" room:@"4440" humanName:@"EECS 4440"],
+                 [[DZCLab alloc] initWithBuilding:@"GGBL" room:@"2304" humanName:@"GGBL 2304"],
+                 [[DZCLab alloc] initWithBuilding:@"GGBL" room:@"2505" humanName:@"GGBL 2505"],
+                 [[DZCLab alloc] initWithBuilding:@"IOE" room:@"G610" humanName:@"IOE G610"],
+                 [[DZCLab alloc] initWithBuilding:@"COOLEY" room:@"1934" humanName:@"Cooley 1934"],
+                 [[DZCLab alloc] initWithBuilding:@"FXB" room:@"B085" humanName:@"FXB B085"],
+                 [[DZCLab alloc] initWithBuilding:@"LBME" room:@"1310" humanName:@"LBME 1310"],
+                 [[DZCLab alloc] initWithBuilding:@"GFL" room:@"224" humanName:@"GFL/EPB 224"],
+                 [[DZCLab alloc] initWithBuilding:@"NAME" room:@"134" humanName:@"NAME 134"],
+                 [[DZCLab alloc] initWithBuilding:@"SRB" room:@"2230" humanName:@"SRB 2230"],
+                 nil];
+    }
+    return _labs;
 }
 
 @end

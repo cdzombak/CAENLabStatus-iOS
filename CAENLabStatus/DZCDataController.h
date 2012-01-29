@@ -15,10 +15,7 @@ typedef enum {
 
 - (void)reloadLabStatusesWithBlock:(void(^)(NSError *error))block;
 
-- (void)labsAndStatusesWithBlock:(void(^)(NSArray *labs))block;
-
-// TODO do I need this?
-//- (DZCLabStatus)statusForLab:(DZCLab *)lab;
+- (void)labsAndStatusesWithBlock:(void(^)(NSDictionary *labs, NSError *error))block;
 
 //- (NSInteger *)machinesUsedInLab:(DZCLab *)lab;
 
