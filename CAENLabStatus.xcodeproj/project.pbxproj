@@ -130,15 +130,10 @@
 			children = (
 				93D9F67214D3997600AD2152 /* DZCAppDelegate.h */,
 				93D9F67314D3997600AD2152 /* DZCAppDelegate.m */,
-				93D9F68F14D3DE8900AD2152 /* DZCTableViewCellOpenLab.h */,
-				93D9F69014D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m */,
-				93D9F68D14D3D5DA00AD2152 /* DZCTableViewCellOpenLab.xib */,
-				93D9F69414D3E16500AD2152 /* DZCTableViewCellClosedLab.h */,
-				93D9F69514D3E16500AD2152 /* DZCTableViewCellClosedLab.m */,
-				93D9F69214D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib */,
 				93D9F66A14D3997600AD2152 /* Supporting Files */,
 				93D9F69D14D483E700AD2152 /* Data */,
 				93D9F6BE14D48B1E00AD2152 /* Vendor */,
+				93FDA8B514D7455200787F8C /* Views */,
 				93D9F68814D39C2B00AD2152 /* View Controllers */,
 			);
 			path = CAENLabStatus;
@@ -167,14 +162,10 @@
 		93D9F69D14D483E700AD2152 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				93D9F6C214D5081F00AD2152 /* DZCHostInfoApiClient.h */,
-				93D9F6C314D5081F00AD2152 /* DZCHostInfoApiClient.m */,
-				93D9F6BF14D4904B00AD2152 /* DZCLabStatusApiClient.h */,
-				93D9F6C014D4904B00AD2152 /* DZCLabStatusApiClient.m */,
+				93FDA8B214D7451700787F8C /* API */,
+				93FDA8B414D7452B00787F8C /* Models */,
 				93D9F69714D4827700AD2152 /* DZCDataController.h */,
 				93D9F69814D4827700AD2152 /* DZCDataController.m */,
-				93D9F69A14D483E400AD2152 /* DZCLab.h */,
-				93D9F69B14D483E400AD2152 /* DZCLab.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -213,6 +204,39 @@
 				93D9F69E14D48B1400AD2152 /* AFNetworking */,
 			);
 			name = Vendor;
+			sourceTree = "<group>";
+		};
+		93FDA8B214D7451700787F8C /* API */ = {
+			isa = PBXGroup;
+			children = (
+				93D9F6C214D5081F00AD2152 /* DZCHostInfoApiClient.h */,
+				93D9F6C314D5081F00AD2152 /* DZCHostInfoApiClient.m */,
+				93D9F6BF14D4904B00AD2152 /* DZCLabStatusApiClient.h */,
+				93D9F6C014D4904B00AD2152 /* DZCLabStatusApiClient.m */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		93FDA8B414D7452B00787F8C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				93D9F69A14D483E400AD2152 /* DZCLab.h */,
+				93D9F69B14D483E400AD2152 /* DZCLab.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		93FDA8B514D7455200787F8C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				93D9F68F14D3DE8900AD2152 /* DZCTableViewCellOpenLab.h */,
+				93D9F69014D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m */,
+				93D9F68D14D3D5DA00AD2152 /* DZCTableViewCellOpenLab.xib */,
+				93D9F69414D3E16500AD2152 /* DZCTableViewCellClosedLab.h */,
+				93D9F69514D3E16500AD2152 /* DZCTableViewCellClosedLab.m */,
+				93D9F69214D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
