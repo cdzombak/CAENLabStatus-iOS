@@ -103,6 +103,48 @@ __attribute__((constructor)) static void __InitStatusStrings()
     }
 }
 
+- (void)machineCountsInLab:(DZCLab *)lab withBlock:(void(^)(NSNumber *used, NSNumber *total, DZCLab *lab, NSError *error))block
+{
+    void (^hostInfoReady)(void) = ^ {
+        NSInteger total = 0;
+        NSInteger used = 0;
+        
+        NSArray *hosts = [self.labHostInfo objectForKey:lab];
+        for (id host in hosts) {
+            total++;
+            
+            id inUse = [host objectForKey:@"in_use"];
+            if (inUse) {
+                // TODO this probably doesn't work, for one reason or another
+                used++;
+            }
+        }
+        
+        if (block) block(nil, nil, nil, nil);
+    };
+    
+    if ([self.labHostInfo objectForKey:lab]) {
+        hostInfoReady();
+    } else {
+        NSLog(@"Kicking off host info request for %@...", [self apiIdForLab:lab]);
+        
+        [self.hostInfoApiClient getPath:@"computers.json"
+                     parameters:[NSDictionary dictionaryWithObjectsAndKeys:lab.building, @"building", lab.room, @"room", nil]
+                        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                            if (responseObject != nil) {
+                                [self.labHostInfo setObject:responseObject forKey:lab];
+                                hostInfoReady();
+                            } else {
+                                if (block) block(nil, nil, nil, [[NSError alloc] init]);
+                            }
+                        }
+                        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                            if (block) block(nil, nil, nil, error);
+                        }
+         ];
+    }
+}
+
 #pragma mark - Private helper methods
 
 - (NSString *)apiIdForLab:(DZCLab *)lab

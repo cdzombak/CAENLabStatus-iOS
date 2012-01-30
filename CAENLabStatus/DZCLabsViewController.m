@@ -88,9 +88,7 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellIdentifier = DZCLabsTableViewSectionCellIDs[indexPath.section];
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellIdentifier owner:self options:nil];
         cell = (UITableViewCell *)[nib objectAtIndex:0];
@@ -99,17 +97,30 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     DZCLab *lab = [(NSArray *)[self.labs objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
     switch (indexPath.section) {
-        case DZCLabsTableViewSectionOpen:
+        case DZCLabsTableViewSectionOpen: {
             ((DZCTableViewCellOpenLab *) cell).labNameLabel.text = lab.humanName;
-            break;
             
-        case DZCLabsTableViewSectionClosed:
+            [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
+                if (!error) {
+                    ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]-[used intValue]];
+                    ((DZCTableViewCellOpenLab *) cell).labTotalCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]];
+                } else {
+                    // TODO handle error
+                    assert(0);
+                }
+            }];
+            break;
+        }
+            
+        case DZCLabsTableViewSectionClosed: {
             ((DZCTableViewCellClosedLab *) cell).labNameLabel.text = lab.humanName;
             break;
+        }
             
-        default:
+        default: {
             assert(0);
             break;
+        }
     }
     
     return cell;

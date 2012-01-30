@@ -17,8 +17,6 @@ typedef enum {
 
 - (void)labsAndStatusesWithBlock:(void(^)(NSDictionary *labs, NSError *error))block;
 
-//- (NSInteger *)machinesUsedInLab:(DZCLab *)lab;
-
-//- (NSInteger *)machinesTotalInLab:(DZCLab *)lab;
+- (void)machineCountsInLab:(DZCLab *)lab withBlock:(void(^)(NSNumber *used, NSNumber *total, DZCLab *lab, NSError *error))block;
 
 @end

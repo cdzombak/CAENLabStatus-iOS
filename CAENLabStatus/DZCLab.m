@@ -33,6 +33,13 @@
     return [self.humanName compare:aLab.humanName];
 }
 
+- (BOOL)isEqual:(id)object
+{
+    return ([self.building isEqualToString:[object building]]
+            && [self.room isEqualToString:[object room]]
+            && [self.humanName isEqualToString:[object humanName]]);
+}
+
 #pragma mark - NSCopying methods
 
 - (id)copyWithZone:(NSZone *)zone
