@@ -44,7 +44,7 @@
 {
     if (self.appWasInBackground) {
         [self.dataController reloadLabStatusesWithBlock:nil];
-        // TODO flush hostinfo cache
+        [self.dataController clearHostInfoCache];
     }
 }
 

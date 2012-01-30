@@ -147,6 +147,11 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     }
 }
 
+- (void)clearHostInfoCache
+{
+    self.labHostInfo = nil;
+}
+
 #pragma mark - Private helper methods
 
 - (NSString *)apiIdForLab:(DZCLab *)lab

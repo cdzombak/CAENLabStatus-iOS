@@ -19,4 +19,6 @@ typedef enum {
 
 - (void)machineCountsInLab:(DZCLab *)lab withBlock:(void(^)(NSNumber *used, NSNumber *total, DZCLab *lab, NSError *error))block;
 
+- (void)clearHostInfoCache;
+
 @end
