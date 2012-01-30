@@ -5,7 +5,7 @@
 
 static NSString *DZCLabStatusStrings[DZCLabStatusNumStatuses];
 
-__attribute__((constructor)) static void __InitStatusStrings()
+__attribute__((constructor)) static void __DZCInitLabStatusStrings()
 {
     @autoreleasepool {
         DZCLabStatusStrings[DZCLabStatusOpen] = @"Open";
@@ -180,8 +180,6 @@ __attribute__((constructor)) static void __InitStatusStrings()
 
 - (NSArray *)labs
 {
-    // TODO there must be a better way to get this initial dataset into the codebase
-
     // I have to do this because the way the API is designed requires prior knowledge of all the labs
     // for various reasons: to determine whether one is closed, to weed out duplicates (!), etc.
     
