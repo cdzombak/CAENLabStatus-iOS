@@ -32,6 +32,8 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 
 @synthesize labHostInfo = _labHostInfo, labs = _labs, labStatusApiClient = _labStatusApiClient, hostInfoApiClient = _hostInfoApiClient, labStatuses = _labStatuses;
 
+// TODO refactor this implementation to achieve better logic/caching and API/network separation
+
 /**
  * Make the data controller (re)load all lab statuses.
  * 
