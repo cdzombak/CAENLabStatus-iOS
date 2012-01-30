@@ -104,6 +104,14 @@ __attribute__((constructor)) static void __InitTableViewStrings()
                 if (!error) {
                     ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]-[used intValue]];
                     ((DZCTableViewCellOpenLab *) cell).labTotalCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]];
+                    
+                    if ([used floatValue]/[total floatValue] >= 0.9) {
+                        ((DZCTableViewCellOpenLab *) cell).labNameLabel.font = [UIFont italicSystemFontOfSize:20.0];
+                        ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.font = [UIFont systemFontOfSize:20.0];
+                    } else {
+                        ((DZCTableViewCellOpenLab *) cell).labNameLabel.font = [UIFont boldSystemFontOfSize:20.0];
+                        ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.font = [UIFont boldSystemFontOfSize:20.0];
+                    }
                 } else {
                     // TODO handle error
                     assert(0);
