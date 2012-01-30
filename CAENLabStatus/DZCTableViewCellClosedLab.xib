@@ -52,7 +52,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Lab Name</string>
+								<string key="IBUIText"/>
 								<object class="NSColor" key="IBUITextColor" id="159272697">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -73,17 +73,16 @@
 							<object class="IBUILabel" id="306158417">
 								<reference key="NSNextResponder" ref="769319132"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{281, 8}, {27, 26}}</string>
+								<string key="NSFrame">{{284, 8}, {27, 26}}</string>
 								<reference key="NSSuperview" ref="769319132"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">400</string>
+								<string key="IBUIText">...</string>
 								<reference key="IBUITextColor" ref="159272697"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>

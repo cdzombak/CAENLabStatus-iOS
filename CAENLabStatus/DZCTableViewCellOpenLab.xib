@@ -52,7 +52,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Lab Name</string>
+								<string key="IBUIText"/>
 								<object class="NSColor" key="IBUITextColor" id="200066482">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -73,7 +73,7 @@
 							<object class="IBUILabel" id="901255006">
 								<reference key="NSNextResponder" ref="124458298"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{237, 8}, {36, 26}}</string>
+								<string key="NSFrame">{{240, 8}, {36, 26}}</string>
 								<reference key="NSSuperview" ref="124458298"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="631510189"/>
@@ -83,18 +83,19 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">400</string>
+								<string key="IBUIText"/>
 								<reference key="IBUITextColor" ref="200066482"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
+								<int key="IBUITextAlignment">2</int>
 								<reference key="IBUIFontDescription" ref="70510737"/>
 								<reference key="IBUIFont" ref="626972375"/>
 							</object>
 							<object class="IBUILabel" id="631510189">
 								<reference key="NSNextResponder" ref="124458298"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{274, 11}, {6, 21}}</string>
+								<string key="NSFrame">{{277, 11}, {6, 21}}</string>
 								<reference key="NSSuperview" ref="124458298"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="906835638"/>
@@ -122,17 +123,16 @@
 							<object class="IBUILabel" id="906835638">
 								<reference key="NSNextResponder" ref="124458298"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{281, 11}, {29, 21}}</string>
+								<string key="NSFrame">{{284, 11}, {29, 21}}</string>
 								<reference key="NSSuperview" ref="124458298"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">400</string>
+								<string key="IBUIText">...</string>
 								<reference key="IBUITextColor" ref="200066482"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
