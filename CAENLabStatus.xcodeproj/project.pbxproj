@@ -19,7 +19,7 @@
 		93D9F69314D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93D9F69214D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib */; };
 		93D9F69614D3E16500AD2152 /* DZCTableViewCellClosedLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69514D3E16500AD2152 /* DZCTableViewCellClosedLab.m */; };
 		93D9F69914D4827700AD2152 /* DZCDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69814D4827700AD2152 /* DZCDataController.m */; };
-		93D9F69C14D483E400AD2152 /* DZCLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69B14D483E400AD2152 /* DZCLab.m */; };
+		93D9F69C14D483E400AD2152 /* DZCLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69B14D483E400AD2152 /* DZCLab.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93D9F6B414D48B1400AD2152 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6A014D48B1400AD2152 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93D9F6B514D48B1400AD2152 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6A214D48B1400AD2152 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93D9F6B614D48B1400AD2152 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6A414D48B1400AD2152 /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -404,6 +404,7 @@
 				93D9F68214D3997600AD2152 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

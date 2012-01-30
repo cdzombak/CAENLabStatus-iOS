@@ -2,9 +2,9 @@
 
 @interface DZCLab ()
 
-@property (nonatomic, strong) NSString *building;
-@property (nonatomic, strong) NSString *room;
-@property (nonatomic, strong) NSString *humanName;
+@property (nonatomic, copy) NSString *building;
+@property (nonatomic, copy) NSString *room;
+@property (nonatomic, copy) NSString *humanName;
 
 @end
 
@@ -25,6 +25,15 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [_building release];
+    [_room release];
+    [_humanName release];
+    
+    [super dealloc];
+}
+
 /**
  * Sort labs based on human name.
  */
@@ -33,19 +42,11 @@
     return [self.humanName compare:aLab.humanName];
 }
 
-- (BOOL)isEqual:(id)object
-{
-    return ([self.building isEqualToString:[object building]]
-            && [self.room isEqualToString:[object room]]
-            && [self.humanName isEqualToString:[object humanName]]);
-}
-
 #pragma mark - NSCopying methods
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    DZCLab *copy = [[[self class] allocWithZone: zone] initWithBuilding:self.building room:self.room humanName:self.humanName];
-    return copy;
+    return [self retain];
 }
 
 @end

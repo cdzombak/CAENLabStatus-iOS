@@ -123,7 +123,7 @@ __attribute__((constructor)) static void __InitStatusStrings()
             }
         }
         
-        if (block) block(nil, nil, nil, nil);
+        if (block) block(nil, [NSNumber numberWithInt:total], nil, nil);
     };
     
     if ([self.labHostInfo objectForKey:lab]) {
