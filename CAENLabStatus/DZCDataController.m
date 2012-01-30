@@ -1,6 +1,7 @@
 #import "DZCDataController.h"
 #import "DZCLab.h"
-#import "DZCApiClient.h"
+#import "DZCLabStatusApiClient.h"
+#import "DZCHostInfoApiClient.h"
 
 static NSString *DZCLabStatusStrings[DZCLabStatusNumStatuses];
 
@@ -17,10 +18,11 @@ __attribute__((constructor)) static void __InitStatusStrings()
 
 @interface DZCDataController ()
 
-@property (nonatomic, strong) DZCApiClient *apiClient;
-@property (nonatomic, strong) NSMutableSet *labsDownloadedHostInfo;
+@property (nonatomic, readonly, strong) DZCLabStatusApiClient *labStatusApiClient;
+@property (nonatomic, readonly, strong) DZCHostInfoApiClient *hostInfoApiClient;
 @property (nonatomic, readonly, strong) NSArray *labs;
 @property (nonatomic, strong) id labStatuses;
+@property (nonatomic, strong) NSMutableDictionary *labHostInfo;
 
 - (NSString *)apiIdForLab:(DZCLab *)lab;
 
@@ -28,7 +30,7 @@ __attribute__((constructor)) static void __InitStatusStrings()
 
 @implementation DZCDataController
 
-@synthesize labsDownloadedHostInfo = _labsDownloadedHostInfo, labs = _labs, apiClient = _apiClient, labStatuses = _labStatuses;
+@synthesize labHostInfo = _labHostInfo, labs = _labs, labStatusApiClient = _labStatusApiClient, hostInfoApiClient = _hostInfoApiClient, labStatuses = _labStatuses;
 
 /**
  * Make the data controller (re)load all lab statuses.
@@ -42,7 +44,7 @@ __attribute__((constructor)) static void __InitStatusStrings()
 - (void)reloadLabStatusesWithBlock:(void(^)(NSError *error))block
 {
     NSLog(@"Kicking off lab status request...");
-    [self.apiClient getPath:@"lab-statuses.php"
+    [self.labStatusApiClient getPath:@"lab-statuses.php"
                  parameters:nil 
                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
                         if (responseObject != nil) {
@@ -110,11 +112,26 @@ __attribute__((constructor)) static void __InitStatusStrings()
 
 #pragma mark - Property Overrides
 
-- (DZCApiClient *)apiClient {
-    if (!_apiClient) {
-        _apiClient = [[DZCApiClient alloc] init];
+- (DZCLabStatusApiClient *)labStatusApiClient {
+    if (!_labStatusApiClient) {
+        _labStatusApiClient = [[DZCLabStatusApiClient alloc] init];
     }
-    return _apiClient;
+    return _labStatusApiClient;
+}
+
+- (DZCHostInfoApiClient *)hostInfoApiClient {
+    if (!_hostInfoApiClient) {
+        _hostInfoApiClient = [[DZCHostInfoApiClient alloc] init];
+    }
+    return _hostInfoApiClient;
+}
+
+- (NSMutableDictionary *)labHostInfo
+{
+    if (!_labHostInfo) {
+        _labHostInfo = [NSMutableDictionary dictionary];
+    }
+    return _labHostInfo;
 }
 
 - (NSArray *)labs

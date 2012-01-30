@@ -1,7 +1,7 @@
-#import "DZCApiClient.h"
+#import "DZCLabStatusApiClient.h"
 #import "AFJSONRequestOperation.h"
 
-@implementation DZCApiClient
+@implementation DZCLabStatusApiClient
 
 - (id)init {
     NSURL * const baseUrl = [NSURL URLWithString:@"http://labwatch.engin.umich.edu/labs/js/"];
