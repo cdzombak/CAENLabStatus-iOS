@@ -85,6 +85,9 @@ __attribute__((constructor)) static void __InitStatusStrings()
                 status = [NSNumber numberWithInt:DZCLabStatusReservedSoon];
             } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusPartiallyReserved]]) {
                 status = [NSNumber numberWithInt:DZCLabStatusPartiallyReserved];
+            } else {
+                NSLog(@"Unknown status string '%@'", statusString);
+                status = [NSNumber numberWithInt:DZCLabStatusClosed];
             }
             
             [labsResult setObject:status forKey:lab];
