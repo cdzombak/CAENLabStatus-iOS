@@ -116,14 +116,13 @@ __attribute__((constructor)) static void __InitStatusStrings()
         for (id host in hosts) {
             total++;
             
-            id inUse = [host objectForKey:@"in_use"];
-            if (inUse) {
-                // TODO this probably doesn't work, for one reason or another
+            NSNumber *inUse = [host objectForKey:@"in_use"];
+            if ([inUse boolValue] == YES) {
                 used++;
             }
         }
         
-        if (block) block(nil, [NSNumber numberWithInt:total], nil, nil);
+        if (block) block([NSNumber numberWithInt:used], [NSNumber numberWithInt:total], lab, nil);
     };
     
     if ([self.labHostInfo objectForKey:lab]) {
