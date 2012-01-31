@@ -2,6 +2,7 @@
 #import "DZCLab.h"
 #import "DZCLabStatusApiClient.h"
 #import "DZCHostInfoApiClient.h"
+#import "DZCLabStatusHelper.h"
 
 static NSString *DZCLabStatusStrings[DZCLabStatusNumStatuses];
 
@@ -75,24 +76,24 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
         
         for (id lab in self.labs) {
             NSString* statusString = [self.labStatuses objectForKey:[self apiIdForLab:lab]];
-            NSNumber* status = nil;
+            DZCLabStatus status;
             
             if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusOpen]]) {
-                status = [NSNumber numberWithInt:DZCLabStatusOpen];
+                status = DZCLabStatusOpen;
             } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusReserved]]) {
-                status = [NSNumber numberWithInt:DZCLabStatusReserved];
+                status = DZCLabStatusReserved;
             } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusReservedSoon]]) {
-                status = [NSNumber numberWithInt:DZCLabStatusReservedSoon];
+                status = DZCLabStatusReservedSoon;
             } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusPartiallyReserved]]) {
-                status = [NSNumber numberWithInt:DZCLabStatusPartiallyReserved];
+                status = DZCLabStatusPartiallyReserved;
             } else {
                 // nil, empty, or unrecognized string means the lab is either closed or not present but open
-                // TODO handle bad statuses...probably defer to another, date/time processing controller
-                NSLog(@"Unknown status string '%@'", statusString);
-                status = [NSNumber numberWithInt:DZCLabStatusOpen];
+                // defer to another, date/time processing controller
+                NSLog(@"Unknown status string '%@' for lab '%@' in building '%@'", statusString, [lab humanName], [lab building]);
+                status = [[DZCLabStatusHelper statusGuessForLab:(DZCLab *)lab] intValue];
             }
             
-            [labsResult setObject:status forKey:lab];
+            [labsResult setObject:[NSNumber numberWithInt:status] forKey:lab];
         }
         
         if (block) block(labsResult, nil);
@@ -191,6 +192,8 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     // I have to do this because the way the API is designed requires prior knowledge of all the labs
     // for various reasons: to determine whether one is closed, to weed out duplicates (!), etc.
     
+    // based on view-source:http://labwatch.engin.umich.edu/labs/mobile.php
+    
     if (!_labs) {
         _labs = [NSArray arrayWithObjects:
                  [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B505" humanName:@"Pierpont B505"],
@@ -210,6 +213,26 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
                  [[DZCLab alloc] initWithBuilding:@"GFL" room:@"224" humanName:@"GFL/EPB 224"],
                  [[DZCLab alloc] initWithBuilding:@"NAME" room:@"134" humanName:@"NAME 134"],
                  [[DZCLab alloc] initWithBuilding:@"SRB" room:@"2230" humanName:@"SRB 2230"],
+                 /*[[DZCLab alloc] initWithBuilding:@"DC" room:@"2E" humanName:@"Duderstadt 2E"],
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"2S" humanName:@"Duderstadt 2S"],
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"2SW" humanName:@"Duderstadt 2SW"],
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"3E" humanName:@"Duderstadt 3E"],
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"3EA" humanName:@"Duderstadt 3EA"],
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"3NE" humanName:@"Duderstadt 3NE"],
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"3S" humanName:@"Duderstadt 3S"],
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"3SW" humanName:@"Duderstadt 3SW"],
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"3WA" humanName:@"Duderstadt 3W"],
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"LLE" humanName:@"Duderstadt LLE"],
+                  [[DZCLab alloc] initWithBuilding:@"DC" room:@"LLC" humanName:@"Duderstadt LLC"],*/
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"" humanName:@"Duderstadt Center (All)"],
+                 [[DZCLab alloc] initWithBuilding:@"AH" room:@"" humanName:@"Angell Hall (Fishbowl)"],
+                 // [[DZCLab alloc] initWithBuilding:@"RAC" room:@"108" humanName:@"???"], // no idea where this is
+                 [[DZCLab alloc] initWithBuilding:@"SEB" room:@"3010" humanName:@"School of Ed 3010"],
+                 [[DZCLab alloc] initWithBuilding:@"SHAPIRO" room:@"2054C" humanName:@"Ugli 2054C"],
+                 [[DZCLab alloc] initWithBuilding:@"SHAPIRO" room:@"B100" humanName:@"Ugli Basement"],
+                 [[DZCLab alloc] initWithBuilding:@"BAITS_COMAN" room:@"" humanName:@"Baits Coman (all)"], // rooms: 2300, 1000, 1209
+                 [[DZCLab alloc] initWithBuilding:@"BURSLEY" room:@"2506" humanName:@"Bursley 2506"],
+                 [[DZCLab alloc] initWithBuilding:@"MO-JO" room:@"163" humanName:@"MoJo 163"],
                  nil];
     }
     return _labs;

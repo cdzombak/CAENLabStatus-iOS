@@ -32,6 +32,7 @@
 		93D9F6BD14D48B1400AD2152 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6B314D48B1400AD2152 /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93D9F6C114D4904B00AD2152 /* DZCLabStatusApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6C014D4904B00AD2152 /* DZCLabStatusApiClient.m */; };
 		93D9F6C414D5081F00AD2152 /* DZCHostInfoApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6C314D5081F00AD2152 /* DZCHostInfoApiClient.m */; };
+		93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E80C5714D78812008850FE /* DZCLabStatusHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,8 @@
 		93D9F6C014D4904B00AD2152 /* DZCLabStatusApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabStatusApiClient.m; sourceTree = "<group>"; };
 		93D9F6C214D5081F00AD2152 /* DZCHostInfoApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCHostInfoApiClient.h; sourceTree = "<group>"; };
 		93D9F6C314D5081F00AD2152 /* DZCHostInfoApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCHostInfoApiClient.m; sourceTree = "<group>"; };
+		93E80C5614D78812008850FE /* DZCLabStatusHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; path = DZCLabStatusHelper.h; sourceTree = "<group>"; };
+		93E80C5714D78812008850FE /* DZCLabStatusHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabStatusHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +169,8 @@
 				93FDA8B414D7452B00787F8C /* Models */,
 				93D9F69714D4827700AD2152 /* DZCDataController.h */,
 				93D9F69814D4827700AD2152 /* DZCDataController.m */,
+				93E80C5614D78812008850FE /* DZCLabStatusHelper.h */,
+				93E80C5714D78812008850FE /* DZCLabStatusHelper.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -321,6 +326,7 @@
 				93D9F6BD14D48B1400AD2152 /* UIImageView+AFNetworking.m in Sources */,
 				93D9F6C114D4904B00AD2152 /* DZCLabStatusApiClient.m in Sources */,
 				93D9F6C414D5081F00AD2152 /* DZCHostInfoApiClient.m in Sources */,
+				93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
