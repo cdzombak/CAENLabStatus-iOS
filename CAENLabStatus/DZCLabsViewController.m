@@ -3,6 +3,7 @@
 #import "DZCTableViewCellClosedLab.h"
 #import "DZCDataController.h"
 #import "DZCLab.h"
+#import "DZCAboutViewController.h"
 
 enum DZCLabsTableViewSections {
     DZCLabsTableViewSectionOpen = 0,
@@ -37,6 +38,8 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 
 @property (nonatomic, strong) NSArray *labs;
 
+- (void)loadData;
+
 @end
 
 
@@ -46,49 +49,47 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 
 #pragma mark - UIViewController View lifecycle
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"About", nil) style:UIBarButtonItemStylePlain target:self action:@selector(pressedAboutButton:)];          
+    self.navigationItem.leftBarButtonItem = aboutButton;
+    
+    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Refresh", nil) style:UIBarButtonItemStylePlain target:self action:@selector(pressedRefreshButton:)];          
+    self.navigationItem.rightBarButtonItem = refreshButton;
+    
+    [self loadData];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     self.navigationItem.title = NSLocalizedString(@"CAEN Labs", nil);
     
-    [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labs, NSError *error) {
-        // map statuses to sections for display
-        // TODO this mapping can be made cleaner
-        
-        NSArray* sortedKeys = [[labs allKeys] sortedArrayUsingSelector:@selector(compareHumanName:)];
-        
-        for (id lab in sortedKeys) {
-            DZCLabStatus status = [(NSNumber *)[labs objectForKey:lab] intValue];
-            
-            switch(status) {
-                case DZCLabStatusOpen:
-                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionOpen] addObject:lab];
-                    break;
-                case DZCLabStatusClosed:
-                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionClosed] addObject:lab];
-                    break;
-                case DZCLabStatusPartiallyReserved:
-                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionPartiallyReserved] addObject:lab];
-                    break;
-                case DZCLabStatusReserved:
-                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionReserved] addObject:lab];
-                    break;
-                case DZCLabStatusReservedSoon:
-                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionReservedSoon] addObject:lab];
-                    break;
-                default:
-                    NSLog(@"Unknown status encountered: %d", status);
-            }
-        }
-        
-        [self.tableView reloadData];
-    }];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
+}
+
+#pragma mark - Buttons
+
+- (void)pressedAboutButton:(id)sender
+{
+    DZCAboutViewController *aboutViewController = [[DZCAboutViewController alloc] initWithNibName:@"DZCAboutViewController" bundle:nil];
+    [self.navigationController pushViewController:aboutViewController animated:YES];
+}
+
+- (void)pressedRefreshButton:(id)sender
+{
+    self.labs = nil;
+    [self.dataController clearHostInfoCache];
+    [self.dataController reloadLabStatusesWithBlock:^(NSError *error) {
+        [self loadData];
+    }];
 }
 
 #pragma mark - UITableViewDataSource methods
@@ -165,6 +166,48 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     return DZCLabsTableViewSectionTitles[section];
+}
+
+#pragma mark - Private methods
+
+- (void)loadData
+{
+    [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labs, NSError *error) {
+        // map statuses to sections for display
+        // TODO this mapping can be made cleaner
+        
+        NSArray* sortedKeys = [[labs allKeys] sortedArrayUsingSelector:@selector(compareHumanName:)];
+        
+        for (id lab in sortedKeys) {
+            DZCLabStatus status = [(NSNumber *)[labs objectForKey:lab] intValue];
+            
+            if ([[lab building ] isEqualToString:@"SEB"]) {
+                NSLog(@"SEB");
+            }
+            
+            switch(status) {
+                case DZCLabStatusOpen:
+                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionOpen] addObject:lab];
+                    break;
+                case DZCLabStatusClosed:
+                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionClosed] addObject:lab];
+                    break;
+                case DZCLabStatusPartiallyReserved:
+                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionPartiallyReserved] addObject:lab];
+                    break;
+                case DZCLabStatusReserved:
+                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionReserved] addObject:lab];
+                    break;
+                case DZCLabStatusReservedSoon:
+                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionReservedSoon] addObject:lab];
+                    break;
+                default:
+                    NSLog(@"Unknown status encountered: %d", status);
+            }
+        }
+        
+        [self.tableView reloadData];
+    }];
 }
 
 #pragma mark - UITableViewDelegate methods

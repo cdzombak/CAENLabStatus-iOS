@@ -1,51 +1,32 @@
-//
-//  DZCAboutViewController.m
-//  CAENLabStatus
-//
-//  Created by Chris Dzombak on 1/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
 #import "DZCAboutViewController.h"
 
 @implementation DZCAboutViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - View lifecycle
+#pragma mark - UIViewController View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    
+    self.navigationItem.title = NSLocalizedString(@"About", nil);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
+}
+
+#pragma mark - Buttons
+
+- (IBAction)pressedReportProblemButton:(id)sender {
+    NSString *problemReportEmail = [NSString stringWithFormat:@"mailto:?to=%@&subject=%@",
+                                    [@"cdzombak@umich.edu" stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+                                    [@"CAEN Lab Status App Feedback" stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: problemReportEmail]];
+}
+
+- (IBAction)pressedProjectPageButton:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://github.com/cdzombak/CAENLabStatus-iOS"]];
 }
 
 @end

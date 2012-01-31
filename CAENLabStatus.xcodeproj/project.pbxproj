@@ -33,6 +33,8 @@
 		93D9F6C114D4904B00AD2152 /* DZCLabStatusApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6C014D4904B00AD2152 /* DZCLabStatusApiClient.m */; };
 		93D9F6C414D5081F00AD2152 /* DZCHostInfoApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6C314D5081F00AD2152 /* DZCHostInfoApiClient.m */; };
 		93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E80C5714D78812008850FE /* DZCLabStatusHelper.m */; };
+		93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E80C5A14D797F5008850FE /* DZCAboutViewController.m */; };
+		93E80C5D14D797F5008850FE /* DZCAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E80C5B14D797F5008850FE /* DZCAboutViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,8 +85,11 @@
 		93D9F6C014D4904B00AD2152 /* DZCLabStatusApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabStatusApiClient.m; sourceTree = "<group>"; };
 		93D9F6C214D5081F00AD2152 /* DZCHostInfoApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCHostInfoApiClient.h; sourceTree = "<group>"; };
 		93D9F6C314D5081F00AD2152 /* DZCHostInfoApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCHostInfoApiClient.m; sourceTree = "<group>"; };
-		93E80C5614D78812008850FE /* DZCLabStatusHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; path = DZCLabStatusHelper.h; sourceTree = "<group>"; };
+		93E80C5614D78812008850FE /* DZCLabStatusHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLabStatusHelper.h; sourceTree = "<group>"; };
 		93E80C5714D78812008850FE /* DZCLabStatusHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabStatusHelper.m; sourceTree = "<group>"; };
+		93E80C5914D797F5008850FE /* DZCAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCAboutViewController.h; sourceTree = "<group>"; };
+		93E80C5A14D797F5008850FE /* DZCAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCAboutViewController.m; sourceTree = "<group>"; };
+		93E80C5B14D797F5008850FE /* DZCAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DZCAboutViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +163,8 @@
 			children = (
 				93D9F68514D39C2500AD2152 /* DZCLabsViewController.h */,
 				93D9F68614D39C2500AD2152 /* DZCLabsViewController.m */,
+				93E80C5914D797F5008850FE /* DZCAboutViewController.h */,
+				93E80C5A14D797F5008850FE /* DZCAboutViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -234,6 +241,7 @@
 		93FDA8B514D7455200787F8C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				93E80C5B14D797F5008850FE /* DZCAboutViewController.xib */,
 				93D9F68F14D3DE8900AD2152 /* DZCTableViewCellOpenLab.h */,
 				93D9F69014D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m */,
 				93D9F68D14D3D5DA00AD2152 /* DZCTableViewCellOpenLab.xib */,
@@ -297,6 +305,7 @@
 				93D9F66E14D3997600AD2152 /* InfoPlist.strings in Resources */,
 				93D9F68E14D3D5DA00AD2152 /* DZCTableViewCellOpenLab.xib in Resources */,
 				93D9F69314D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib in Resources */,
+				93E80C5D14D797F5008850FE /* DZCAboutViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +336,7 @@
 				93D9F6C114D4904B00AD2152 /* DZCLabStatusApiClient.m in Sources */,
 				93D9F6C414D5081F00AD2152 /* DZCHostInfoApiClient.m in Sources */,
 				93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */,
+				93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
