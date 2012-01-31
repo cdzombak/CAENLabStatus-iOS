@@ -6,6 +6,9 @@
 
 enum DZCLabsTableViewSections {
     DZCLabsTableViewSectionOpen = 0,
+    DZCLabsTableViewSectionReservedSoon,
+    DZCLabsTableViewSectionPartiallyReserved,
+    DZCLabsTableViewSectionReserved,
     DZCLabsTableViewSectionClosed,
     DZCLabsTableViewNumSections
 };
@@ -16,10 +19,16 @@ static NSString *DZCLabsTableViewSectionCellIDs[DZCLabsTableViewNumSections];
 __attribute__((constructor)) static void __InitTableViewStrings()
 {
     @autoreleasepool {
-        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionOpen] = NSLocalizedString(@"Open Labs", nil);
-        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionClosed] = NSLocalizedString(@"Closed Labs", nil);
+        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionOpen] = NSLocalizedString(@"Open", nil);
+        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionClosed] = NSLocalizedString(@"Closed", nil);
+        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionReservedSoon] = NSLocalizedString(@"Reserved Soon", nil);
+        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionPartiallyReserved] = NSLocalizedString(@"Partially Reserved", nil);
+        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionReserved] = NSLocalizedString(@"Reserved", nil);
         
         DZCLabsTableViewSectionCellIDs[DZCLabsTableViewSectionOpen] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
+        DZCLabsTableViewSectionCellIDs[DZCLabsTableViewSectionReservedSoon] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
+        DZCLabsTableViewSectionCellIDs[DZCLabsTableViewSectionPartiallyReserved] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
+        DZCLabsTableViewSectionCellIDs[DZCLabsTableViewSectionReserved] = NSLocalizedString(@"DZCTableViewCellClosedLab", nil);
         DZCLabsTableViewSectionCellIDs[DZCLabsTableViewSectionClosed] = NSLocalizedString(@"DZCTableViewCellClosedLab", nil);
     }
 }
@@ -59,8 +68,17 @@ __attribute__((constructor)) static void __InitTableViewStrings()
                 case DZCLabStatusClosed:
                     [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionClosed] addObject:lab];
                     break;
+                case DZCLabStatusPartiallyReserved:
+                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionPartiallyReserved] addObject:lab];
+                    break;
+                case DZCLabStatusReserved:
+                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionReserved] addObject:lab];
+                    break;
+                case DZCLabStatusReservedSoon:
+                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionReservedSoon] addObject:lab];
+                    break;
                 default:
-                    NSLog(@"unknown status encountered %d", status);
+                    NSLog(@"Unknown status encountered: %d", status);
             }
         }
         
@@ -97,35 +115,46 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     DZCLab *lab = [(NSArray *)[self.labs objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
     switch (indexPath.section) {
-        case DZCLabsTableViewSectionOpen: {
+        case DZCLabsTableViewSectionOpen:
+        case DZCLabsTableViewSectionPartiallyReserved:
+        case DZCLabsTableViewSectionReservedSoon: {
             ((DZCTableViewCellOpenLab *) cell).labNameLabel.text = lab.humanName;
             
             [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
-                if (!error) {
-                    ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]-[used intValue]];
-                    ((DZCTableViewCellOpenLab *) cell).labTotalCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]];
-                    
-                    if ([used floatValue]/[total floatValue] >= 0.9) {
-                        ((DZCTableViewCellOpenLab *) cell).labNameLabel.font = [UIFont italicSystemFontOfSize:20.0];
-                        ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.font = [UIFont systemFontOfSize:20.0];
-                    } else {
-                        ((DZCTableViewCellOpenLab *) cell).labNameLabel.font = [UIFont boldSystemFontOfSize:20.0];
-                        ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.font = [UIFont boldSystemFontOfSize:20.0];
-                    }
+                if (error) {
+                    assert(0); // TODO handle error
+                }
+
+                ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]-[used intValue]];
+                ((DZCTableViewCellOpenLab *) cell).labTotalCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]];
+                
+                if ([used floatValue]/[total floatValue] >= 0.9) {
+                    ((DZCTableViewCellOpenLab *) cell).labNameLabel.font = [UIFont systemFontOfSize:20.0];
+                    ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.font = [UIFont systemFontOfSize:20.0];
                 } else {
-                    // TODO handle error
-                    assert(0);
+                    ((DZCTableViewCellOpenLab *) cell).labNameLabel.font = [UIFont boldSystemFontOfSize:20.0];
+                    ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.font = [UIFont boldSystemFontOfSize:20.0];
                 }
             }];
             break;
         }
             
-        case DZCLabsTableViewSectionClosed: {
+        case DZCLabsTableViewSectionClosed:
+        case DZCLabsTableViewSectionReserved: {
             ((DZCTableViewCellClosedLab *) cell).labNameLabel.text = lab.humanName;
+            
+            [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
+                if (error) {
+                    assert(0); // TODO handle error
+                }
+                
+                ((DZCTableViewCellClosedLab *) cell).labCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]];
+            }];
             break;
         }
             
         default: {
+            NSLog(@"Unknown section encountered: %d", indexPath.section);
             assert(0);
             break;
         }

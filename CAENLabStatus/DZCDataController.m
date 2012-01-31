@@ -46,7 +46,8 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 - (void)reloadLabStatusesWithBlock:(void(^)(NSError *error))block
 {
     NSLog(@"Kicking off lab status request...");
-    [self.labStatusApiClient getPath:@"lab-statuses.php"
+    [self.labStatusApiClient
+                    getPath:@"lab-statuses.php"
                  parameters:nil 
                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
                         if (responseObject != nil) {
@@ -76,10 +77,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
             NSString* statusString = [self.labStatuses objectForKey:[self apiIdForLab:lab]];
             NSNumber* status = nil;
             
-            if (statusString == nil) {
-                // I hate this API. this means it is either closed or not present but open
-                status = [NSNumber numberWithInt:DZCLabStatusClosed];
-            } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusOpen]]) {
+            if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusOpen]]) {
                 status = [NSNumber numberWithInt:DZCLabStatusOpen];
             } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusReserved]]) {
                 status = [NSNumber numberWithInt:DZCLabStatusReserved];
@@ -88,8 +86,10 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
             } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusPartiallyReserved]]) {
                 status = [NSNumber numberWithInt:DZCLabStatusPartiallyReserved];
             } else {
+                // nil, empty, or unrecognized string means the lab is either closed or not present but open
+                // TODO handle bad statuses...probably defer to another, date/time processing controller
                 NSLog(@"Unknown status string '%@'", statusString);
-                status = [NSNumber numberWithInt:DZCLabStatusClosed];
+                status = [NSNumber numberWithInt:DZCLabStatusOpen];
             }
             
             [labsResult setObject:status forKey:lab];
@@ -132,7 +132,8 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     } else {
         NSLog(@"Kicking off host info request for %@...", [self apiIdForLab:lab]);
         
-        [self.hostInfoApiClient getPath:@"computers.json"
+        [self.hostInfoApiClient
+                        getPath:@"computers.json"
                      parameters:[NSDictionary dictionaryWithObjectsAndKeys:lab.building, @"building", lab.room, @"room", nil]
                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
                             if (responseObject != nil) {
