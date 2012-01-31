@@ -59,6 +59,9 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Refresh", nil) style:UIBarButtonItemStylePlain target:self action:@selector(pressedRefreshButton:)];          
     self.navigationItem.rightBarButtonItem = refreshButton;
     
+    self.tableView.allowsSelection = NO;
+    self.tableView.allowsMultipleSelection = NO;
+    
     [self loadData];
 }
 
