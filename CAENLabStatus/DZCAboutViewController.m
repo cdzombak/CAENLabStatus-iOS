@@ -2,6 +2,8 @@
 
 @implementation DZCAboutViewController
 
+@synthesize appVersionLabel = _appVersionLabel;
+
 #pragma mark - UIViewController View lifecycle
 
 - (void)viewDidLoad
@@ -11,9 +13,37 @@
     self.navigationItem.title = NSLocalizedString(@"About", nil);
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        self.appVersionLabel.alpha = 0.0;
+    } else {
+        self.appVersionLabel.alpha = 1.0;
+    }
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+        [UIView animateWithDuration:duration animations:^{
+            self.appVersionLabel.alpha = 0.0;
+        }];
+    } else {
+        [UIView animateWithDuration:duration animations:^{
+            self.appVersionLabel.alpha = 1.0;
+        }];
+    }
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
+}
+
+- (void)viewDidUnload {
+    [self setView:nil];
+    [self setAppVersionLabel:nil];
+    [super viewDidUnload];
 }
 
 #pragma mark - Buttons
