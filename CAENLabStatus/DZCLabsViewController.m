@@ -39,6 +39,7 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 @property (nonatomic, strong) NSArray *labs;
 
 - (void)loadData;
+- (void)refreshData;
 
 @end
 
@@ -56,9 +57,6 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"About", nil) style:UIBarButtonItemStylePlain target:self action:@selector(pressedAboutButton:)];          
     self.navigationItem.rightBarButtonItem = aboutButton;
     
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Refresh", nil) style:UIBarButtonItemStylePlain target:self action:@selector(pressedRefreshButton:)];          
-    self.navigationItem.leftBarButtonItem = refreshButton;
-    
     self.tableView.allowsSelection = NO;
     self.tableView.allowsMultipleSelection = NO;
     
@@ -70,10 +68,25 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     [super viewWillAppear:animated];
     
     self.navigationItem.title = NSLocalizedString(@"CAEN Labs", nil);
-    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    if (event.subtype == UIEventSubtypeMotionShake) {
+        [self refreshData];
+    }
+    
+    if ([super respondsToSelector:@selector(motionEnded:withEvent:)]) {
+        [super motionEnded:motion withEvent:event];
+    }
+}
+
+- (BOOL)canBecomeFirstResponder
 {
     return YES;
 }
@@ -86,15 +99,6 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     UIViewController *aboutNavController = [[UINavigationController alloc] initWithRootViewController:aboutViewController];
     
     [self.navigationController presentModalViewController:aboutNavController animated:YES];
-}
-
-- (void)pressedRefreshButton:(id)sender
-{
-    self.labs = nil;
-    [self.dataController clearHostInfoCache];
-    [self.dataController reloadLabStatusesWithBlock:^(NSError *error) {
-        [self loadData];
-    }];
 }
 
 #pragma mark - UITableViewDataSource methods
@@ -174,6 +178,15 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 }
 
 #pragma mark - Private methods
+
+- (void)refreshData
+{
+    self.labs = nil;
+    [self.dataController clearHostInfoCache];
+    [self.dataController reloadLabStatusesWithBlock:^(NSError *error) {
+        [self loadData];
+    }];
+}
 
 - (void)loadData
 {
