@@ -11,6 +11,10 @@
     [super viewDidLoad];
     
     self.navigationItem.title = NSLocalizedString(@"About", nil);
+    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(pressedDoneButton:)];
+    
+    self.navigationItem.rightBarButtonItem = doneButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -48,14 +52,21 @@
 
 #pragma mark - Buttons
 
-- (IBAction)pressedReportProblemButton:(id)sender {
+- (void)pressedDoneButton:(id)sender
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (IBAction)pressedReportProblemButton:(id)sender
+{
     NSString *problemReportEmail = [NSString stringWithFormat:@"mailto:?to=%@&subject=%@",
                                     [@"cdzombak@umich.edu" stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
                                     [@"CAEN Lab Status App Feedback" stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString: problemReportEmail]];
 }
 
-- (IBAction)pressedProjectPageButton:(id)sender {
+- (IBAction)pressedProjectPageButton:(id)sender
+{
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://github.com/cdzombak/CAENLabStatus-iOS"]];
 }
 

@@ -54,10 +54,10 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     [super viewDidLoad];
     
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"About", nil) style:UIBarButtonItemStylePlain target:self action:@selector(pressedAboutButton:)];          
-    self.navigationItem.leftBarButtonItem = aboutButton;
+    self.navigationItem.rightBarButtonItem = aboutButton;
     
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Refresh", nil) style:UIBarButtonItemStylePlain target:self action:@selector(pressedRefreshButton:)];          
-    self.navigationItem.rightBarButtonItem = refreshButton;
+    self.navigationItem.leftBarButtonItem = refreshButton;
     
     self.tableView.allowsSelection = NO;
     self.tableView.allowsMultipleSelection = NO;
@@ -83,7 +83,9 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 - (void)pressedAboutButton:(id)sender
 {
     DZCAboutViewController *aboutViewController = [[DZCAboutViewController alloc] initWithNibName:@"DZCAboutViewController" bundle:nil];
-    [self.navigationController pushViewController:aboutViewController animated:YES];
+    UIViewController *aboutNavController = [[UINavigationController alloc] initWithRootViewController:aboutViewController];
+    
+    [self.navigationController presentModalViewController:aboutNavController animated:YES];
 }
 
 - (void)pressedRefreshButton:(id)sender
