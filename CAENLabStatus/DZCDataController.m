@@ -112,20 +112,21 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 - (void)machineCountsInLab:(DZCLab *)lab withBlock:(void(^)(NSNumber *used, NSNumber *total, DZCLab *lab, NSError *error))block
 {
     void (^hostInfoReady)(void) = ^ {
-        NSInteger total = 0;
-        NSInteger used = 0;
+        // NOTE: the total count will differ from http://labwatch.engin.umich.edu/labs/mobile.php because that
+        // page hard codes the total host count in each lab.
+        // ... yep.
         
         NSArray *hosts = [self.labHostInfo objectForKey:lab];
+        NSUInteger used = 0;
+        
         for (id host in hosts) {
-            total++;
-            
             NSNumber *inUse = [host objectForKey:@"in_use"];
             if ([inUse boolValue] == YES) {
                 used++;
             }
         }
         
-        if (block) block([NSNumber numberWithInt:used], [NSNumber numberWithInt:total], lab, nil);
+        if (block) block([NSNumber numberWithInt:used], [NSNumber numberWithInt:[hosts count]], lab, nil);
     };
     
     if ([self.labHostInfo objectForKey:lab]) {
