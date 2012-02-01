@@ -53,9 +53,10 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+       
+    UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"247-InfoCircle"] style:UIBarButtonItemStylePlain target:self action:@selector(pressedAboutButton:)];
     
-    UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"About", nil) style:UIBarButtonItemStylePlain target:self action:@selector(pressedAboutButton:)];          
-    self.navigationItem.rightBarButtonItem = aboutButton;
+    self.navigationItem.leftBarButtonItem = aboutButton;
     
     self.tableView.allowsSelection = NO;
     self.tableView.allowsMultipleSelection = NO;

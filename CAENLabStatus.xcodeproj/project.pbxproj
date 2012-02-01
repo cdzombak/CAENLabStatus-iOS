@@ -35,6 +35,8 @@
 		93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E80C5714D78812008850FE /* DZCLabStatusHelper.m */; };
 		93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E80C5A14D797F5008850FE /* DZCAboutViewController.m */; };
 		93E80C5D14D797F5008850FE /* DZCAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E80C5B14D797F5008850FE /* DZCAboutViewController.xib */; };
+		93FDA8C214D9FE1A00787F8C /* 247-InfoCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 93FDA8C014D9FE1A00787F8C /* 247-InfoCircle.png */; };
+		93FDA8C314D9FE1A00787F8C /* 247-InfoCircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93FDA8C114D9FE1A00787F8C /* 247-InfoCircle@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +92,8 @@
 		93E80C5914D797F5008850FE /* DZCAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCAboutViewController.h; sourceTree = "<group>"; };
 		93E80C5A14D797F5008850FE /* DZCAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCAboutViewController.m; sourceTree = "<group>"; };
 		93E80C5B14D797F5008850FE /* DZCAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DZCAboutViewController.xib; sourceTree = "<group>"; };
+		93FDA8C014D9FE1A00787F8C /* 247-InfoCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "247-InfoCircle.png"; sourceTree = "<group>"; };
+		93FDA8C114D9FE1A00787F8C /* 247-InfoCircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "247-InfoCircle@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,7 @@
 				93D9F66914D3997600AD2152 /* CAENLabStatus */,
 				93D9F66214D3997600AD2152 /* Frameworks */,
 				93D9F66014D3997600AD2152 /* Products */,
+				93FDA8BF14D9FE1A00787F8C /* Resources */,
 			);
 			sourceTree = "<group>";
 		};
@@ -252,6 +257,16 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		93FDA8BF14D9FE1A00787F8C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				93FDA8C014D9FE1A00787F8C /* 247-InfoCircle.png */,
+				93FDA8C114D9FE1A00787F8C /* 247-InfoCircle@2x.png */,
+			);
+			name = Resources;
+			path = CAENLabStatus/Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -306,6 +321,8 @@
 				93D9F68E14D3D5DA00AD2152 /* DZCTableViewCellOpenLab.xib in Resources */,
 				93D9F69314D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib in Resources */,
 				93E80C5D14D797F5008850FE /* DZCAboutViewController.xib in Resources */,
+				93FDA8C214D9FE1A00787F8C /* 247-InfoCircle.png in Resources */,
+				93FDA8C314D9FE1A00787F8C /* 247-InfoCircle@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

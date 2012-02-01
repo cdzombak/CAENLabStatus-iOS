@@ -14,7 +14,7 @@
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(pressedDoneButton:)];
     
-    self.navigationItem.rightBarButtonItem = doneButton;
+    self.navigationItem.leftBarButtonItem = doneButton;
     
     self.appVersionLabel.text = [NSString stringWithFormat:@"version %@ (%@)",
                                  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"],
