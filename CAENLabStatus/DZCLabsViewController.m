@@ -123,6 +123,10 @@ __attribute__((constructor)) static void __InitTableViewStrings()
         cell = (UITableViewCell *)[nib objectAtIndex:0];
     }
     
+    if ([[self.labs objectAtIndex:indexPath.section] count] < indexPath.row+1) {
+        return cell;
+    }
+    
     DZCLab *lab = [(NSArray *)[self.labs objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
     switch (indexPath.section) {
