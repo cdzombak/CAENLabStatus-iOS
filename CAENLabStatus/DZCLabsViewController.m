@@ -167,7 +167,6 @@ __attribute__((constructor)) static void __InitTableViewStrings()
         default: {
             NSLog(@"Unknown section encountered: %d", indexPath.section);
             assert(0);
-            break;
         }
     }
     
@@ -208,10 +207,6 @@ __attribute__((constructor)) static void __InitTableViewStrings()
         
         for (id lab in sortedKeys) {
             DZCLabStatus status = [(NSNumber *)[labs objectForKey:lab] intValue];
-            
-            if ([[lab building ] isEqualToString:@"SEB"]) {
-                NSLog(@"SEB");
-            }
             
             switch(status) {
                 case DZCLabStatusOpen:
@@ -260,7 +255,7 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     if(!_labs) {
         _labs = [NSMutableArray array];
         
-        // TODO there must be a better way to build a 2D array of NSArray
+        // TODO there must be a better way to build a 2D NSArray
         for (int i=0; i<DZCLabsTableViewNumSections; ++i) {
             [(NSMutableArray *)_labs addObject:[NSMutableArray array]];
         }
