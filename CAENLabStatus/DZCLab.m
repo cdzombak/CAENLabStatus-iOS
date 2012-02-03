@@ -5,22 +5,25 @@
 @property (nonatomic, copy) NSString *building;
 @property (nonatomic, copy) NSString *room;
 @property (nonatomic, copy) NSString *humanName;
+@property (nonatomic, copy) NSNumber *hostCount;
 
 @end
 
 @implementation DZCLab
 
-@synthesize building = _building, room = _room, humanName = _humanName;
+@synthesize building = _building, room = _room, humanName = _humanName, hostCount = _hostCount;
 
 - (id)initWithBuilding:(NSString*)building
                   room:(NSString*)room
              humanName:(NSString*)humanName
+            hostCount:(NSNumber *)hostCount
 {
     self = [super init];
     if (self) {    
         self.building = building;
         self.room = room;
         self.humanName = humanName;
+        self.hostCount = hostCount;
     }
     return self;
 }
@@ -30,6 +33,7 @@
     [_building release];
     [_room release];
     [_humanName release];
+    [_hostCount release];
     
     [super dealloc];
 }

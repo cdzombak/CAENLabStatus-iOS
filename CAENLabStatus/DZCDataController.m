@@ -83,7 +83,10 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
             }
         }
         
-        if (block) block([NSNumber numberWithInt:used], [NSNumber numberWithInt:[hosts count]], lab, nil);
+        NSNumber *total = [lab hostCount];
+        if ([hosts count] > [total intValue]) total = [NSNumber numberWithInt:[hosts count]];
+        
+        if (block) block([NSNumber numberWithInt:used], total, lab, nil);
     };
     
     if ([self.labHostInfo objectForKey:lab]) {
@@ -225,26 +228,29 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     // for various reasons: to determine whether one is closed, weed out duplicates (!), get accurate counts, etc.
     
     // based on view-source:http://labwatch.engin.umich.edu/labs/mobile.php
+    // and http://www.engin.umich.edu/caen/computers/search/alllabs.html
+    
+    // I hate everything.
     
     if (!_labs) {
         _labs = [NSSet setWithObjects:
-                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B505" humanName:@"Pierpont B505"],
-                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B507" humanName:@"Pierpont B507"],
-                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B521" humanName:@"Pierpont B521"],
-                 [[DZCLab alloc] initWithBuilding:@"CSE" room:@"1695" humanName:@"CSE 1695"],
-                 [[DZCLab alloc] initWithBuilding:@"CSE" room:@"1620" humanName:@"CSE 1620"],
-                 [[DZCLab alloc] initWithBuilding:@"EECS" room:@"1230" humanName:@"EECS 1230"],
-                 [[DZCLab alloc] initWithBuilding:@"EECS" room:@"2331" humanName:@"EECS 2331"],
-                 [[DZCLab alloc] initWithBuilding:@"EECS" room:@"4440" humanName:@"EECS 4440"],
-                 [[DZCLab alloc] initWithBuilding:@"GGBL" room:@"2304" humanName:@"GGBL 2304"],
-                 [[DZCLab alloc] initWithBuilding:@"GGBL" room:@"2505" humanName:@"GGBL 2505"],
-                 [[DZCLab alloc] initWithBuilding:@"IOE" room:@"G610" humanName:@"IOE G610"],
-                 [[DZCLab alloc] initWithBuilding:@"COOLEY" room:@"1934" humanName:@"Cooley 1934"],
-                 [[DZCLab alloc] initWithBuilding:@"FXB" room:@"B085" humanName:@"FXB B085"],
-                 [[DZCLab alloc] initWithBuilding:@"LBME" room:@"1310" humanName:@"LBME 1310"],
-                 [[DZCLab alloc] initWithBuilding:@"GFL" room:@"224" humanName:@"GFL/EPB 224"],
-                 [[DZCLab alloc] initWithBuilding:@"NAME" room:@"134" humanName:@"NAME 134"],
-                 [[DZCLab alloc] initWithBuilding:@"SRB" room:@"2230" humanName:@"SRB 2230"],
+                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B505" humanName:@"Pierpont B505" hostCount:[NSNumber numberWithInt:26]],
+                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B507" humanName:@"Pierpont B507" hostCount:[NSNumber numberWithInt:26]],
+                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B521" humanName:@"Pierpont B521" hostCount:[NSNumber numberWithInt:22]],
+                 [[DZCLab alloc] initWithBuilding:@"CSE" room:@"1695" humanName:@"CSE 1695" hostCount:[NSNumber numberWithInt:49]],
+                 [[DZCLab alloc] initWithBuilding:@"CSE" room:@"1620" humanName:@"CSE 1620" hostCount:[NSNumber numberWithInt:43]],
+                 [[DZCLab alloc] initWithBuilding:@"EECS" room:@"1230" humanName:@"EECS 1230" hostCount:[NSNumber numberWithInt:28]],
+                 [[DZCLab alloc] initWithBuilding:@"EECS" room:@"2331" humanName:@"EECS 2331" hostCount:[NSNumber numberWithInt:19]],
+                 [[DZCLab alloc] initWithBuilding:@"EECS" room:@"4440" humanName:@"EECS 4440" hostCount:[NSNumber numberWithInt:22]],
+                 [[DZCLab alloc] initWithBuilding:@"GGBL" room:@"2304" humanName:@"GGBL 2304" hostCount:[NSNumber numberWithInt:19]],
+                 [[DZCLab alloc] initWithBuilding:@"GGBL" room:@"2505" humanName:@"GGBL 2505" hostCount:[NSNumber numberWithInt:30]],
+                 [[DZCLab alloc] initWithBuilding:@"IOE" room:@"G610" humanName:@"IOE G610" hostCount:[NSNumber numberWithInt:25]],
+                 [[DZCLab alloc] initWithBuilding:@"COOLEY" room:@"1934" humanName:@"Cooley 1934" hostCount:[NSNumber numberWithInt:12]],
+                 [[DZCLab alloc] initWithBuilding:@"FXB" room:@"B085" humanName:@"FXB B085" hostCount:[NSNumber numberWithInt:24]],
+                 [[DZCLab alloc] initWithBuilding:@"LBME" room:@"1310" humanName:@"LBME 1310" hostCount:[NSNumber numberWithInt:25]],
+                 [[DZCLab alloc] initWithBuilding:@"GFL" room:@"224" humanName:@"GFL/EPB 224" hostCount:[NSNumber numberWithInt:44]],
+                 [[DZCLab alloc] initWithBuilding:@"NAME" room:@"134" humanName:@"NAME 134" hostCount:[NSNumber numberWithInt:20]],
+                 [[DZCLab alloc] initWithBuilding:@"SRB" room:@"2230" humanName:@"SRB 2230" hostCount:[NSNumber numberWithInt:27]],
                  /*[[DZCLab alloc] initWithBuilding:@"DC" room:@"2E" humanName:@"Duderstadt 2E"],
                  [[DZCLab alloc] initWithBuilding:@"DC" room:@"2S" humanName:@"Duderstadt 2S"],
                  [[DZCLab alloc] initWithBuilding:@"DC" room:@"2SW" humanName:@"Duderstadt 2SW"],
@@ -256,15 +262,15 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
                  [[DZCLab alloc] initWithBuilding:@"DC" room:@"3WA" humanName:@"Duderstadt 3W"],
                  [[DZCLab alloc] initWithBuilding:@"DC" room:@"LLE" humanName:@"Duderstadt LLE"],
                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"LLC" humanName:@"Duderstadt LLC"],*/
-                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"" humanName:@"Duderstadt Center (All)"],
-                 [[DZCLab alloc] initWithBuilding:@"AH" room:@"" humanName:@"Angell Hall (Fishbowl)"],
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"" humanName:@"Duderstadt Center (All)" hostCount:[NSNumber numberWithInt:345]],
+                 [[DZCLab alloc] initWithBuilding:@"AH" room:@"" humanName:@"Angell Hall (Fishbowl)" hostCount:[NSNumber numberWithInt:20]],
                  // [[DZCLab alloc] initWithBuilding:@"RAC" room:@"108" humanName:@"???"], // no idea where this is
-                 [[DZCLab alloc] initWithBuilding:@"SEB" room:@"3010" humanName:@"School of Ed 3010"],
-                 [[DZCLab alloc] initWithBuilding:@"SHAPIRO" room:@"2054C" humanName:@"Ugli 2054C"],
-                 [[DZCLab alloc] initWithBuilding:@"SHAPIRO" room:@"B100" humanName:@"Ugli Basement"],
-                 [[DZCLab alloc] initWithBuilding:@"BAITS_COMAN" room:@"" humanName:@"Baits Coman (all)"], // rooms: 2300, 1000, 1209
-                 [[DZCLab alloc] initWithBuilding:@"BURSLEY" room:@"2506" humanName:@"Bursley 2506"],
-                 [[DZCLab alloc] initWithBuilding:@"MO-JO" room:@"163" humanName:@"MoJo 163"],
+                 [[DZCLab alloc] initWithBuilding:@"SEB" room:@"3010" humanName:@"School of Ed 3010" hostCount:[NSNumber numberWithInt:12]],
+                 [[DZCLab alloc] initWithBuilding:@"SHAPIRO" room:@"2054C" humanName:@"Ugli 2054C" hostCount:[NSNumber numberWithInt:10]],
+                 [[DZCLab alloc] initWithBuilding:@"SHAPIRO" room:@"B100" humanName:@"Ugli Basement" hostCount:[NSNumber numberWithInt:24]],
+                 [[DZCLab alloc] initWithBuilding:@"BAITS_COMAN" room:@"" humanName:@"Baits Coman (all)" hostCount:[NSNumber numberWithInt:4]], // rooms: 2300, 1000, 1209
+                 [[DZCLab alloc] initWithBuilding:@"BURSLEY" room:@"2506" humanName:@"Bursley 2506" hostCount:[NSNumber numberWithInt:8]],
+                 [[DZCLab alloc] initWithBuilding:@"MO-JO" room:@"163" humanName:@"MoJo 163" hostCount:[NSNumber numberWithInt:3]],
                  nil];
     }
     return _labs;
