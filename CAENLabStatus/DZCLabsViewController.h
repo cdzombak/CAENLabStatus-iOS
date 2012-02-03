@@ -4,6 +4,6 @@
 
 @interface DZCLabsViewController : UITableViewController
 
-@property(nonatomic, weak) DZCDataController *dataController;
+@property(nonatomic, strong) DZCDataController *dataController;
 
 @end

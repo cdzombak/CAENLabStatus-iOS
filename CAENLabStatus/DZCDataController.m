@@ -17,14 +17,25 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     }
 }
 
+/* Number of times to retry failed API queries */
+#define RETRIES ((NSUInteger)4)
+
+
 @interface DZCDataController ()
 
 @property (nonatomic, readonly, strong) DZCLabStatusApiClient *labStatusApiClient;
 @property (nonatomic, readonly, strong) DZCHostInfoApiClient *hostInfoApiClient;
-@property (nonatomic, readonly, strong) NSArray *labs;
-@property (nonatomic, strong) id labStatuses;
+@property (nonatomic, readonly, strong) NSSet *labs;
+
+/* labStatuses is a dictionary that maps a lab object to an NSNumber with int DZCLabStatus.
+ * It can be set to nil to clear the cache; it is recreated as an empty mutable dictionary on any access. */
+@property (nonatomic, strong) NSMutableDictionary *labStatuses;
+
+/* labHostInfo is a dictionary that maps a lab object to an array of hosts in the lab.
+ * It can be set to nil to clear the cache; it is recreated as an empty mutable dictionary on any access/ */
 @property (nonatomic, strong) NSMutableDictionary *labHostInfo;
 
+- (void)setLabsFromApiResponse:(id)response;
 - (NSString *)apiIdForLab:(DZCLab *)lab;
 
 @end
@@ -33,90 +44,36 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 
 @synthesize labHostInfo = _labHostInfo, labs = _labs, labStatusApiClient = _labStatusApiClient, hostInfoApiClient = _hostInfoApiClient, labStatuses = _labStatuses;
 
-// TODO refactor this implementation to achieve better logic/caching and API/network separation
-
-/**
- * Make the data controller (re)load all lab statuses.
- * 
- * This is intended to be used when the app launches or returns to
- * foreground to ensure we show current data.
- *
- * Your block is called when the response finishes, whether or
- * not there is an error.
- */
-- (void)reloadLabStatusesWithBlock:(void(^)(NSError *error))block
-{
-    NSLog(@"Kicking off lab status request...");
-    [self.labStatusApiClient
-                    getPath:@"lab-statuses.php"
-                 parameters:nil 
-                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                        if (responseObject != nil) {
-                            self.labStatuses = responseObject;
-                            if (block) block(nil);
-                        } else {
-                            if (block) block([[NSError alloc] init]);
-                        }
-                    }
-                    failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        if (block) block(error);
-                    }
-     ];
-}
-
-/**
- * Gets each known lab and its status.
- * 
- * Returns a dictionary with key DZCLab, object DZCLabStatus.
- */
 - (void)labsAndStatusesWithBlock:(void(^)(NSDictionary *labs, NSError *error))block
 {
-    void (^labsReady)(void) = ^ {
-        NSMutableDictionary *labsResult = [NSMutableDictionary dictionary];
-        
-        for (id lab in self.labs) {
-            NSString* statusString = [self.labStatuses objectForKey:[self apiIdForLab:lab]];
-            DZCLabStatus status;
-            
-            if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusOpen]]) {
-                status = DZCLabStatusOpen;
-            } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusReserved]]) {
-                status = DZCLabStatusReserved;
-            } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusReservedSoon]]) {
-                status = DZCLabStatusReservedSoon;
-            } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusPartiallyReserved]]) {
-                status = DZCLabStatusPartiallyReserved;
-            } else {
-                // nil, empty, or unrecognized string means the lab is either closed or not present but open
-                // defer to another, date/time processing controller
-                NSLog(@"Unknown status string '%@' for lab '%@' in building '%@'", statusString, [lab humanName], [lab building]);
-                status = [[DZCLabStatusHelper statusGuessForLab:(DZCLab *)lab] intValue];
-            }
-            
-            [labsResult setObject:[NSNumber numberWithInt:status] forKey:lab];
-        }
-        
-        if (block) block(labsResult, nil);
+    void (^labsReady)(NSDictionary*) = ^(NSDictionary* labStatuses) {
+        if (block) block(labStatuses, nil);
     };
     
-    if (self.labStatuses) {
-        labsReady();
+    if ([self.labStatuses count] != 0) {
+        labsReady(self.labStatuses);
     } else {
-        [self reloadLabStatusesWithBlock:^(NSError *error) {
-            if (error) assert(0); // TODO handle error
-            labsReady();
-        }];
+        __block NSUInteger retries = RETRIES;
+        
+        __block void (^reloadLabStatusResultBlock)(NSError *) = [^(NSError* error) {
+            if (error && retries > 0) {
+                NSLog(@"Retrying lab status query...");
+                retries--;
+                [self reloadLabStatusesWithBlock:reloadLabStatusResultBlock];
+            } else if (error) {
+                if (block) block(nil, error);
+            } else {
+                labsReady(self.labStatuses);
+            }
+        } copy];
+        
+        [self reloadLabStatusesWithBlock:reloadLabStatusResultBlock];
     }
 }
 
 - (void)machineCountsInLab:(DZCLab *)lab withBlock:(void(^)(NSNumber *used, NSNumber *total, DZCLab *lab, NSError *error))block
 {
-    void (^hostInfoReady)(void) = ^ {
-        // NOTE: the total count will differ from http://labwatch.engin.umich.edu/labs/mobile.php because that
-        // page hard codes the total host count in each lab.
-        // ... yep.
-        
-        NSArray *hosts = [self.labHostInfo objectForKey:lab];
+    void (^hostInfoReady)(NSArray *) = ^(NSArray *hosts) {
         NSUInteger used = 0;
         
         for (id host in hosts) {
@@ -130,31 +87,70 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     };
     
     if ([self.labHostInfo objectForKey:lab]) {
-        hostInfoReady();
+        hostInfoReady([self.labHostInfo objectForKey:lab]);
     } else {
-        NSLog(@"Kicking off host info request for %@...", [self apiIdForLab:lab]);
+        __block NSUInteger retries = RETRIES;
         
-        [self.hostInfoApiClient
-                        getPath:@"computers.json"
-                     parameters:[NSDictionary dictionaryWithObjectsAndKeys:lab.building, @"building", lab.room, @"room", nil]
-                        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                            if (responseObject != nil) {
-                                [self.labHostInfo setObject:responseObject forKey:lab];
-                                hostInfoReady();
-                            } else {
-                                if (block) block(nil, nil, nil, [[NSError alloc] init]);
-                            }
-                        }
-                        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                            if (block) block(nil, nil, nil, error);
-                        }
-         ];
+        __block void (^reloadHostInfoResultBlock)(NSError *) = [^(NSError* error) {
+            if (error && retries > 0) {
+                NSLog(@"Retrying host info query...");
+                retries--;
+                [self reloadHostInfoForLab:lab withBlock:reloadHostInfoResultBlock];
+            } else if (error) {
+                if (block) block(nil, nil, lab, error);
+            } else {
+                hostInfoReady([self.labHostInfo objectForKey:lab]);
+            }
+        } copy];
+        
+        [self reloadHostInfoForLab:lab withBlock:reloadHostInfoResultBlock];
     }
 }
 
-- (void)clearHostInfoCache
+- (void)reloadLabStatusesWithBlock:(void(^)(NSError *error))block
+{
+    NSLog(@"Kicking off lab status request...");
+
+    [self.labStatusApiClient getPath:@"lab-statuses.php"
+                          parameters:nil
+                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                 if (responseObject != nil) {
+                                     [self setLabsFromApiResponse:responseObject];
+                                     if (block) block(nil);
+                                 } else {
+                                     if (block) block([[NSError alloc] init]);
+                                 }
+                             }
+                             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                 if (block) block(error);
+                             }
+    ];
+}
+
+- (void)reloadHostInfoForLab:(DZCLab *)lab withBlock:(void(^)(NSError *error))block
+{
+    NSLog(@"Kicking off host info request for %@...", [self apiIdForLab:lab]);
+    
+    [self.hostInfoApiClient getPath:@"computers.json"
+                         parameters:[NSDictionary dictionaryWithObjectsAndKeys:lab.building, @"building", lab.room, @"room", nil]
+                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                if (responseObject != nil) {
+                                    [self.labHostInfo setObject:responseObject forKey:lab];
+                                    if (block) block(nil);
+                                } else {
+                                    if (block) block([[NSError alloc] init]);
+                                }
+                            }
+                            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                if (block) block(error);
+                            }
+     ];
+}
+
+- (void)clearCache
 {
     self.labHostInfo = nil;
+    self.labStatuses = nil;
 }
 
 #pragma mark - Private helper methods
@@ -162,6 +158,33 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 - (NSString *)apiIdForLab:(DZCLab *)lab
 {
     return [NSString stringWithFormat:@"%@%@", lab.building, lab.room];
+}
+
+- (void)setLabsFromApiResponse:(id)response
+{
+    self.labStatuses = nil;
+    
+    for (id lab in self.labs) {
+        NSString* statusString = [response objectForKey:[self apiIdForLab:lab]];
+        DZCLabStatus status;
+        
+        if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusOpen]]) {
+            status = DZCLabStatusOpen;
+        } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusReserved]]) {
+            status = DZCLabStatusReserved;
+        } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusReservedSoon]]) {
+            status = DZCLabStatusReservedSoon;
+        } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusPartiallyReserved]]) {
+            status = DZCLabStatusPartiallyReserved;
+        } else {
+            // nil, empty, or unrecognized string means the lab is either closed or not present but open
+            // defer to another, date/time processing controller
+            NSLog(@"fyi: unknown status string '%@' for lab '%@' in building '%@'", statusString, [lab humanName], [lab building]);
+            status = [[DZCLabStatusHelper statusGuessForLab:(DZCLab *)lab] intValue];
+        }
+        
+        [self.labStatuses setObject:[NSNumber numberWithInt:status] forKey:lab];
+    }
 }
 
 #pragma mark - Property Overrides
@@ -188,15 +211,23 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     return _labHostInfo;
 }
 
-- (NSArray *)labs
+- (NSMutableDictionary *)labStatuses
+{
+    if (!_labStatuses) {
+        _labStatuses = [NSMutableDictionary dictionary];
+    }
+    return _labStatuses;
+}
+
+- (NSSet *)labs
 {
     // I have to do this because the way the API is designed requires prior knowledge of all the labs
-    // for various reasons: to determine whether one is closed, to weed out duplicates (!), etc.
+    // for various reasons: to determine whether one is closed, weed out duplicates (!), get accurate counts, etc.
     
     // based on view-source:http://labwatch.engin.umich.edu/labs/mobile.php
     
     if (!_labs) {
-        _labs = [NSArray arrayWithObjects:
+        _labs = [NSSet setWithObjects:
                  [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B505" humanName:@"Pierpont B505"],
                  [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B507" humanName:@"Pierpont B507"],
                  [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B521" humanName:@"Pierpont B521"],

@@ -183,15 +183,24 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 - (void)refreshData
 {
     self.labs = nil;
-    [self.dataController clearHostInfoCache];
-    [self.dataController reloadLabStatusesWithBlock:^(NSError *error) {
-        [self loadData];
-    }];
+    [self.dataController clearCache];
+    [self loadData];
 }
 
 - (void)loadData
 {
     [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labs, NSError *error) {
+        
+        if (error) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Retrieving Data", nil)
+                                                            message:NSLocalizedString(@"Please ensure you have a network connection. If you do, the CAEN lab info service might be down.\n\nShake the device to try refreshing the app.", nil)
+                                                           delegate:nil 
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        
         // map statuses to sections for display
         // TODO this mapping can be made cleaner
         

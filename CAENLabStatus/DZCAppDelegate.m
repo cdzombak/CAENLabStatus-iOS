@@ -43,8 +43,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     if (self.appWasInBackground) {
+        [self.dataController clearCache];
         [self.dataController reloadLabStatusesWithBlock:nil];
-        [self.dataController clearHostInfoCache];
     }
 }
 
