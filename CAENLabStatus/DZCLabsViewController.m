@@ -137,7 +137,9 @@ __attribute__((constructor)) static void __InitTableViewStrings()
             
             [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
                 if (error) {
-                    assert(0); // TODO handle error
+                    ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.text = @"...";
+                    ((DZCTableViewCellOpenLab *) cell).labTotalCountLabel.text = @"...";
+                    return;
                 }
 
                 ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]-[used intValue]];
@@ -160,7 +162,8 @@ __attribute__((constructor)) static void __InitTableViewStrings()
             
             [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
                 if (error) {
-                    assert(0); // TODO handle error
+                    ((DZCTableViewCellClosedLab *) cell).labCountLabel.text = @"...";
+                    return;
                 }
                 
                 ((DZCTableViewCellClosedLab *) cell).labCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]];
