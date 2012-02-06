@@ -60,8 +60,6 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     
     self.tableView.allowsSelection = NO;
     self.tableView.allowsMultipleSelection = NO;
-    
-    [self loadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -69,6 +67,8 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     [super viewWillAppear:animated];
     
     self.navigationItem.title = NSLocalizedString(@"CAEN Labs", nil);
+    
+    [self loadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -196,6 +196,8 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 - (void)loadData
 {
     [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labs, NSError *error) {
+        
+        self.labs = nil;
         
         if (error) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Retrieving Data", nil)
