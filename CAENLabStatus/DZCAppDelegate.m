@@ -5,21 +5,22 @@
 @interface DZCAppDelegate ()
 
 @property (nonatomic, strong) DZCDataController *dataController;
+@property (nonatomic, strong) DZCLabsViewController *labsViewController;
 @property (nonatomic, assign) BOOL appWasInBackground;
 
 @end
 
 @implementation DZCAppDelegate
 
-@synthesize window = _window, rootViewController = _viewController, dataController = _dataController, appWasInBackground = _appWasInBackground;
+@synthesize window = _window, rootViewController = _viewController, dataController = _dataController, labsViewController = _labsViewController, appWasInBackground = _appWasInBackground;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        DZCLabsViewController *labsViewController = [[DZCLabsViewController alloc] initWithStyle:UITableViewStylePlain];
-        labsViewController.dataController = self.dataController;
+        self.labsViewController = [[DZCLabsViewController alloc] initWithStyle:UITableViewStylePlain];
+        self.labsViewController.dataController = self.dataController;
         
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:labsViewController];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.labsViewController];
         
         self.rootViewController = navController;
     } else {
@@ -45,6 +46,8 @@
     if (self.appWasInBackground) {
         [self.dataController clearCache];
         [self.dataController reloadLabStatusesWithBlock:nil];
+        
+        [self.labsViewController refreshData];
     }
 }
 

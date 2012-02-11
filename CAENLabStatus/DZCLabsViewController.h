@@ -6,4 +6,6 @@
 
 @property(nonatomic, strong) DZCDataController *dataController;
 
+- (void)refreshData;
+
 @end

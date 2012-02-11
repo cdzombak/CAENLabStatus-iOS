@@ -39,7 +39,6 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 @property (nonatomic, strong) NSArray *labs;
 
 - (void)loadData;
-- (void)refreshData;
 
 @end
 
@@ -184,7 +183,7 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     return DZCLabsTableViewSectionTitles[section];
 }
 
-#pragma mark - Private methods
+#pragma mark - Data Management
 
 - (void)refreshData
 {
@@ -192,6 +191,8 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     [self.dataController clearCache];
     [self loadData];
 }
+
+#pragma mark - Private methods
 
 - (void)loadData
 {
