@@ -109,7 +109,6 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 - (void)refreshData
 {
     self.labsByStatus = nil;
-    self.statusForTableViewSection = nil;
     [self.dataController clearCache];
     [self loadData];
 }
@@ -119,7 +118,6 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labsResult, NSError *error) {
         
         self.labsByStatus = nil;
-        self.statusForTableViewSection = nil;
         
         if (error) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Retrieving Data", nil)
@@ -166,6 +164,8 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
                 }
             }];
         }
+        
+        self.statusForTableViewSection = nil;
         
         for (id lab in sortedLabs) {
             DZCLabStatus status = [(NSNumber *)[labsResult objectForKey:lab] intValue];
