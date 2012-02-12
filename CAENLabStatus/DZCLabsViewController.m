@@ -104,6 +104,126 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     [self.navigationController presentModalViewController:aboutNavController animated:YES];
 }
 
+#pragma mark - Data Management
+
+- (void)refreshData
+{
+    self.labsByStatus = nil;
+    self.statusForTableViewSection = nil;
+    [self.dataController clearCache];
+    [self loadData];
+}
+
+- (void)loadData
+{
+    [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labsResult, NSError *error) {
+        
+        self.labsByStatus = nil;
+        self.statusForTableViewSection = nil;
+        
+        if (error) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Retrieving Data", nil)
+                                                            message:NSLocalizedString(@"Please ensure you have a network connection. If you do, the CAEN lab info service might be down.\n\nShake the device to try refreshing the app.", nil)
+                                                           delegate:nil 
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        
+        NSArray* sortedLabs = nil;
+        if (!self.labOrdering) {
+            sortedLabs = [[labsResult allKeys] sortedArrayUsingSelector:@selector(compareHumanName:)];
+            
+            self.labOrdering = [NSMutableArray array];
+            
+            for (id lab in sortedLabs) {
+                [self.labOrdering addObject:[lab humanName]];
+            }
+            
+            [self saveSortOrder:self.labOrdering];
+        } else {
+            sortedLabs = [[labsResult allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                NSUInteger idx1 = [self.labOrdering indexOfObject:[obj1 humanName]];
+                NSUInteger idx2 = [self.labOrdering indexOfObject:[obj2 humanName]];
+                
+                if (idx1 == NSNotFound) {
+                    [self.labOrdering addObject:[obj1 humanName]];
+                    return (NSComparisonResult)NSOrderedAscending;
+                }
+                if (idx2 == NSNotFound) {
+                    [self.labOrdering addObject:[obj2 humanName]];
+                    return (NSComparisonResult)NSOrderedDescending;
+                }
+                if (idx1 == idx2) {
+                    return (NSComparisonResult)NSOrderedSame;
+                }
+                if (idx1 > idx2) {
+                    return (NSComparisonResult)NSOrderedDescending;
+                }
+                else {
+                    return (NSComparisonResult)NSOrderedAscending;
+                }
+            }];
+        }
+        
+        for (id lab in sortedLabs) {
+            DZCLabStatus status = [(NSNumber *)[labsResult objectForKey:lab] intValue];
+            
+            NSMutableArray *labs = [self.labsByStatus objectForKey:[NSNumber numberWithInt:status]];
+            if (!labs) {
+                [self.labsByStatus setObject:[NSMutableArray array] forKey:[NSNumber numberWithInt:status]];
+                labs = [self.labsByStatus objectForKey:[NSNumber numberWithInt:status]];
+            }
+            
+            [labs addObject:lab];
+        }
+        
+        for (DZCLabStatus i=0; i<DZCLabStatusCount; ++i) {
+            if ([self.labsByStatus objectForKey:[NSNumber numberWithInt:i]] != nil) {
+                [self.statusForTableViewSection addObject:[NSNumber numberWithInt:i]];
+            }
+        }
+        
+        [self.tableView reloadData];
+    }];
+}
+
+#pragma mark - Private methods
+
+- (DZCLabStatus) statusForSection:(NSInteger)section
+{
+    return [[self.statusForTableViewSection objectAtIndex:section] intValue];
+}
+
+- (BOOL)saveSortOrder:(NSMutableArray *)sortOrder
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if (!standardUserDefaults) {
+        return NO;
+    }
+    
+	[standardUserDefaults setObject:sortOrder forKey:DZCLabsViewControllerSortOrderPrefsKey];
+	[standardUserDefaults synchronize];
+    
+    return YES;
+}
+
+- (NSMutableArray *)retrieveSavedSortOrder
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	if (!standardUserDefaults) {
+        return nil;
+    }
+    
+    NSArray *resultArray = [standardUserDefaults arrayForKey:DZCLabsViewControllerSortOrderPrefsKey];
+    if (resultArray == nil) {
+        return nil;
+    }
+    
+    return [NSMutableArray arrayWithArray:resultArray];
+}
+
 #pragma mark - UITableViewDataSource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -240,126 +360,6 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     DZCLabStatus status = [[self.statusForTableViewSection objectAtIndex:section] intValue];
     return DZCLabsTableViewSectionTitles[status];
-}
-
-#pragma mark - Data Management
-
-- (void)refreshData
-{
-    self.labsByStatus = nil;
-    self.statusForTableViewSection = nil;
-    [self.dataController clearCache];
-    [self loadData];
-}
-
-- (void)loadData
-{
-    [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labsResult, NSError *error) {
-        
-        self.labsByStatus = nil;
-        self.statusForTableViewSection = nil;
-        
-        if (error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Retrieving Data", nil)
-                                                            message:NSLocalizedString(@"Please ensure you have a network connection. If you do, the CAEN lab info service might be down.\n\nShake the device to try refreshing the app.", nil)
-                                                           delegate:nil 
-                                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                                  otherButtonTitles:nil];
-            [alert show];
-            return;
-        }
-        
-        NSArray* sortedLabs = nil;
-        if (!self.labOrdering) {
-            sortedLabs = [[labsResult allKeys] sortedArrayUsingSelector:@selector(compareHumanName:)];
-            
-            self.labOrdering = [NSMutableArray array];
-            
-            for (id lab in sortedLabs) {
-                [self.labOrdering addObject:[lab humanName]];
-            }
-            
-            [self saveSortOrder:self.labOrdering];
-        } else {
-            sortedLabs = [[labsResult allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                NSUInteger idx1 = [self.labOrdering indexOfObject:[obj1 humanName]];
-                NSUInteger idx2 = [self.labOrdering indexOfObject:[obj2 humanName]];
-                
-                if (idx1 == NSNotFound) {
-                    [self.labOrdering addObject:[obj1 humanName]];
-                    return (NSComparisonResult)NSOrderedAscending;
-                }
-                if (idx2 == NSNotFound) {
-                    [self.labOrdering addObject:[obj2 humanName]];
-                    return (NSComparisonResult)NSOrderedDescending;
-                }
-                if (idx1 == idx2) {
-                    return (NSComparisonResult)NSOrderedSame;
-                }
-                if (idx1 > idx2) {
-                    return (NSComparisonResult)NSOrderedDescending;
-                }
-                else {
-                    return (NSComparisonResult)NSOrderedAscending;
-                }
-            }];
-        }
-        
-        for (id lab in sortedLabs) {
-            DZCLabStatus status = [(NSNumber *)[labsResult objectForKey:lab] intValue];
-            
-            NSMutableArray *labs = [self.labsByStatus objectForKey:[NSNumber numberWithInt:status]];
-            if (!labs) {
-                [self.labsByStatus setObject:[NSMutableArray array] forKey:[NSNumber numberWithInt:status]];
-                labs = [self.labsByStatus objectForKey:[NSNumber numberWithInt:status]];
-            }
-            
-            [labs addObject:lab];
-        }
-        
-        for (DZCLabStatus i=0; i<DZCLabStatusCount; ++i) {
-            if ([self.labsByStatus objectForKey:[NSNumber numberWithInt:i]] != nil) {
-                [self.statusForTableViewSection addObject:[NSNumber numberWithInt:i]];
-            }
-        }
-        
-        [self.tableView reloadData];
-    }];
-}
-
-#pragma mark - Private methods
-
-- (DZCLabStatus) statusForSection:(NSInteger)section
-{
-    return [[self.statusForTableViewSection objectAtIndex:section] intValue];
-}
-
-- (BOOL)saveSortOrder:(NSMutableArray *)sortOrder
-{
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    if (!standardUserDefaults) {
-        return NO;
-    }
-    
-	[standardUserDefaults setObject:sortOrder forKey:DZCLabsViewControllerSortOrderPrefsKey];
-	[standardUserDefaults synchronize];
-
-    return YES;
-}
-
-- (NSMutableArray *)retrieveSavedSortOrder
-{
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-	if (!standardUserDefaults) {
-        return nil;
-    }
-    
-    NSArray *resultArray = [standardUserDefaults arrayForKey:DZCLabsViewControllerSortOrderPrefsKey];
-    if (resultArray == nil) {
-        return nil;
-    }
-    
-    return [NSMutableArray arrayWithArray:resultArray];
 }
 
 #pragma mark - UITableViewDelegate methods
