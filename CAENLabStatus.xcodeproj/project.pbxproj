@@ -14,6 +14,7 @@
 		93BBAB4714DCCBF800B19049 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB4114DCCBF800B19049 /* Icon.png */; };
 		93BBAB4814DCCBF800B19049 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB4214DCCBF800B19049 /* Icon@2x.png */; };
 		93BBAB5B14DCF4BD00B19049 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB5A14DCF4BD00B19049 /* iTunesArtwork */; };
+		93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */; };
 		93D9F66414D3997600AD2152 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66314D3997600AD2152 /* UIKit.framework */; };
 		93D9F66614D3997600AD2152 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66514D3997600AD2152 /* Foundation.framework */; };
 		93D9F66814D3997600AD2152 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66714D3997600AD2152 /* CoreGraphics.framework */; };
@@ -54,6 +55,8 @@
 		93BBAB4114DCCBF800B19049 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		93BBAB4214DCCBF800B19049 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		93BBAB5A14DCF4BD00B19049 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
+		93BBAB6914E83AC000B19049 /* DZCSubLabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCSubLabsViewController.h; sourceTree = "<group>"; };
+		93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCSubLabsViewController.m; sourceTree = "<group>"; };
 		93D9F65F14D3997600AD2152 /* CAENLabStatus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAENLabStatus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93D9F66314D3997600AD2152 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93D9F66514D3997600AD2152 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -180,10 +183,12 @@
 		93D9F68814D39C2B00AD2152 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				93D9F68514D39C2500AD2152 /* DZCLabsViewController.h */,
-				93D9F68614D39C2500AD2152 /* DZCLabsViewController.m */,
 				93E80C5914D797F5008850FE /* DZCAboutViewController.h */,
 				93E80C5A14D797F5008850FE /* DZCAboutViewController.m */,
+				93D9F68514D39C2500AD2152 /* DZCLabsViewController.h */,
+				93D9F68614D39C2500AD2152 /* DZCLabsViewController.m */,
+				93BBAB6914E83AC000B19049 /* DZCSubLabsViewController.h */,
+				93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -382,6 +387,7 @@
 				93D9F6C414D5081F00AD2152 /* DZCHostInfoApiClient.m in Sources */,
 				93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */,
 				93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */,
+				93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

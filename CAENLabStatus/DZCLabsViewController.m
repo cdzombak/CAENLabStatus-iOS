@@ -4,6 +4,7 @@
 #import "DZCDataController.h"
 #import "DZCLab.h"
 #import "DZCAboutViewController.h"
+#import "DZCSubLabsViewController.h"
 
 static NSString *DZCLabsTableViewSectionTitles[DZCLabStatusCount];
 static NSString *DZCLabsTableViewSectionCellIDs[DZCLabStatusCount];
@@ -58,7 +59,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.tableView.allowsSelection = NO;
+    self.tableView.allowsSelection = YES;
     self.tableView.allowsMultipleSelection = NO;
     
     self.labOrdering = [self retrieveSavedSortOrder];
@@ -307,6 +308,16 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
         cell.showsReorderControl = NO;
     }
     
+    if (status == DZCLabStatusOpen && lab.subLabs != nil && [lab.subLabs count] > 0) {
+        //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        //cell.userInteractionEnabled = YES;
+    } else {
+        //cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //cell.userInteractionEnabled = NO;
+    }
+    
     return cell;
 }
 
@@ -374,15 +385,27 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-    
     NSLog(@"pressed %d.%d", indexPath.section, indexPath.row);
+    
+    DZCLab *lab = [(NSArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:[self statusForSection:indexPath.section]]] objectAtIndex:indexPath.row];
+    if (lab.subLabs == nil || [lab.subLabs count] == 0) {
+        return;
+    }
+    
+    DZCSubLabsViewController *subLabViewController = [[DZCSubLabsViewController alloc] initWithLab:lab];
+    subLabViewController.dataController = self.dataController;
+    
+    [self.navigationController pushViewController:subLabViewController animated:YES];
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    DZCLab *lab = [(NSArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:[self statusForSection:indexPath.section]]] objectAtIndex:indexPath.row];
+    
+    if (lab.subLabs == nil || [lab.subLabs count] == 0) {
+        return nil;
+    }
+    
+    return indexPath;
 }
 
 #pragma mark - Property overrides

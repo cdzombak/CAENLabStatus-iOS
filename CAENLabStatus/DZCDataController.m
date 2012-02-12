@@ -237,9 +237,6 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     
     if (!_labs) {
         _labs = [NSSet setWithObjects:
-                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B505" humanName:@"Pierpont B505" hostCount:[NSNumber numberWithInt:26] subLabs:nil],
-                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B507" humanName:@"Pierpont B507" hostCount:[NSNumber numberWithInt:26] subLabs:nil],
-                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B521" humanName:@"Pierpont B521" hostCount:[NSNumber numberWithInt:22] subLabs:nil],
                  [[DZCLab alloc] initWithBuilding:@"CSE" room:@"1695" humanName:@"CSE 1695" hostCount:[NSNumber numberWithInt:49] subLabs:nil],
                  [[DZCLab alloc] initWithBuilding:@"CSE" room:@"1620" humanName:@"CSE 1620" hostCount:[NSNumber numberWithInt:43] subLabs:nil],
                  [[DZCLab alloc] initWithBuilding:@"EECS" room:@"1230" humanName:@"EECS 1230" hostCount:[NSNumber numberWithInt:28] subLabs:nil],
@@ -261,6 +258,13 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
                  [[DZCLab alloc] initWithBuilding:@"SHAPIRO" room:@"B100" humanName:@"Ugli Basement" hostCount:[NSNumber numberWithInt:24] subLabs:nil],
                  [[DZCLab alloc] initWithBuilding:@"BURSLEY" room:@"2506" humanName:@"Bursley 2506" hostCount:[NSNumber numberWithInt:8] subLabs:nil],
                  [[DZCLab alloc] initWithBuilding:@"MO-JO" room:@"163" humanName:@"MoJo 163" hostCount:[NSNumber numberWithInt:3] subLabs:nil],
+                 [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"" humanName:@"Pierpont (all)" hostCount:[NSNumber numberWithInt:74]
+                                          subLabs:[NSSet setWithObjects:
+                                                   [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B505" humanName:@"Pierpont B505" hostCount:[NSNumber numberWithInt:26] subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B507" humanName:@"Pierpont B507" hostCount:[NSNumber numberWithInt:26] subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"PIERPONT" room:@"B521" humanName:@"Pierpont B521" hostCount:[NSNumber numberWithInt:22] subLabs:nil],
+                                                   nil]
+                  ],
                  [[DZCLab alloc] initWithBuilding:@"BAITS_COMAN" room:@"" humanName:@"Baits (all)" hostCount:[NSNumber numberWithInt:4]
                                           subLabs:[NSSet setWithObjects:
                                                    [[DZCLab alloc] initWithBuilding:@"BAITS_COMAN" room:@"2300" humanName:@"Baits I 2300" hostCount:[NSNumber numberWithInt:1] subLabs:nil],
@@ -268,7 +272,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
                                                    [[DZCLab alloc] initWithBuilding:@"BAITS_COMAN" room:@"1209" humanName:@"Baits II 1209" hostCount:[NSNumber numberWithInt:1] subLabs:nil],
                                                    nil]
                   ],
-                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"" humanName:@"Duderstadt Center (All)" hostCount:[NSNumber numberWithInt:345]
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"" humanName:@"Duderstadt Ctr (all)" hostCount:[NSNumber numberWithInt:345]
                                           subLabs:[NSSet setWithObjects:
                                                    [[DZCLab alloc] initWithBuilding:@"DC" room:@"2E" humanName:@"2nd Floor East" hostCount:[NSNumber numberWithInt:12] subLabs:nil],
                                                    [[DZCLab alloc] initWithBuilding:@"DC" room:@"2S" humanName:@"2nd Floor South" hostCount:[NSNumber numberWithInt:20] subLabs:nil],
