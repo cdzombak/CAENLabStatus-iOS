@@ -116,7 +116,11 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 - (void)loadData
 {
+    [self startLoading];
+    
     [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labsResult, NSError *error) {
+        
+        [self stopLoading];
         
         self.labsByStatus = nil;
         

@@ -76,6 +76,8 @@
 
 - (void)loadData
 {
+    [self startLoading];
+    
     self.labs = nil;
     
     for (DZCLab *lab in self.lab.subLabs) {
@@ -83,6 +85,8 @@
     }
     
     [self.labs sortUsingSelector:@selector(compareHumanName:)];
+    
+    [self stopLoading];
     
     [self.tableView reloadData];
 }
