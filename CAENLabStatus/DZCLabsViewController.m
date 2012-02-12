@@ -31,6 +31,7 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 @property (nonatomic, strong) NSMutableArray *statusForTableViewSection;
 
 - (void)loadData;
+- (DZCLabStatus) statusForSection:(NSInteger)section;
 
 @end
 
@@ -94,11 +95,6 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 }
 
 #pragma mark - UITableViewDataSource methods
-
-- (DZCLabStatus) statusForSection:(NSInteger)section
-{
-    return [[self.statusForTableViewSection objectAtIndex:section] intValue];
-}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -234,6 +230,11 @@ __attribute__((constructor)) static void __InitTableViewStrings()
         
         [self.tableView reloadData];
     }];
+}
+
+- (DZCLabStatus) statusForSection:(NSInteger)section
+{
+    return [[self.statusForTableViewSection objectAtIndex:section] intValue];
 }
 
 #pragma mark - UITableViewDelegate methods
