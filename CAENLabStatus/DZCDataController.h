@@ -8,7 +8,7 @@ typedef enum {
     DZCLabStatusReserved,
     DZCLabStatusReservedSoon,
     DZCLabStatusPartiallyReserved,
-    DZCLabStatusNumStatuses
+    DZCLabStatusCount
 } DZCLabStatus;
 
 @interface DZCDataController : NSObject

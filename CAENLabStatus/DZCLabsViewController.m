@@ -5,38 +5,30 @@
 #import "DZCLab.h"
 #import "DZCAboutViewController.h"
 
-enum DZCLabsTableViewSections {
-    DZCLabsTableViewSectionOpen = 0,
-    DZCLabsTableViewSectionReservedSoon,
-    DZCLabsTableViewSectionPartiallyReserved,
-    DZCLabsTableViewSectionReserved,
-    DZCLabsTableViewSectionClosed,
-    DZCLabsTableViewNumSections
-};
-
-static NSString *DZCLabsTableViewSectionTitles[DZCLabsTableViewNumSections];
-static NSString *DZCLabsTableViewSectionCellIDs[DZCLabsTableViewNumSections];
+static NSString *DZCLabsTableViewSectionTitles[DZCLabStatusCount];
+static NSString *DZCLabsTableViewSectionCellIDs[DZCLabStatusCount];
 
 __attribute__((constructor)) static void __InitTableViewStrings()
 {
     @autoreleasepool {
-        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionOpen] = NSLocalizedString(@"Open", nil);
-        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionClosed] = NSLocalizedString(@"Closed", nil);
-        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionReservedSoon] = NSLocalizedString(@"Reserved Soon", nil);
-        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionPartiallyReserved] = NSLocalizedString(@"Partially Reserved", nil);
-        DZCLabsTableViewSectionTitles[DZCLabsTableViewSectionReserved] = NSLocalizedString(@"Reserved", nil);
+        DZCLabsTableViewSectionTitles[DZCLabStatusOpen] = NSLocalizedString(@"Open", nil);
+        DZCLabsTableViewSectionTitles[DZCLabStatusClosed] = NSLocalizedString(@"Closed", nil);
+        DZCLabsTableViewSectionTitles[DZCLabStatusReservedSoon] = NSLocalizedString(@"Reserved Soon", nil);
+        DZCLabsTableViewSectionTitles[DZCLabStatusPartiallyReserved] = NSLocalizedString(@"Partially Reserved", nil);
+        DZCLabsTableViewSectionTitles[DZCLabStatusReserved] = NSLocalizedString(@"Reserved", nil);
         
-        DZCLabsTableViewSectionCellIDs[DZCLabsTableViewSectionOpen] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
-        DZCLabsTableViewSectionCellIDs[DZCLabsTableViewSectionReservedSoon] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
-        DZCLabsTableViewSectionCellIDs[DZCLabsTableViewSectionPartiallyReserved] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
-        DZCLabsTableViewSectionCellIDs[DZCLabsTableViewSectionReserved] = NSLocalizedString(@"DZCTableViewCellClosedLab", nil);
-        DZCLabsTableViewSectionCellIDs[DZCLabsTableViewSectionClosed] = NSLocalizedString(@"DZCTableViewCellClosedLab", nil);
+        DZCLabsTableViewSectionCellIDs[DZCLabStatusOpen] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
+        DZCLabsTableViewSectionCellIDs[DZCLabStatusReservedSoon] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
+        DZCLabsTableViewSectionCellIDs[DZCLabStatusPartiallyReserved] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
+        DZCLabsTableViewSectionCellIDs[DZCLabStatusReserved] = NSLocalizedString(@"DZCTableViewCellClosedLab", nil);
+        DZCLabsTableViewSectionCellIDs[DZCLabStatusClosed] = NSLocalizedString(@"DZCTableViewCellClosedLab", nil);
     }
 }
 
 @interface DZCLabsViewController () 
 
-@property (nonatomic, strong) NSArray *labs;
+@property (nonatomic, strong) NSMutableDictionary *labsByStatus;
+@property (nonatomic, strong) NSMutableArray *statusForTableViewSection;
 
 - (void)loadData;
 
@@ -45,7 +37,7 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 
 @implementation DZCLabsViewController
 
-@synthesize dataController = _dataController, labs = _labs;
+@synthesize dataController = _dataController, labsByStatus = _labsByStatus, statusForTableViewSection = _statusForTableViewSection;
 
 #pragma mark - UIViewController View lifecycle
 
@@ -103,35 +95,42 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 
 #pragma mark - UITableViewDataSource methods
 
+- (DZCLabStatus) statusForSection:(NSInteger)section
+{
+    return [[self.statusForTableViewSection objectAtIndex:section] intValue];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return DZCLabsTableViewNumSections;
+    return [self.statusForTableViewSection count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [(NSArray *)[self.labs objectAtIndex:section] count];
+    return [(NSArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:[self statusForSection:section]]] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellIdentifier = DZCLabsTableViewSectionCellIDs[indexPath.section];
+    DZCLabStatus status = [self statusForSection:indexPath.section];
+    
+    NSString *cellIdentifier = DZCLabsTableViewSectionCellIDs[status];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellIdentifier owner:self options:nil];
         cell = (UITableViewCell *)[nib objectAtIndex:0];
     }
     
-    if ([[self.labs objectAtIndex:indexPath.section] count] < indexPath.row+1) {
+    if ([[self.labsByStatus objectForKey:[NSNumber numberWithInt:status]] count] < indexPath.row+1) {
         return cell;
     }
     
-    DZCLab *lab = [(NSArray *)[self.labs objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    DZCLab *lab = [(NSArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:status]] objectAtIndex:indexPath.row];
     
-    switch (indexPath.section) {
-        case DZCLabsTableViewSectionOpen:
-        case DZCLabsTableViewSectionPartiallyReserved:
-        case DZCLabsTableViewSectionReservedSoon: {
+    switch (status) {
+        case DZCLabStatusOpen:
+        case DZCLabStatusPartiallyReserved:
+        case DZCLabStatusReservedSoon: {
             ((DZCTableViewCellOpenLab *) cell).labNameLabel.text = lab.humanName;
             
             [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
@@ -155,8 +154,8 @@ __attribute__((constructor)) static void __InitTableViewStrings()
             break;
         }
             
-        case DZCLabsTableViewSectionClosed:
-        case DZCLabsTableViewSectionReserved: {
+        case DZCLabStatusClosed:
+        case DZCLabStatusReserved: {
             ((DZCTableViewCellClosedLab *) cell).labNameLabel.text = lab.humanName;
             
             [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
@@ -171,7 +170,7 @@ __attribute__((constructor)) static void __InitTableViewStrings()
         }
             
         default: {
-            NSLog(@"Unknown section encountered: %d", indexPath.section);
+            NSLog(@"Unknown status encountered: %d", status);
             assert(0);
         }
     }
@@ -180,14 +179,16 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return DZCLabsTableViewSectionTitles[section];
+    DZCLabStatus status = [[self.statusForTableViewSection objectAtIndex:section] intValue];
+    return DZCLabsTableViewSectionTitles[status];
 }
 
 #pragma mark - Data Management
 
 - (void)refreshData
 {
-    self.labs = nil;
+    self.labsByStatus = nil;
+    self.statusForTableViewSection = nil;
     [self.dataController clearCache];
     [self loadData];
 }
@@ -196,9 +197,10 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 
 - (void)loadData
 {
-    [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labs, NSError *error) {
+    [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labsResult, NSError *error) {
         
-        self.labs = nil;
+        self.labsByStatus = nil;
+        self.statusForTableViewSection = nil;
         
         if (error) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Retrieving Data", nil)
@@ -210,32 +212,23 @@ __attribute__((constructor)) static void __InitTableViewStrings()
             return;
         }
         
-        // map statuses to sections for display
-        // TODO this mapping can be made cleaner
+        NSArray* sortedLabs = [[labsResult allKeys] sortedArrayUsingSelector:@selector(compareHumanName:)];
         
-        NSArray* sortedKeys = [[labs allKeys] sortedArrayUsingSelector:@selector(compareHumanName:)];
-        
-        for (id lab in sortedKeys) {
-            DZCLabStatus status = [(NSNumber *)[labs objectForKey:lab] intValue];
+        for (id lab in sortedLabs) {
+            DZCLabStatus status = [(NSNumber *)[labsResult objectForKey:lab] intValue];
             
-            switch(status) {
-                case DZCLabStatusOpen:
-                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionOpen] addObject:lab];
-                    break;
-                case DZCLabStatusClosed:
-                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionClosed] addObject:lab];
-                    break;
-                case DZCLabStatusPartiallyReserved:
-                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionPartiallyReserved] addObject:lab];
-                    break;
-                case DZCLabStatusReserved:
-                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionReserved] addObject:lab];
-                    break;
-                case DZCLabStatusReservedSoon:
-                    [(NSMutableArray *)[self.labs objectAtIndex:DZCLabsTableViewSectionReservedSoon] addObject:lab];
-                    break;
-                default:
-                    NSLog(@"Unknown status encountered: %d", status);
+            NSMutableArray *labs = [self.labsByStatus objectForKey:[NSNumber numberWithInt:status]];
+            if (!labs) {
+                [self.labsByStatus setObject:[NSMutableArray array] forKey:[NSNumber numberWithInt:status]];
+                labs = [self.labsByStatus objectForKey:[NSNumber numberWithInt:status]];
+            }
+            
+            [labs addObject:lab];
+        }
+        
+        for (DZCLabStatus i=0; i<DZCLabStatusCount; ++i) {
+            if ([self.labsByStatus objectForKey:[NSNumber numberWithInt:i]] != nil) {
+                [self.statusForTableViewSection addObject:[NSNumber numberWithInt:i]];
             }
         }
         
@@ -260,17 +253,20 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 
 #pragma mark - Property overrides
 
-- (NSArray *)labs
+- (NSMutableDictionary *)labsByStatus
 {
-    if(!_labs) {
-        _labs = [NSMutableArray array];
-        
-        // TODO there must be a better way to build a 2D NSArray
-        for (int i=0; i<DZCLabsTableViewNumSections; ++i) {
-            [(NSMutableArray *)_labs addObject:[NSMutableArray array]];
-        }
+    if(!_labsByStatus) {
+        _labsByStatus = [NSMutableDictionary dictionaryWithCapacity:5];
     }
-    return _labs;
+    return _labsByStatus;
+}
+
+- (NSMutableArray *)statusForTableViewSection
+{
+    if (!_statusForTableViewSection) {
+        _statusForTableViewSection = [NSMutableArray array];
+    }
+    return _statusForTableViewSection;
 }
 
 @end

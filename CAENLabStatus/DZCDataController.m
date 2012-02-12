@@ -4,7 +4,7 @@
 #import "DZCHostInfoApiClient.h"
 #import "DZCLabStatusHelper.h"
 
-static NSString *DZCLabStatusStrings[DZCLabStatusNumStatuses];
+static NSString *DZCLabStatusStrings[DZCLabStatusCount];
 
 __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 {
