@@ -25,20 +25,26 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     }
 }
 
+static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControllerSortOrder";
+
 @interface DZCLabsViewController () 
 
+@property (nonatomic, strong) NSMutableArray *labOrdering;
 @property (nonatomic, strong) NSMutableDictionary *labsByStatus;
 @property (nonatomic, strong) NSMutableArray *statusForTableViewSection;
 
 - (void)loadData;
 - (DZCLabStatus) statusForSection:(NSInteger)section;
 
+- (BOOL)saveSortOrder:(NSMutableArray *)sortOrder;
+- (NSMutableArray *)retrieveSavedSortOrder;
+
 @end
 
 
 @implementation DZCLabsViewController
 
-@synthesize dataController = _dataController, labsByStatus = _labsByStatus, statusForTableViewSection = _statusForTableViewSection;
+@synthesize dataController = _dataController, labsByStatus = _labsByStatus, statusForTableViewSection = _statusForTableViewSection, labOrdering = _labOrdering;
 
 #pragma mark - UIViewController View lifecycle
 
@@ -50,8 +56,12 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     
     self.navigationItem.leftBarButtonItem = aboutButton;
     
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
     self.tableView.allowsSelection = NO;
     self.tableView.allowsMultipleSelection = NO;
+    
+    self.labOrdering = [self retrieveSavedSortOrder];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -171,7 +181,60 @@ __attribute__((constructor)) static void __InitTableViewStrings()
         }
     }
     
+    if (status == DZCLabStatusOpen) {
+        cell.showsReorderControl = YES;
+    } else {
+        cell.showsReorderControl = NO;
+    }
+    
+    cell.shouldIndentWhileEditing = NO;
+    
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return (DZCLabStatusOpen == [self statusForSection:indexPath.section]);
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    if (sourceIndexPath.section != destinationIndexPath.section) {
+        NSLog(@"WARNING: it appears a move to another section succeeded somehow");
+    }
+    
+    DZCLabStatus status = [self statusForSection:sourceIndexPath.section];
+    NSMutableArray *labs = (NSMutableArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:status]];
+
+    DZCLab *lab = [labs objectAtIndex:sourceIndexPath.row];
+    [labs removeObjectAtIndex:sourceIndexPath.row];
+    [labs insertObject:lab atIndex:destinationIndexPath.row];
+    
+    [self.labOrdering removeObject:lab.humanName];
+    
+    if (destinationIndexPath.row == [labs count]-1) {
+        [self.labOrdering addObject:lab.humanName];
+    } else {
+        DZCLab *aboveLab = [labs objectAtIndex:destinationIndexPath.row+1];
+        NSInteger aboveLabOrderIdx = [self.labOrdering indexOfObject:aboveLab.humanName];
+        [self.labOrdering insertObject:lab.humanName atIndex:aboveLabOrderIdx];
+    }
+    
+    [self saveSortOrder:self.labOrdering];
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
+{
+    // ht: http://stackoverflow.com/a/850036/734716
+    if (sourceIndexPath.section != proposedDestinationIndexPath.section) {
+        NSInteger row = 0;
+        if (sourceIndexPath.section < proposedDestinationIndexPath.section) {
+            row = [self tableView:tableView numberOfRowsInSection:sourceIndexPath.section] - 1;
+        }
+        return [NSIndexPath indexPathForRow:row inSection:sourceIndexPath.section];     
+    }
+    
+    return proposedDestinationIndexPath;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -188,8 +251,6 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     [self.dataController clearCache];
     [self loadData];
 }
-
-#pragma mark - Private methods
 
 - (void)loadData
 {
@@ -208,7 +269,41 @@ __attribute__((constructor)) static void __InitTableViewStrings()
             return;
         }
         
-        NSArray* sortedLabs = [[labsResult allKeys] sortedArrayUsingSelector:@selector(compareHumanName:)];
+        NSArray* sortedLabs = nil;
+        if (!self.labOrdering) {
+            sortedLabs = [[labsResult allKeys] sortedArrayUsingSelector:@selector(compareHumanName:)];
+            
+            self.labOrdering = [NSMutableArray array];
+            
+            for (id lab in sortedLabs) {
+                [self.labOrdering addObject:[lab humanName]];
+            }
+            
+            [self saveSortOrder:self.labOrdering];
+        } else {
+            sortedLabs = [[labsResult allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                NSUInteger idx1 = [self.labOrdering indexOfObject:[obj1 humanName]];
+                NSUInteger idx2 = [self.labOrdering indexOfObject:[obj2 humanName]];
+                
+                if (idx1 == NSNotFound) {
+                    [self.labOrdering addObject:[obj1 humanName]];
+                    return (NSComparisonResult)NSOrderedAscending;
+                }
+                if (idx2 == NSNotFound) {
+                    [self.labOrdering addObject:[obj2 humanName]];
+                    return (NSComparisonResult)NSOrderedDescending;
+                }
+                if (idx1 == idx2) {
+                    return (NSComparisonResult)NSOrderedSame;
+                }
+                if (idx1 > idx2) {
+                    return (NSComparisonResult)NSOrderedDescending;
+                }
+                else {
+                    return (NSComparisonResult)NSOrderedAscending;
+                }
+            }];
+        }
         
         for (id lab in sortedLabs) {
             DZCLabStatus status = [(NSNumber *)[labsResult objectForKey:lab] intValue];
@@ -232,12 +327,47 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     }];
 }
 
+#pragma mark - Private methods
+
 - (DZCLabStatus) statusForSection:(NSInteger)section
 {
     return [[self.statusForTableViewSection objectAtIndex:section] intValue];
 }
 
+- (BOOL)saveSortOrder:(NSMutableArray *)sortOrder
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if (!standardUserDefaults) {
+        return NO;
+    }
+    
+	[standardUserDefaults setObject:sortOrder forKey:DZCLabsViewControllerSortOrderPrefsKey];
+	[standardUserDefaults synchronize];
+
+    return YES;
+}
+
+- (NSMutableArray *)retrieveSavedSortOrder
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	if (!standardUserDefaults) {
+        return nil;
+    }
+    
+    NSArray *resultArray = [standardUserDefaults arrayForKey:DZCLabsViewControllerSortOrderPrefsKey];
+    if (resultArray == nil) {
+        return nil;
+    }
+    
+    return [NSMutableArray arrayWithArray:resultArray];
+}
+
 #pragma mark - UITableViewDelegate methods
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleNone;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
