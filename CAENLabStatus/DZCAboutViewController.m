@@ -16,9 +16,7 @@
     
     self.navigationItem.leftBarButtonItem = doneButton;
     
-    self.appVersionLabel.text = [NSString stringWithFormat:@"version %@ (%@)",
-                                 [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"],
-                                 [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
+    self.appVersionLabel.text = [NSString stringWithFormat:@"version %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
 }
 
 - (void)viewWillAppear:(BOOL)animated

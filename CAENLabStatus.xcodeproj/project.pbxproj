@@ -19,6 +19,8 @@
 		93BBAB7114E8493300B19049 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93BBAB7314E84A1700B19049 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BBAB7214E84A1700B19049 /* QuartzCore.framework */; };
 		93BBAB7514E84D5400B19049 /* me_refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB7414E84D5400B19049 /* me_refresh.png */; };
+		93BBAB8514E8646800B19049 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB8414E8646800B19049 /* Icon.png */; };
+		93BBAB8714E8647000B19049 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB8614E8647000B19049 /* Icon@2x.png */; };
 		93D9F66414D3997600AD2152 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66314D3997600AD2152 /* UIKit.framework */; };
 		93D9F66614D3997600AD2152 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66514D3997600AD2152 /* Foundation.framework */; };
 		93D9F66814D3997600AD2152 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66714D3997600AD2152 /* CoreGraphics.framework */; };
@@ -66,6 +68,8 @@
 		93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
 		93BBAB7214E84A1700B19049 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		93BBAB7414E84D5400B19049 /* me_refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me_refresh.png; sourceTree = "<group>"; };
+		93BBAB8414E8646800B19049 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		93BBAB8614E8647000B19049 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		93D9F65F14D3997600AD2152 /* CAENLabStatus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAENLabStatus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93D9F66314D3997600AD2152 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93D9F66514D3997600AD2152 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -140,7 +144,8 @@
 		93D9F65414D3997600AD2152 = {
 			isa = PBXGroup;
 			children = (
-				93BBAB7214E84A1700B19049 /* QuartzCore.framework */,
+				93BBAB8614E8647000B19049 /* Icon@2x.png */,
+				93BBAB8414E8646800B19049 /* Icon.png */,
 				93D9F66914D3997600AD2152 /* CAENLabStatus */,
 				93D9F66214D3997600AD2152 /* Frameworks */,
 				93D9F66014D3997600AD2152 /* Products */,
@@ -159,6 +164,7 @@
 		93D9F66214D3997600AD2152 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93BBAB7214E84A1700B19049 /* QuartzCore.framework */,
 				93D9F66314D3997600AD2152 /* UIKit.framework */,
 				93D9F66514D3997600AD2152 /* Foundation.framework */,
 				93D9F66714D3997600AD2152 /* CoreGraphics.framework */,
@@ -373,6 +379,8 @@
 				93BBAB5B14DCF4BD00B19049 /* iTunesArtwork in Resources */,
 				93BBAB6E14E8491A00B19049 /* arrow.png in Resources */,
 				93BBAB7514E84D5400B19049 /* me_refresh.png in Resources */,
+				93BBAB8514E8646800B19049 /* Icon.png in Resources */,
+				93BBAB8714E8647000B19049 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,7 +453,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -455,7 +463,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Christopher Dzombak";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Christopher Dzombak";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -464,8 +473,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "984E5020-6570-45E0-9299-F845964E3010";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "984E5020-6570-45E0-9299-F845964E3010";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
