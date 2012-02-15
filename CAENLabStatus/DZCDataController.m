@@ -18,8 +18,48 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 }
 
 /* Number of times to retry failed API queries */
-#define RETRIES ((NSUInteger)4)
+#define RETRIES ((NSUInteger)5)
 
+#pragma mark Network Activity Indicator
+
+@interface UIApplication(NetworkActivityIndicator)
+
+- (void)showNetworkActivityIndicator;
+- (void)hideNetworkActivityIndicator;
+
+@end
+
+@implementation UIApplication (NetworkActivityIndicator)
+
+static int networkActivityCount = 0;
+
+- (void)showNetworkActivityIndicator
+{      
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(showNetworkActivityIndicator) withObject:nil waitUntilDone:NO];     
+    }
+    
+    if (!networkActivityCount) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    }
+    
+    networkActivityCount++;
+}
+
+- (void)hideNetworkActivityIndicator {
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(hideNetworkActivityIndicator) withObject:nil waitUntilDone:NO];     
+    }
+    
+    networkActivityCount = MAX(networkActivityCount - 1, 0);
+    if (!networkActivityCount) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }
+}
+
+@end
+
+#pragma mark - Data Controller
 
 @interface DZCDataController ()
 
@@ -113,6 +153,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 - (void)reloadLabStatusesWithBlock:(void(^)(NSError *error))block
 {
     NSLog(@"Kicking off lab status request...");
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
 
     [self.labStatusApiClient getPath:@"lab-statuses.php"
                           parameters:nil
@@ -123,9 +164,13 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
                                  } else {
                                      if (block) block([[NSError alloc] init]);
                                  }
+                                 
+                                 [[UIApplication sharedApplication] hideNetworkActivityIndicator];
                              }
                              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                  if (block) block(error);
+                                 
+                                 [[UIApplication sharedApplication] hideNetworkActivityIndicator];
                              }
     ];
 }
@@ -133,6 +178,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 - (void)reloadHostInfoForLab:(DZCLab *)lab withBlock:(void(^)(NSError *error))block
 {
     NSLog(@"Kicking off host info request for %@...", [self apiIdForLab:lab]);
+    [[UIApplication sharedApplication] showNetworkActivityIndicator];
     
     [self.hostInfoApiClient getPath:@"computers.json"
                          parameters:[NSDictionary dictionaryWithObjectsAndKeys:lab.building, @"building", lab.room, @"room", nil]
@@ -143,9 +189,13 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
                                 } else {
                                     if (block) block([[NSError alloc] init]);
                                 }
+                                
+                                [[UIApplication sharedApplication] hideNetworkActivityIndicator];
                             }
                             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                 if (block) block(error);
+                                
+                                [[UIApplication sharedApplication] hideNetworkActivityIndicator];
                             }
      ];
 }
