@@ -84,7 +84,7 @@
     refreshArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"me_refresh.png"]];
     refreshArrow.frame = CGRectMake(floorf((REFRESH_HEADER_HEIGHT - 42.5) / 2 + 10),
                                     (floorf(REFRESH_HEADER_HEIGHT - 42.5) / 2),
-                                    42.5, 42.5);
+                                    57.5, 42.5);
 
     refreshSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     refreshSpinner.frame = CGRectMake(floorf(floorf(REFRESH_HEADER_HEIGHT - 20) / 2), floorf((REFRESH_HEADER_HEIGHT - 20) / 2), 20, 20);
