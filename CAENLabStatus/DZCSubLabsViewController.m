@@ -76,8 +76,6 @@
 
 - (void)loadData
 {
-    [self startLoading];
-    
     self.labs = nil;
     
     for (DZCLab *lab in self.lab.subLabs) {
