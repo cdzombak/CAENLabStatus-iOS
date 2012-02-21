@@ -1,6 +1,7 @@
 #import "DZCAppDelegate.h"
 #import "DZCDataController.h"
 #import "DZCLabsViewController.h"
+#import "Appirater.h"
 
 @interface DZCAppDelegate ()
 
@@ -33,7 +34,14 @@
     
     self.appWasInBackground = NO;
     
+    [Appirater appLaunched:YES];
+    
     return YES;
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [Appirater appEnteredForeground:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

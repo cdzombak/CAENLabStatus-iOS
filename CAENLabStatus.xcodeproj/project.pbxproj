@@ -12,6 +12,9 @@
 		9347848E14F32624009C5703 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848A14F32624009C5703 /* Icon-Small-50.png */; };
 		9347848F14F32624009C5703 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848B14F32624009C5703 /* Icon-Small.png */; };
 		9347849014F32624009C5703 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848C14F32624009C5703 /* Icon-Small@2x.png */; };
+		9347849314F32953009C5703 /* Appirater.m in Sources */ = {isa = PBXBuildFile; fileRef = 9347849214F32953009C5703 /* Appirater.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9347849514F329CF009C5703 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849414F329CF009C5703 /* CFNetwork.framework */; };
+		9347849714F329D9009C5703 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849614F329D8009C5703 /* SystemConfiguration.framework */; };
 		93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */; };
 		93BBAB7114E8493300B19049 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93BBAB7314E84A1700B19049 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BBAB7214E84A1700B19049 /* QuartzCore.framework */; };
@@ -55,6 +58,10 @@
 		9347848A14F32624009C5703 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		9347848B14F32624009C5703 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		9347848C14F32624009C5703 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		9347849114F32953009C5703 /* Appirater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appirater.h; sourceTree = "<group>"; };
+		9347849214F32953009C5703 /* Appirater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Appirater.m; sourceTree = "<group>"; };
+		9347849414F329CF009C5703 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		9347849614F329D8009C5703 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		93BBAB6914E83AC000B19049 /* DZCSubLabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCSubLabsViewController.h; sourceTree = "<group>"; };
 		93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCSubLabsViewController.m; sourceTree = "<group>"; };
 		93BBAB6F14E8493200B19049 /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
@@ -123,6 +130,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9347849714F329D9009C5703 /* SystemConfiguration.framework in Frameworks */,
+				9347849514F329CF009C5703 /* CFNetwork.framework in Frameworks */,
 				93BBAB7314E84A1700B19049 /* QuartzCore.framework in Frameworks */,
 				93D9F66414D3997600AD2152 /* UIKit.framework in Frameworks */,
 				93D9F66614D3997600AD2152 /* Foundation.framework in Frameworks */,
@@ -136,6 +145,8 @@
 		93D9F65414D3997600AD2152 = {
 			isa = PBXGroup;
 			children = (
+				9347849614F329D8009C5703 /* SystemConfiguration.framework */,
+				9347849414F329CF009C5703 /* CFNetwork.framework */,
 				9347848914F32624009C5703 /* Icon-72.png */,
 				9347848A14F32624009C5703 /* Icon-Small-50.png */,
 				9347848B14F32624009C5703 /* Icon-Small.png */,
@@ -171,6 +182,8 @@
 		93D9F66914D3997600AD2152 /* CAENLabStatus */ = {
 			isa = PBXGroup;
 			children = (
+				9347849114F32953009C5703 /* Appirater.h */,
+				9347849214F32953009C5703 /* Appirater.m */,
 				93D9F67214D3997600AD2152 /* DZCAppDelegate.h */,
 				93D9F67314D3997600AD2152 /* DZCAppDelegate.m */,
 				93D9F66A14D3997600AD2152 /* Supporting Files */,
@@ -398,6 +411,7 @@
 				93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */,
 				93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */,
 				93BBAB7114E8493300B19049 /* PullRefreshTableViewController.m in Sources */,
+				9347849314F32953009C5703 /* Appirater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
