@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9347848714F32168009C5703 /* m_student_made_refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848614F32168009C5703 /* m_student_made_refresh.png */; };
 		93BBAB4314DCCBF800B19049 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB3D14DCCBF800B19049 /* Icon-72.png */; };
 		93BBAB4414DCCBF800B19049 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB3E14DCCBF800B19049 /* Icon-Small-50.png */; };
 		93BBAB4514DCCBF800B19049 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB3F14DCCBF800B19049 /* Icon-Small.png */; };
@@ -54,6 +55,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9347848614F32168009C5703 /* m_student_made_refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m_student_made_refresh.png; sourceTree = "<group>"; };
 		93BBAB3D14DCCBF800B19049 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		93BBAB3E14DCCBF800B19049 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		93BBAB3F14DCCBF800B19049 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				93BBAB6D14E8491A00B19049 /* arrow.png */,
 				93BBAB7414E84D5400B19049 /* me_refresh.png */,
 				93BBAB5A14DCF4BD00B19049 /* iTunesArtwork */,
+				9347848614F32168009C5703 /* m_student_made_refresh.png */,
 				93BBAB3D14DCCBF800B19049 /* Icon-72.png */,
 				93BBAB3E14DCCBF800B19049 /* Icon-Small-50.png */,
 				93BBAB3F14DCCBF800B19049 /* Icon-Small.png */,
@@ -381,6 +384,7 @@
 				93BBAB7514E84D5400B19049 /* me_refresh.png in Resources */,
 				93BBAB8514E8646800B19049 /* Icon.png in Resources */,
 				93BBAB8714E8647000B19049 /* Icon@2x.png in Resources */,
+				9347848714F32168009C5703 /* m_student_made_refresh.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
