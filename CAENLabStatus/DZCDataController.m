@@ -18,7 +18,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 }
 
 /* Number of times to retry failed API queries */
-#define RETRIES ((NSUInteger)5)
+#define RETRIES ((NSUInteger)2)
 
 #pragma mark Network Activity Indicator
 
