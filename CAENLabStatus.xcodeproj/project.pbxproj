@@ -145,8 +145,6 @@
 		93D9F65414D3997600AD2152 = {
 			isa = PBXGroup;
 			children = (
-				9347849614F329D8009C5703 /* SystemConfiguration.framework */,
-				9347849414F329CF009C5703 /* CFNetwork.framework */,
 				9347848914F32624009C5703 /* Icon-72.png */,
 				9347848A14F32624009C5703 /* Icon-Small-50.png */,
 				9347848B14F32624009C5703 /* Icon-Small.png */,
@@ -171,6 +169,8 @@
 		93D9F66214D3997600AD2152 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9347849614F329D8009C5703 /* SystemConfiguration.framework */,
+				9347849414F329CF009C5703 /* CFNetwork.framework */,
 				93BBAB7214E84A1700B19049 /* QuartzCore.framework */,
 				93D9F66314D3997600AD2152 /* UIKit.framework */,
 				93D9F66514D3997600AD2152 /* Foundation.framework */,
