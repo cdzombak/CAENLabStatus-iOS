@@ -341,7 +341,7 @@
 		93D9F65614D3997600AD2152 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 93D9F65914D3997600AD2152 /* Build configuration list for PBXProject "CAENLabStatus" */;
 			compatibilityVersion = "Xcode 3.2";
