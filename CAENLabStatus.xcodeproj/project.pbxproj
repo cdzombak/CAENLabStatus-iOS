@@ -182,8 +182,6 @@
 		93D9F66914D3997600AD2152 /* CAENLabStatus */ = {
 			isa = PBXGroup;
 			children = (
-				9347849114F32953009C5703 /* Appirater.h */,
-				9347849214F32953009C5703 /* Appirater.m */,
 				93D9F67214D3997600AD2152 /* DZCAppDelegate.h */,
 				93D9F67314D3997600AD2152 /* DZCAppDelegate.m */,
 				93D9F66A14D3997600AD2152 /* Supporting Files */,
@@ -266,6 +264,8 @@
 			isa = PBXGroup;
 			children = (
 				93D9F69E14D48B1400AD2152 /* AFNetworking */,
+				9347849114F32953009C5703 /* Appirater.h */,
+				9347849214F32953009C5703 /* Appirater.m */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
