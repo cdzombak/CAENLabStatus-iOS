@@ -207,8 +207,6 @@
 		93D9F68814D39C2B00AD2152 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				93BBAB6F14E8493200B19049 /* PullRefreshTableViewController.h */,
-				93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */,
 				93E80C5914D797F5008850FE /* DZCAboutViewController.h */,
 				93E80C5A14D797F5008850FE /* DZCAboutViewController.m */,
 				93D9F68514D39C2500AD2152 /* DZCLabsViewController.h */,
@@ -266,6 +264,8 @@
 				93D9F69E14D48B1400AD2152 /* AFNetworking */,
 				9347849114F32953009C5703 /* Appirater.h */,
 				9347849214F32953009C5703 /* Appirater.m */,
+				93BBAB6F14E8493200B19049 /* PullRefreshTableViewController.h */,
+				93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
