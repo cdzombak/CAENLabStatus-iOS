@@ -53,10 +53,12 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 {
     [super viewDidLoad];
        
-    UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"247-InfoCircle"] style:UIBarButtonItemStylePlain target:self action:@selector(pressedAboutButton:)];
+    UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"247-InfoCircle"]
+                                                                    style:UIBarButtonItemStylePlain
+                                                                   target:self
+                                                                   action:@selector(pressedAboutButton:)];
     
     self.navigationItem.leftBarButtonItem = aboutButton;
-    
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.tableView.allowsSelection = YES;
