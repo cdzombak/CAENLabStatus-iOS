@@ -20,6 +20,10 @@
 		93BBAB7314E84A1700B19049 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BBAB7214E84A1700B19049 /* QuartzCore.framework */; };
 		93BBAB8514E8646800B19049 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB8414E8646800B19049 /* Icon.png */; };
 		93BBAB8714E8647000B19049 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB8614E8647000B19049 /* Icon@2x.png */; };
+		93BEC44A160274DD00710CFA /* greyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BEC446160274DD00710CFA /* greyButton.png */; };
+		93BEC44B160274DD00710CFA /* greyButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BEC447160274DD00710CFA /* greyButton@2x.png */; };
+		93BEC44C160274DD00710CFA /* greyButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BEC448160274DD00710CFA /* greyButtonHighlight.png */; };
+		93BEC44D160274DD00710CFA /* greyButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BEC449160274DD00710CFA /* greyButtonHighlight@2x.png */; };
 		93D9F66414D3997600AD2152 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66314D3997600AD2152 /* UIKit.framework */; };
 		93D9F66614D3997600AD2152 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66514D3997600AD2152 /* Foundation.framework */; };
 		93D9F66814D3997600AD2152 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66714D3997600AD2152 /* CoreGraphics.framework */; };
@@ -69,6 +73,10 @@
 		93BBAB7214E84A1700B19049 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		93BBAB8414E8646800B19049 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		93BBAB8614E8647000B19049 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		93BEC446160274DD00710CFA /* greyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = greyButton.png; path = "../../../../Downloads/iOS Buttons/buttons/greyButton.png"; sourceTree = "<group>"; };
+		93BEC447160274DD00710CFA /* greyButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "greyButton@2x.png"; path = "../../../../Downloads/iOS Buttons/buttons/greyButton@2x.png"; sourceTree = "<group>"; };
+		93BEC448160274DD00710CFA /* greyButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = greyButtonHighlight.png; path = "../../../../Downloads/iOS Buttons/buttons/greyButtonHighlight.png"; sourceTree = "<group>"; };
+		93BEC449160274DD00710CFA /* greyButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "greyButtonHighlight@2x.png"; path = "../../../../Downloads/iOS Buttons/buttons/greyButtonHighlight@2x.png"; sourceTree = "<group>"; };
 		93D9F65F14D3997600AD2152 /* CAENLabStatus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAENLabStatus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93D9F66314D3997600AD2152 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93D9F66514D3997600AD2152 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -307,6 +315,10 @@
 		93FDA8BF14D9FE1A00787F8C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				93BEC446160274DD00710CFA /* greyButton.png */,
+				93BEC447160274DD00710CFA /* greyButton@2x.png */,
+				93BEC448160274DD00710CFA /* greyButtonHighlight.png */,
+				93BEC449160274DD00710CFA /* greyButtonHighlight@2x.png */,
 				9347848614F32168009C5703 /* m_student_made_refresh.png */,
 				93FDA8C014D9FE1A00787F8C /* 247-InfoCircle.png */,
 				93FDA8C114D9FE1A00787F8C /* 247-InfoCircle@2x.png */,
@@ -378,6 +390,10 @@
 				9347848E14F32624009C5703 /* Icon-Small-50.png in Resources */,
 				9347848F14F32624009C5703 /* Icon-Small.png in Resources */,
 				9347849014F32624009C5703 /* Icon-Small@2x.png in Resources */,
+				93BEC44A160274DD00710CFA /* greyButton.png in Resources */,
+				93BEC44B160274DD00710CFA /* greyButton@2x.png in Resources */,
+				93BEC44C160274DD00710CFA /* greyButtonHighlight.png in Resources */,
+				93BEC44D160274DD00710CFA /* greyButtonHighlight@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

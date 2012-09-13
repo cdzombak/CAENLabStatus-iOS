@@ -102,9 +102,10 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 - (void)pressedAboutButton:(id)sender
 {
     DZCAboutViewController *aboutViewController = [[DZCAboutViewController alloc] initWithNibName:@"DZCAboutViewController" bundle:nil];
-    UIViewController *aboutNavController = [[UINavigationController alloc] initWithRootViewController:aboutViewController];
+    aboutViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
+    aboutViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
     
-    [self.navigationController presentModalViewController:aboutNavController animated:YES];
+    [self.navigationController presentViewController:aboutViewController animated:YES completion:nil];
 }
 
 #pragma mark - Data Management

@@ -12,11 +12,26 @@
     
     self.navigationItem.title = NSLocalizedString(@"About", nil);
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(pressedDoneButton:)];
-    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                                   style:UIBarButtonItemStyleDone
+                                                                  target:self
+                                                                  action:@selector(pressedDoneButton:)];
     self.navigationItem.leftBarButtonItem = doneButton;
     
     self.appVersionLabel.text = [NSString stringWithFormat:@"version %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+
+    self.view.backgroundColor = [UIColor underPageBackgroundColor];
+
+    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton"]
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+
+    [self.reportProblemButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [self.reportProblemButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+
+    [self.projectPageButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [self.projectPageButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -49,6 +64,8 @@
 - (void)viewDidUnload {
     [self setView:nil];
     [self setAppVersionLabel:nil];
+    [self setProjectPageButton:nil];
+    [self setReportProblemButton:nil];
     [super viewDidUnload];
 }
 
