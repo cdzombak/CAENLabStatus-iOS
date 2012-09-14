@@ -3,6 +3,7 @@
 #import "DZCLab.h"
 #import "DZCAboutViewController.h"
 #import "DZCSubLabsViewController.h"
+#import "ODRefreshControl.h"
 #import "UIColor+DZCColors.h"
 
 static NSString *DZCLabsTableViewSectionTitles[DZCLabStatusCount];
@@ -25,6 +26,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 @property (nonatomic, strong) NSMutableArray *labOrdering;
 @property (nonatomic, strong) NSMutableDictionary *labsByStatus;
 @property (nonatomic, strong) NSMutableArray *statusForTableViewSection;
+@property (nonatomic, strong) ODRefreshControl *pullRefreshControl;
 
 - (void)loadData;
 - (DZCLabStatus) statusForSection:(NSInteger)section;
@@ -56,6 +58,10 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     self.tableView.allowsSelection = YES;
     self.tableView.allowsMultipleSelection = NO;
     self.tableView.rowHeight = 55.0;
+
+    self.pullRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
+    self.pullRefreshControl.tintColor = [UIColor dzc_tableViewHeaderColor];
+    [self.pullRefreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
     
     self.labOrdering = [self retrieveSavedSortOrder];
 
@@ -95,6 +101,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 {
     [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labsResult, NSError *error) {
         
+        [self.pullRefreshControl endRefreshing];
 
         self.labsByStatus = nil;
         
@@ -201,6 +208,13 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     }
     
     return [NSMutableArray arrayWithArray:resultArray];
+}
+
+#pragma mark - ODRefreshControl related
+
+- (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
+{
+    [self refreshData];
 }
 
 #pragma mark - UITableViewDataSource methods
