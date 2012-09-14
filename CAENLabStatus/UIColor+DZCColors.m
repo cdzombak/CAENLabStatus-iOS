@@ -18,4 +18,12 @@
                            alpha:0.9];
 }
 
++ (UIColor *)dzc_refreshViewColor
+{
+    return [UIColor colorWithRed:29.0 * 2.0 /255.0
+                           green:36.0 * 2.0 /255.0
+                            blue:79.0 * 2.0 /255.0
+                           alpha:0.9];
+}
+
 @end

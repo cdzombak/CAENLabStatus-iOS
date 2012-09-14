@@ -61,7 +61,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     self.tableView.rowHeight = 55.0;
 
     self.pullRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
-    self.pullRefreshControl.tintColor = [UIColor dzc_tableViewHeaderColor];
+    self.pullRefreshControl.tintColor = [UIColor dzc_refreshViewColor];
     [self.pullRefreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
     
     self.labOrdering = [self retrieveSavedSortOrder];
