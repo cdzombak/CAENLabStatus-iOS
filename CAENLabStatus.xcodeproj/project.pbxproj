@@ -11,6 +11,10 @@
 		9324A6281602BF8F00EF33A9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324A6271602BF8F00EF33A9 /* Default-568h@2x.png */; };
 		9324A62B1602BFBA00EF33A9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324A6291602BFB900EF33A9 /* Default.png */; };
 		9324A62C1602BFBA00EF33A9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324A62A1602BFB900EF33A9 /* Default@2x.png */; };
+		9324A6391602D02000EF33A9 /* sr_refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324A6321602D02000EF33A9 /* sr_refresh.png */; };
+		9324A63A1602D02000EF33A9 /* sr_refresh@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324A6331602D02000EF33A9 /* sr_refresh@2X.png */; };
+		9324A63B1602D02000EF33A9 /* SRRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9324A6361602D02000EF33A9 /* SRRefreshView.m */; };
+		9324A63C1602D02000EF33A9 /* SRSlimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9324A6381602D02000EF33A9 /* SRSlimeView.m */; };
 		9347848714F32168009C5703 /* m_student_made_refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848614F32168009C5703 /* m_student_made_refresh.png */; };
 		9347848D14F32624009C5703 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848914F32624009C5703 /* Icon-72.png */; };
 		9347848E14F32624009C5703 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848A14F32624009C5703 /* Icon-Small-50.png */; };
@@ -20,7 +24,6 @@
 		9347849514F329CF009C5703 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849414F329CF009C5703 /* CFNetwork.framework */; };
 		9347849714F329D9009C5703 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849614F329D8009C5703 /* SystemConfiguration.framework */; };
 		93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */; };
-		93BBAB7114E8493300B19049 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93BBAB7314E84A1700B19049 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BBAB7214E84A1700B19049 /* QuartzCore.framework */; };
 		93BBAB8514E8646800B19049 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB8414E8646800B19049 /* Icon.png */; };
 		93BBAB8714E8647000B19049 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB8614E8647000B19049 /* Icon@2x.png */; };
@@ -62,6 +65,13 @@
 		9324A6271602BF8F00EF33A9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		9324A6291602BFB900EF33A9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9324A62A1602BFB900EF33A9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		9324A6321602D02000EF33A9 /* sr_refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sr_refresh.png; sourceTree = "<group>"; };
+		9324A6331602D02000EF33A9 /* sr_refresh@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sr_refresh@2X.png"; sourceTree = "<group>"; };
+		9324A6341602D02000EF33A9 /* SRDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRDefine.h; sourceTree = "<group>"; };
+		9324A6351602D02000EF33A9 /* SRRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRRefreshView.h; sourceTree = "<group>"; };
+		9324A6361602D02000EF33A9 /* SRRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRRefreshView.m; sourceTree = "<group>"; };
+		9324A6371602D02000EF33A9 /* SRSlimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRSlimeView.h; sourceTree = "<group>"; };
+		9324A6381602D02000EF33A9 /* SRSlimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRSlimeView.m; sourceTree = "<group>"; };
 		9347848614F32168009C5703 /* m_student_made_refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m_student_made_refresh.png; sourceTree = "<group>"; };
 		9347848914F32624009C5703 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		9347848A14F32624009C5703 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
@@ -73,8 +83,6 @@
 		9347849614F329D8009C5703 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		93BBAB6914E83AC000B19049 /* DZCSubLabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCSubLabsViewController.h; sourceTree = "<group>"; };
 		93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCSubLabsViewController.m; sourceTree = "<group>"; };
-		93BBAB6F14E8493200B19049 /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
-		93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
 		93BBAB7214E84A1700B19049 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		93BBAB8414E8646800B19049 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		93BBAB8614E8647000B19049 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
@@ -149,6 +157,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9324A6311602D02000EF33A9 /* SlimeRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				9324A6321602D02000EF33A9 /* sr_refresh.png */,
+				9324A6331602D02000EF33A9 /* sr_refresh@2X.png */,
+				9324A6341602D02000EF33A9 /* SRDefine.h */,
+				9324A6351602D02000EF33A9 /* SRRefreshView.h */,
+				9324A6361602D02000EF33A9 /* SRRefreshView.m */,
+				9324A6371602D02000EF33A9 /* SRSlimeView.h */,
+				9324A6381602D02000EF33A9 /* SRSlimeView.m */,
+			);
+			path = SlimeRefresh;
+			sourceTree = "<group>";
+		};
 		93D9F65414D3997600AD2152 = {
 			isa = PBXGroup;
 			children = (
@@ -274,10 +296,9 @@
 			isa = PBXGroup;
 			children = (
 				93D9F69E14D48B1400AD2152 /* AFNetworking */,
+				9324A6311602D02000EF33A9 /* SlimeRefresh */,
 				9347849114F32953009C5703 /* Appirater.h */,
 				9347849214F32953009C5703 /* Appirater.m */,
-				93BBAB6F14E8493200B19049 /* PullRefreshTableViewController.h */,
-				93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
@@ -393,6 +414,8 @@
 				9324A6281602BF8F00EF33A9 /* Default-568h@2x.png in Resources */,
 				9324A62B1602BFBA00EF33A9 /* Default.png in Resources */,
 				9324A62C1602BFBA00EF33A9 /* Default@2x.png in Resources */,
+				9324A6391602D02000EF33A9 /* sr_refresh.png in Resources */,
+				9324A63A1602D02000EF33A9 /* sr_refresh@2X.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,9 +446,10 @@
 				93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */,
 				93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */,
 				93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */,
-				93BBAB7114E8493300B19049 /* PullRefreshTableViewController.m in Sources */,
 				9347849314F32953009C5703 /* Appirater.m in Sources */,
 				9324A61F1602AFD900EF33A9 /* UIColor+DZCColors.m in Sources */,
+				9324A63B1602D02000EF33A9 /* SRRefreshView.m in Sources */,
+				9324A63C1602D02000EF33A9 /* SRSlimeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

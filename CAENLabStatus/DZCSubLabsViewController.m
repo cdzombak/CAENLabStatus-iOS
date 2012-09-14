@@ -1,11 +1,12 @@
 #import "DZCSubLabsViewController.h"
-
 #import "DZCDataController.h"
 #import "DZCLab.h"
+#import "SRRefreshView.h"
 
-@interface DZCSubLabsViewController ()
+@interface DZCSubLabsViewController () <SRRefreshDelegate>
 
 @property (nonatomic, strong) NSMutableArray *labs;
+@property (nonatomic, weak) SRRefreshView *slimeRefreshView;
 
 - (void)refreshData;
 - (void)loadData;
@@ -31,6 +32,13 @@
 {
     [super viewDidLoad];
 
+    SRRefreshView *slimeRefreshView = [[SRRefreshView alloc] init];
+    slimeRefreshView.delegate = self;
+    slimeRefreshView.upInset = 47;
+    slimeRefreshView.slimeMissWhenGoingBack = YES;
+    [self.tableView addSubview:slimeRefreshView];
+    self.slimeRefreshView = slimeRefreshView;
+
     self.tableView.allowsSelection = NO;
     self.tableView.allowsMultipleSelection = NO;
     self.tableView.rowHeight = 55.0;
@@ -43,6 +51,13 @@
     self.navigationItem.title = self.lab.humanName;
     
     [self loadData];
+}
+
+#pragma mark - SRRefreshDelegate methods
+
+- (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
+{
+    [self refreshData];
 }
 
 #pragma mark - Data managament
@@ -63,12 +78,26 @@
     
     [self.labs sortUsingSelector:@selector(compareHumanName:)];
     
-    [self stopLoading];
+    [self.slimeRefreshView endRefresh];
     
     [self.tableView reloadData];
 }
 
-#pragma mark - Table view data source
+#pragma mark - UITableViewDelegate methods
+
+#pragma mark Slime-related
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.slimeRefreshView scrollViewDidScroll];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.slimeRefreshView scrollViewDidEndDraging];
+}
+
+#pragma mark - UITableViewDataSource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

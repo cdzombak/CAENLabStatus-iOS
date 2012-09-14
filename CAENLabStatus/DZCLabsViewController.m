@@ -3,6 +3,7 @@
 #import "DZCLab.h"
 #import "DZCAboutViewController.h"
 #import "DZCSubLabsViewController.h"
+#import "SRRefreshView.h"
 #import "UIColor+DZCColors.h"
 
 static NSString *DZCLabsTableViewSectionTitles[DZCLabStatusCount];
@@ -20,11 +21,13 @@ __attribute__((constructor)) static void __InitTableViewStrings()
 
 static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControllerSortOrder";
 
-@interface DZCLabsViewController () 
+@interface DZCLabsViewController () <SRRefreshDelegate>
 
 @property (nonatomic, strong) NSMutableArray *labOrdering;
 @property (nonatomic, strong) NSMutableDictionary *labsByStatus;
 @property (nonatomic, strong) NSMutableArray *statusForTableViewSection;
+
+@property (nonatomic, weak) SRRefreshView *slimeRefreshView;
 
 - (void)loadData;
 - (DZCLabStatus) statusForSection:(NSInteger)section;
@@ -44,7 +47,19 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-       
+
+    SRRefreshView *slimeRefreshView = [[SRRefreshView alloc] init];
+    slimeRefreshView.delegate = self;
+    slimeRefreshView.upInset = 0;
+    slimeRefreshView.slimeMissWhenGoingBack = YES;
+    [self.tableView addSubview:slimeRefreshView];
+    self.slimeRefreshView = slimeRefreshView;
+
+    self.tableView.contentInset = UIEdgeInsetsMake( -self.slimeRefreshView.bounds.size.height,
+                                                    self.tableView.contentInset.left,
+                                                    self.tableView.contentInset.bottom,
+                                                    self.tableView.contentInset.right);
+
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"247-InfoCircle"]
                                                                     style:UIBarButtonItemStylePlain
                                                                    target:self
@@ -95,7 +110,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 {
     [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labsResult, NSError *error) {
         
-        [self stopLoading];
+        [self.slimeRefreshView endRefresh];
 
         self.labsByStatus = nil;
         
@@ -202,6 +217,13 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     }
     
     return [NSMutableArray arrayWithArray:resultArray];
+}
+
+#pragma mark - SRRefreshDelegate methods
+
+- (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
+{
+    [self refreshData];
 }
 
 #pragma mark - UITableViewDataSource methods
@@ -429,6 +451,18 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     [headerView addSubview:bottomBorder];
 
     return headerView;
+}
+
+#pragma mark Slime-related
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.slimeRefreshView scrollViewDidScroll];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.slimeRefreshView scrollViewDidEndDraging];
 }
 
 #pragma mark - Property overrides
