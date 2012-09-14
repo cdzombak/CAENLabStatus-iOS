@@ -56,11 +56,6 @@
     }
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
-}
-
 - (void)viewDidUnload {
     [self setView:nil];
     [self setAppVersionLabel:nil];

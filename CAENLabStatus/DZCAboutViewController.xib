@@ -47,7 +47,6 @@
 								<string key="NSFrame">{{20, 323}, {280, 41}}</string>
 								<reference key="NSSuperview" ref="884307958"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:225</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -98,7 +97,7 @@
 							<object class="IBUILabel" id="4117449">
 								<reference key="NSNextResponder" ref="884307958"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{20, 160}, {280, 26}}</string>
+								<string key="NSFrame">{{20, 125}, {280, 26}}</string>
 								<reference key="NSSuperview" ref="884307958"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="978059185"/>
@@ -134,7 +133,7 @@
 							<object class="IBUILabel" id="753815757">
 								<reference key="NSNextResponder" ref="884307958"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{20, 112}, {280, 40}}</string>
+								<string key="NSFrame">{{20, 77}, {280, 40}}</string>
 								<reference key="NSSuperview" ref="884307958"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="4117449"/>
@@ -284,8 +283,8 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="965475422"/>
 							<reference ref="978059185"/>
-							<reference ref="4117449"/>
 							<reference ref="753815757"/>
+							<reference ref="4117449"/>
 						</array>
 						<reference key="parent" ref="342241710"/>
 					</object>
