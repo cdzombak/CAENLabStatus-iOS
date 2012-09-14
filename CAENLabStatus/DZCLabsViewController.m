@@ -94,6 +94,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 - (void)refreshData
 {
     self.labsByStatus = nil;
+    self.statusForTableViewSection = nil;
     [self.dataController clearCache];
     [self loadData];
 }
@@ -113,6 +114,11 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
                                                   cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                                   otherButtonTitles:nil];
             [alert show];
+
+            self.labsByStatus = nil;
+            self.statusForTableViewSection = nil;
+            [self.tableView reloadData];
+
             return;
         }
         
