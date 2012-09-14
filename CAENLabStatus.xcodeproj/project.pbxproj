@@ -11,6 +11,7 @@
 		9324A6281602BF8F00EF33A9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324A6271602BF8F00EF33A9 /* Default-568h@2x.png */; };
 		9324A62B1602BFBA00EF33A9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324A6291602BFB900EF33A9 /* Default.png */; };
 		9324A62C1602BFBA00EF33A9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9324A62A1602BFB900EF33A9 /* Default@2x.png */; };
+		9324A6491602DD2D00EF33A9 /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9324A6481602DD2D00EF33A9 /* ODRefreshControl.m */; };
 		9347848714F32168009C5703 /* m_student_made_refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848614F32168009C5703 /* m_student_made_refresh.png */; };
 		9347848D14F32624009C5703 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848914F32624009C5703 /* Icon-72.png */; };
 		9347848E14F32624009C5703 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848A14F32624009C5703 /* Icon-Small-50.png */; };
@@ -61,6 +62,8 @@
 		9324A6271602BF8F00EF33A9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		9324A6291602BFB900EF33A9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9324A62A1602BFB900EF33A9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		9324A6471602DD2D00EF33A9 /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODRefreshControl.h; sourceTree = "<group>"; };
+		9324A6481602DD2D00EF33A9 /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODRefreshControl.m; sourceTree = "<group>"; };
 		9347848614F32168009C5703 /* m_student_made_refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m_student_made_refresh.png; sourceTree = "<group>"; };
 		9347848914F32624009C5703 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		9347848A14F32624009C5703 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
@@ -146,6 +149,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9324A6461602DD2D00EF33A9 /* ODRefreshControl */ = {
+			isa = PBXGroup;
+			children = (
+				9324A6471602DD2D00EF33A9 /* ODRefreshControl.h */,
+				9324A6481602DD2D00EF33A9 /* ODRefreshControl.m */,
+			);
+			path = ODRefreshControl;
+			sourceTree = "<group>";
+		};
 		93D9F65414D3997600AD2152 = {
 			isa = PBXGroup;
 			children = (
@@ -271,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				93D9F69E14D48B1400AD2152 /* AFNetworking */,
+				9324A6461602DD2D00EF33A9 /* ODRefreshControl */,
 				9347849114F32953009C5703 /* Appirater.h */,
 				9347849214F32953009C5703 /* Appirater.m */,
 			);
@@ -420,6 +433,7 @@
 				93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */,
 				9347849314F32953009C5703 /* Appirater.m in Sources */,
 				9324A61F1602AFD900EF33A9 /* UIColor+DZCColors.m in Sources */,
+				9324A6491602DD2D00EF33A9 /* ODRefreshControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
