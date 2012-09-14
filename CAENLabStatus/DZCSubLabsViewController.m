@@ -63,8 +63,6 @@
     
     [self.labs sortUsingSelector:@selector(compareHumanName:)];
     
-    [self stopLoading];
-    
     [self.tableView reloadData];
 }
 

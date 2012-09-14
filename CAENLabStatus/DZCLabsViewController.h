@@ -1,10 +1,8 @@
 #import <UIKit/UIKit.h>
 
-#import "PullRefreshTableViewController.h"
-
 @class DZCDataController;
 
-@interface DZCLabsViewController : PullRefreshTableViewController
+@interface DZCLabsViewController : UITableViewController
 
 @property(nonatomic, strong) DZCDataController *dataController;
 

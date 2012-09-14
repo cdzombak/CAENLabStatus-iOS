@@ -20,7 +20,6 @@
 		9347849514F329CF009C5703 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849414F329CF009C5703 /* CFNetwork.framework */; };
 		9347849714F329D9009C5703 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849614F329D8009C5703 /* SystemConfiguration.framework */; };
 		93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */; };
-		93BBAB7114E8493300B19049 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93BBAB7314E84A1700B19049 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BBAB7214E84A1700B19049 /* QuartzCore.framework */; };
 		93BBAB8514E8646800B19049 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB8414E8646800B19049 /* Icon.png */; };
 		93BBAB8714E8647000B19049 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB8614E8647000B19049 /* Icon@2x.png */; };
@@ -73,8 +72,6 @@
 		9347849614F329D8009C5703 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		93BBAB6914E83AC000B19049 /* DZCSubLabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCSubLabsViewController.h; sourceTree = "<group>"; };
 		93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCSubLabsViewController.m; sourceTree = "<group>"; };
-		93BBAB6F14E8493200B19049 /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
-		93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
 		93BBAB7214E84A1700B19049 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		93BBAB8414E8646800B19049 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		93BBAB8614E8647000B19049 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
@@ -276,8 +273,6 @@
 				93D9F69E14D48B1400AD2152 /* AFNetworking */,
 				9347849114F32953009C5703 /* Appirater.h */,
 				9347849214F32953009C5703 /* Appirater.m */,
-				93BBAB6F14E8493200B19049 /* PullRefreshTableViewController.h */,
-				93BBAB7014E8493300B19049 /* PullRefreshTableViewController.m */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
@@ -423,7 +418,6 @@
 				93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */,
 				93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */,
 				93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */,
-				93BBAB7114E8493300B19049 /* PullRefreshTableViewController.m in Sources */,
 				9347849314F32953009C5703 /* Appirater.m in Sources */,
 				9324A61F1602AFD900EF33A9 /* UIColor+DZCColors.m in Sources */,
 			);
