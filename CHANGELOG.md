@@ -8,6 +8,7 @@
 * remove shake-to-refresh
 * add Pierpont hours and verify other buildings' hours
 * support "Closed Soon" status and reorder statuses sanely
+* disable Appirater, for now ( https://github.com/arashpayan/appirater/issues/50 )
 * UI improvements:
     * redesign information display
     * new nav bar tint and table view section header colors

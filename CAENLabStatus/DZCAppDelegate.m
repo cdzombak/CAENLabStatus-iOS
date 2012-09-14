@@ -34,8 +34,8 @@
     
     self.appWasInBackground = NO;
     
-    [Appirater appLaunched:YES];
-    
+//    [Appirater appLaunched:YES];
+
     return YES;
 }
 
