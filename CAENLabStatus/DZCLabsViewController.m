@@ -1,6 +1,4 @@
 #import "DZCLabsViewController.h"
-#import "DZCTableViewCellOpenLab.h"
-#import "DZCTableViewCellClosedLab.h"
 #import "DZCDataController.h"
 #import "DZCLab.h"
 #import "DZCAboutViewController.h"
@@ -8,7 +6,6 @@
 #import "UIColor+DZCColors.h"
 
 static NSString *DZCLabsTableViewSectionTitles[DZCLabStatusCount];
-static NSString *DZCLabsTableViewSectionCellIDs[DZCLabStatusCount];
 
 __attribute__((constructor)) static void __InitTableViewStrings()
 {
@@ -18,12 +15,6 @@ __attribute__((constructor)) static void __InitTableViewStrings()
         DZCLabsTableViewSectionTitles[DZCLabStatusReservedSoon] = NSLocalizedString(@"Reserved Soon", nil);
         DZCLabsTableViewSectionTitles[DZCLabStatusPartiallyReserved] = NSLocalizedString(@"Partially Reserved", nil);
         DZCLabsTableViewSectionTitles[DZCLabStatusReserved] = NSLocalizedString(@"Reserved", nil);
-        
-        DZCLabsTableViewSectionCellIDs[DZCLabStatusOpen] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
-        DZCLabsTableViewSectionCellIDs[DZCLabStatusReservedSoon] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
-        DZCLabsTableViewSectionCellIDs[DZCLabStatusPartiallyReserved] = NSLocalizedString(@"DZCTableViewCellOpenLab", nil);
-        DZCLabsTableViewSectionCellIDs[DZCLabStatusReserved] = NSLocalizedString(@"DZCTableViewCellClosedLab", nil);
-        DZCLabsTableViewSectionCellIDs[DZCLabStatusClosed] = NSLocalizedString(@"DZCTableViewCellClosedLab", nil);
     }
 }
 
@@ -64,6 +55,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     
     self.tableView.allowsSelection = YES;
     self.tableView.allowsMultipleSelection = NO;
+    self.tableView.rowHeight = 55.0;
     
     self.labOrdering = [self retrieveSavedSortOrder];
 
@@ -228,11 +220,10 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 {
     DZCLabStatus status = [self statusForSection:indexPath.section];
     
-    NSString *cellIdentifier = DZCLabsTableViewSectionCellIDs[status];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellIdentifier owner:self options:nil];
-        cell = (UITableViewCell *)[nib objectAtIndex:0];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     if ([[self.labsByStatus objectForKey:[NSNumber numberWithInt:status]] count] < indexPath.row+1) {
@@ -240,29 +231,33 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     }
     
     DZCLab *lab = [(NSArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:status]] objectAtIndex:indexPath.row];
+
+    cell.textLabel.text = lab.humanName;
+
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    cell.detailTextLabel.text = @"...";
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:16.0];
     
     switch (status) {
         case DZCLabStatusOpen:
         case DZCLabStatusPartiallyReserved:
         case DZCLabStatusReservedSoon: {
-            ((DZCTableViewCellOpenLab *) cell).labNameLabel.text = lab.humanName;
-            
             [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
                 if (error) {
-                    ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.text = @"...";
-                    ((DZCTableViewCellOpenLab *) cell).labTotalCountLabel.text = @"...";
+                    cell.detailTextLabel.text = @"...";
                     return;
                 }
 
-                ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]-[used intValue]];
-                ((DZCTableViewCellOpenLab *) cell).labTotalCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]];
+                NSInteger freeCount = [total intValue] - [used intValue];
+                float usedPercent = [used floatValue] / [total floatValue];
+                float freePercent = 1.0 - usedPercent;
+
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%d (%d%%) free", freeCount, (int)roundf(freePercent*100)];
                 
-                if ([used floatValue]/[total floatValue] >= 0.9) {
-                    ((DZCTableViewCellOpenLab *) cell).labNameLabel.font = [UIFont systemFontOfSize:20.0];
-                    ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.font = [UIFont systemFontOfSize:20.0];
+                if (usedPercent >= 0.9) {
+                    cell.detailTextLabel.font = [UIFont systemFontOfSize:17.0];
                 } else {
-                    ((DZCTableViewCellOpenLab *) cell).labNameLabel.font = [UIFont boldSystemFontOfSize:20.0];
-                    ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.font = [UIFont boldSystemFontOfSize:20.0];
+                    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:17.0];
                 }
             }];
             break;
@@ -270,15 +265,14 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
             
         case DZCLabStatusClosed:
         case DZCLabStatusReserved: {
-            ((DZCTableViewCellClosedLab *) cell).labNameLabel.text = lab.humanName;
-            
             [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
                 if (error) {
-                    ((DZCTableViewCellClosedLab *) cell).labCountLabel.text = @"...";
+                    cell.detailTextLabel.text = @"...";
                     return;
                 }
                 
-                ((DZCTableViewCellClosedLab *) cell).labCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]];
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%d machines", [total intValue]];
+                cell.detailTextLabel.font = [UIFont systemFontOfSize:16.0];
             }];
             break;
         }
@@ -296,11 +290,11 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     }
     
     if (status == DZCLabStatusOpen && lab.subLabs != nil && [lab.subLabs count] > 0) {
-        //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         //cell.userInteractionEnabled = YES;
     } else {
-        //cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         //cell.userInteractionEnabled = NO;
     }

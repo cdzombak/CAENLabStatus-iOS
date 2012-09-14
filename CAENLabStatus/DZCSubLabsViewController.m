@@ -1,6 +1,5 @@
 #import "DZCSubLabsViewController.h"
 
-#import "DZCTableViewCellOpenLab.h"
 #import "DZCDataController.h"
 #import "DZCLab.h"
 
@@ -34,6 +33,7 @@
 
     self.tableView.allowsSelection = NO;
     self.tableView.allowsMultipleSelection = NO;
+    self.tableView.rowHeight = 55.0;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -83,11 +83,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"DZCTableViewCellOpenLab" owner:self options:nil];
-        cell = (UITableViewCell *)[nib objectAtIndex:0];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     if ([self.labs count] < indexPath.row+1) {
@@ -96,27 +94,31 @@
     
     DZCLab *lab = [self.labs objectAtIndex:indexPath.row];
     
-    ((DZCTableViewCellOpenLab *) cell).labNameLabel.text = lab.humanName;
+    cell.textLabel.text = lab.humanName;
+
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    cell.detailTextLabel.text = @"...";
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:16.0];
     
     [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
         if (error) {
-            ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.text = @"...";
-            ((DZCTableViewCellOpenLab *) cell).labTotalCountLabel.text = @"...";
+            cell.detailTextLabel.text = @"...";
             return;
         }
-        
-        ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]-[used intValue]];
-        ((DZCTableViewCellOpenLab *) cell).labTotalCountLabel.text = [NSString stringWithFormat:@"%d", [total intValue]];
-        
-        if ([used floatValue]/[total floatValue] >= 0.9) {
-            ((DZCTableViewCellOpenLab *) cell).labNameLabel.font = [UIFont systemFontOfSize:20.0];
-            ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.font = [UIFont systemFontOfSize:20.0];
+
+        NSInteger freeCount = [total intValue] - [used intValue];
+        float usedPercent = [used floatValue] / [total floatValue];
+        float freePercent = 1.0 - usedPercent;
+
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d (%d%%) free", freeCount, (int)roundf(freePercent*100)];
+
+        if (usedPercent >= 0.9) {
+            cell.detailTextLabel.font = [UIFont systemFontOfSize:17.0];
         } else {
-            ((DZCTableViewCellOpenLab *) cell).labNameLabel.font = [UIFont boldSystemFontOfSize:20.0];
-            ((DZCTableViewCellOpenLab *) cell).labOpenCountLabel.font = [UIFont boldSystemFontOfSize:20.0];
+            cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:17.0];
         }
     }];
-    
+
     return cell;
 }
 

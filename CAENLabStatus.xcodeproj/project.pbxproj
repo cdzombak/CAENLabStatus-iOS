@@ -35,10 +35,6 @@
 		93D9F67014D3997600AD2152 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F66F14D3997600AD2152 /* main.m */; };
 		93D9F67414D3997600AD2152 /* DZCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F67314D3997600AD2152 /* DZCAppDelegate.m */; };
 		93D9F68714D39C2500AD2152 /* DZCLabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F68614D39C2500AD2152 /* DZCLabsViewController.m */; };
-		93D9F68E14D3D5DA00AD2152 /* DZCTableViewCellOpenLab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93D9F68D14D3D5DA00AD2152 /* DZCTableViewCellOpenLab.xib */; };
-		93D9F69114D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69014D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m */; };
-		93D9F69314D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93D9F69214D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib */; };
-		93D9F69614D3E16500AD2152 /* DZCTableViewCellClosedLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69514D3E16500AD2152 /* DZCTableViewCellClosedLab.m */; };
 		93D9F69914D4827700AD2152 /* DZCDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69814D4827700AD2152 /* DZCDataController.m */; };
 		93D9F69C14D483E400AD2152 /* DZCLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69B14D483E400AD2152 /* DZCLab.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93D9F6B414D48B1400AD2152 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6A014D48B1400AD2152 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -98,12 +94,6 @@
 		93D9F67314D3997600AD2152 /* DZCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DZCAppDelegate.m; sourceTree = "<group>"; };
 		93D9F68514D39C2500AD2152 /* DZCLabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLabsViewController.h; sourceTree = "<group>"; };
 		93D9F68614D39C2500AD2152 /* DZCLabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabsViewController.m; sourceTree = "<group>"; };
-		93D9F68D14D3D5DA00AD2152 /* DZCTableViewCellOpenLab.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DZCTableViewCellOpenLab.xib; sourceTree = "<group>"; };
-		93D9F68F14D3DE8900AD2152 /* DZCTableViewCellOpenLab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCTableViewCellOpenLab.h; sourceTree = "<group>"; };
-		93D9F69014D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCTableViewCellOpenLab.m; sourceTree = "<group>"; };
-		93D9F69214D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DZCTableViewCellClosedLab.xib; sourceTree = "<group>"; };
-		93D9F69414D3E16500AD2152 /* DZCTableViewCellClosedLab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCTableViewCellClosedLab.h; sourceTree = "<group>"; };
-		93D9F69514D3E16500AD2152 /* DZCTableViewCellClosedLab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCTableViewCellClosedLab.m; sourceTree = "<group>"; };
 		93D9F69714D4827700AD2152 /* DZCDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCDataController.h; sourceTree = "<group>"; };
 		93D9F69814D4827700AD2152 /* DZCDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCDataController.m; sourceTree = "<group>"; };
 		93D9F69A14D483E400AD2152 /* DZCLab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLab.h; sourceTree = "<group>"; };
@@ -316,12 +306,6 @@
 			isa = PBXGroup;
 			children = (
 				93E80C5B14D797F5008850FE /* DZCAboutViewController.xib */,
-				93D9F68F14D3DE8900AD2152 /* DZCTableViewCellOpenLab.h */,
-				93D9F69014D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m */,
-				93D9F68D14D3D5DA00AD2152 /* DZCTableViewCellOpenLab.xib */,
-				93D9F69414D3E16500AD2152 /* DZCTableViewCellClosedLab.h */,
-				93D9F69514D3E16500AD2152 /* DZCTableViewCellClosedLab.m */,
-				93D9F69214D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -392,8 +376,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				93D9F66E14D3997600AD2152 /* InfoPlist.strings in Resources */,
-				93D9F68E14D3D5DA00AD2152 /* DZCTableViewCellOpenLab.xib in Resources */,
-				93D9F69314D3E14D00AD2152 /* DZCTableViewCellClosedLab.xib in Resources */,
 				93E80C5D14D797F5008850FE /* DZCAboutViewController.xib in Resources */,
 				93FDA8C214D9FE1A00787F8C /* 247-InfoCircle.png in Resources */,
 				93FDA8C314D9FE1A00787F8C /* 247-InfoCircle@2x.png in Resources */,
@@ -424,8 +406,6 @@
 				93D9F67014D3997600AD2152 /* main.m in Sources */,
 				93D9F67414D3997600AD2152 /* DZCAppDelegate.m in Sources */,
 				93D9F68714D39C2500AD2152 /* DZCLabsViewController.m in Sources */,
-				93D9F69114D3DEAA00AD2152 /* DZCTableViewCellOpenLab.m in Sources */,
-				93D9F69614D3E16500AD2152 /* DZCTableViewCellClosedLab.m in Sources */,
 				93D9F69914D4827700AD2152 /* DZCDataController.m in Sources */,
 				93D9F69C14D483E400AD2152 /* DZCLab.m in Sources */,
 				93D9F6B414D48B1400AD2152 /* AFHTTPClient.m in Sources */,
