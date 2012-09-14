@@ -292,8 +292,8 @@ static int networkActivityCount = 0;
     
     if (!_labs) {
         _labs = [NSSet setWithObjects:
-                 [[DZCLab alloc] initWithBuilding:@"BEYSTER" room:@"1695" humanName:@"BBB (CSE) 1695" hostCount:@49 subLabs:nil],
-                 [[DZCLab alloc] initWithBuilding:@"BEYSTER" room:@"1620" humanName:@"BBB (CSE) 1620" hostCount:@43 subLabs:nil],
+                 [[DZCLab alloc] initWithBuilding:@"BEYSTER" room:@"1695" humanName:@"Beyster (CSE) 1695" hostCount:@49 subLabs:nil],
+                 [[DZCLab alloc] initWithBuilding:@"BEYSTER" room:@"1620" humanName:@"Beyster (CSE) 1620" hostCount:@43 subLabs:nil],
                  [[DZCLab alloc] initWithBuilding:@"EECS" room:@"1230" humanName:@"EECS 1230" hostCount:@28 subLabs:nil],
                  [[DZCLab alloc] initWithBuilding:@"EECS" room:@"2331" humanName:@"EECS 2331" hostCount:@19 subLabs:nil],
                  [[DZCLab alloc] initWithBuilding:@"EECS" room:@"4440" humanName:@"EECS 4440" hostCount:@22 subLabs:nil],
