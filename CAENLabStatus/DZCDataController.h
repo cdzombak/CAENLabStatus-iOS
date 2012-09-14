@@ -4,10 +4,11 @@
 
 typedef enum {
     DZCLabStatusOpen,
-    DZCLabStatusClosed,
-    DZCLabStatusReserved,
     DZCLabStatusReservedSoon,
     DZCLabStatusPartiallyReserved,
+    DZCLabStatusReserved,
+    DZCLabStatusClosedSoon,
+    DZCLabStatusClosed,
     DZCLabStatusCount
 } DZCLabStatus;
 

@@ -11,6 +11,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     @autoreleasepool {
         DZCLabStatusStrings[DZCLabStatusOpen] = @"Open";
         DZCLabStatusStrings[DZCLabStatusClosed] = @"Closed";
+        DZCLabStatusStrings[DZCLabStatusClosedSoon] = @"Closed Soon";
         DZCLabStatusStrings[DZCLabStatusReserved] = @"Reserved";
         DZCLabStatusStrings[DZCLabStatusReservedSoon] = @"Reserved Soon";
         DZCLabStatusStrings[DZCLabStatusPartiallyReserved] = @"Partially Reserved";
@@ -217,7 +218,7 @@ static int networkActivityCount = 0;
 {
     self.labStatuses = nil;
     
-    for (id lab in self.labs) {
+    for (DZCLab* lab in self.labs) {
         NSString* statusString = [response objectForKey:[self apiIdForLab:lab]];
         DZCLabStatus status;
         
@@ -229,6 +230,10 @@ static int networkActivityCount = 0;
             status = DZCLabStatusReservedSoon;
         } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusPartiallyReserved]]) {
             status = DZCLabStatusPartiallyReserved;
+        } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusClosed]]) {
+            status = DZCLabStatusClosed;
+        } else if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusClosedSoon]]) {
+            status = DZCLabStatusClosedSoon;
         } else {
             // nil, empty, or unrecognized string means the lab is either closed or not present but open
             // defer to another, date/time processing controller
@@ -236,7 +241,7 @@ static int networkActivityCount = 0;
             status = [[DZCLabStatusHelper statusGuessForLab:(DZCLab *)lab] intValue];
         }
         
-        [self.labStatuses setObject:[NSNumber numberWithInt:status] forKey:lab];
+        [self.labStatuses setObject:@(status) forKey:lab];
     }
 }
 

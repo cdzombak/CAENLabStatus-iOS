@@ -13,6 +13,7 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     @autoreleasepool {
         DZCLabsTableViewSectionTitles[DZCLabStatusOpen] = NSLocalizedString(@"Open", nil);
         DZCLabsTableViewSectionTitles[DZCLabStatusClosed] = NSLocalizedString(@"Closed", nil);
+        DZCLabsTableViewSectionTitles[DZCLabStatusClosedSoon] = NSLocalizedString(@"Closed Soon", nil);
         DZCLabsTableViewSectionTitles[DZCLabStatusReservedSoon] = NSLocalizedString(@"Reserved Soon", nil);
         DZCLabsTableViewSectionTitles[DZCLabStatusPartiallyReserved] = NSLocalizedString(@"Partially Reserved", nil);
         DZCLabsTableViewSectionTitles[DZCLabStatusReserved] = NSLocalizedString(@"Reserved", nil);
@@ -254,7 +255,9 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     switch (status) {
         case DZCLabStatusOpen:
         case DZCLabStatusPartiallyReserved:
-        case DZCLabStatusReservedSoon: {
+        case DZCLabStatusReservedSoon:
+        case DZCLabStatusClosedSoon:
+        {
             [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
                 if (error) {
                     cell.detailTextLabel.text = @"...";
@@ -277,7 +280,8 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
         }
             
         case DZCLabStatusClosed:
-        case DZCLabStatusReserved: {
+        case DZCLabStatusReserved:
+        {
             [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
                 if (error) {
                     cell.detailTextLabel.text = @"...";
@@ -302,7 +306,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
         cell.showsReorderControl = NO;
     }
     
-    if (status == DZCLabStatusOpen && lab.subLabs != nil && [lab.subLabs count] > 0) {
+    if (status != DZCLabStatusClosed && status != DZCLabStatusReserved && lab.subLabs && [lab.subLabs count] > 0) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         //cell.userInteractionEnabled = YES;
