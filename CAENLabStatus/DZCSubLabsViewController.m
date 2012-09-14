@@ -39,6 +39,7 @@
 
     self.pullRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
     self.pullRefreshControl.tintColor = [UIColor dzc_refreshViewColor];
+    self.pullRefreshControl.backgroundColor = [UIColor dzc_tableViewBackgroundColor];
     [self.pullRefreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
 }
 

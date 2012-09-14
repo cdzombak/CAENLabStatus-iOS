@@ -10,7 +10,7 @@
 
 #import "ODRefreshControl.h"
 
-#define kTotalViewHeight    200
+#define kTotalViewHeight    400
 #define kOpenedViewHeight   44
 #define kMinTopPadding      9
 #define kMaxTopPadding      5
@@ -29,7 +29,6 @@
 @interface ODRefreshControl ()
 
 @property (nonatomic, readwrite) BOOL refreshing;
-@property (nonatomic, assign) UIView *topBackgroundView;
 @property (nonatomic, assign) UIScrollView *scrollView;
 @property (nonatomic, assign) UIEdgeInsets originalContentInset;
 
@@ -38,11 +37,8 @@
 @implementation ODRefreshControl
 
 @synthesize refreshing = _refreshing;
-@synthesize showsBackground = _showsBackground;
 @synthesize tintColor = _tintColor;
-@synthesize backgroundColor = _backgroundColor;
 
-@synthesize topBackgroundView = _topBackgroundView;
 @synthesize scrollView = _scrollView;
 @synthesize originalContentInset = _originalContentInset;
 
@@ -58,8 +54,6 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
     if (self) {
         self.scrollView = scrollView;
         self.originalContentInset = scrollView.contentInset;
-
-        self.showsBackground = YES;
 
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [scrollView addSubview:self];
@@ -131,44 +125,6 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 {
     _tintColor = tintColor;
     _shapeLayer.fillColor = [_tintColor CGColor];
-}
-
-- (UIColor *)backgroundColor
-{
-    if (!_backgroundColor) {
-        _backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:238.0/255.0 alpha:1];
-    }
-    return _backgroundColor;
-}
-
-- (void)setBackgroundColor:(UIColor *)backgroundColor
-{
-    _backgroundColor = backgroundColor;
-    self.topBackgroundView.backgroundColor = _backgroundColor;
-}
-
-- (void)setShowsBackground:(BOOL)showsBackground
-{
-    _showsBackground = showsBackground;
-    if (showsBackground) {
-        [self addTopBackgroundView];
-    } else {
-        [self.topBackgroundView removeFromSuperview];
-        self.topBackgroundView = nil;
-    }
-}
-
-- (void)addTopBackgroundView
-{
-    if (self.topBackgroundView) return;
-    UIScrollView *scrollView = self.scrollView;
-
-    UIView *topBackgroundView = [[UIView alloc] initWithFrame:(CGRect){ {0, -scrollView.frame.size.height}, scrollView.frame.size}];
-    topBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    topBackgroundView.backgroundColor = [self backgroundColor];
-
-    [scrollView addSubview:topBackgroundView];
-    self.topBackgroundView = topBackgroundView;
 }
 
 - (void)setActivityIndicatorViewStyle:(UIActivityIndicatorViewStyle)activityIndicatorViewStyle
