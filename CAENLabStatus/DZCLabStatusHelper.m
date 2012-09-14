@@ -42,6 +42,25 @@
             }
         }
     }
+    else if ([lab.building isEqualToString:@"PIERPONT"]) {
+        // Pierpont hours: http://uunions.umich.edu/pierpont/hours
+        // open 7am-1am Mon-Thurs
+        // 7am-12am Fri
+        // 8am-12am Sat/Sun
+        // closed & special hours on breaks & holidays
+        if (weekday == 1 || weekday == 7) {
+            if (hour < 8) {
+                status = DZCLabStatusClosed;
+            }
+        } else {
+            if (hour > 0 && hour < 7) {
+                status = DZCLabStatusClosed;
+            }
+            if (weekday == 2 && hour < 7) {
+                status = DZCLabStatusClosed;
+            }
+        }
+    }
     else if ([lab.building isEqualToString:@"AH"]) {
         // couldn't find a course for AH hours
         // I think AH is 24-hour, possibly except breaks and holidays

@@ -6,6 +6,7 @@
 * Add iOS 6 and iPhone 5 support
     * update Xcode project
 * remove shake-to-refresh
+* add Pierpont hours and verify other buildings' hours
 * UI improvements:
     * redesign information display
     * new nav bar tint and table view section header colors
