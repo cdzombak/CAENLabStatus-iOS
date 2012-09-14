@@ -29,6 +29,7 @@
 @interface ODRefreshControl ()
 
 @property (nonatomic, readwrite) BOOL refreshing;
+@property (nonatomic, assign) UIView *topBackgroundView;
 @property (nonatomic, assign) UIScrollView *scrollView;
 @property (nonatomic, assign) UIEdgeInsets originalContentInset;
 
@@ -37,8 +38,11 @@
 @implementation ODRefreshControl
 
 @synthesize refreshing = _refreshing;
+@synthesize showsBackground = _showsBackground;
 @synthesize tintColor = _tintColor;
+@synthesize backgroundColor = _backgroundColor;
 
+@synthesize topBackgroundView = _topBackgroundView;
 @synthesize scrollView = _scrollView;
 @synthesize originalContentInset = _originalContentInset;
 
@@ -50,23 +54,25 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 - (id)initInScrollView:(UIScrollView *)scrollView
 {
     self = [super initWithFrame:CGRectMake(0, -(kTotalViewHeight + scrollView.contentInset.top), scrollView.frame.size.width, kTotalViewHeight)];
-    
+
     if (self) {
         self.scrollView = scrollView;
         self.originalContentInset = scrollView.contentInset;
-        
+
+        self.showsBackground = YES;
+
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [scrollView addSubview:self];
         [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
         [scrollView addObserver:self forKeyPath:@"contentInset" options:NSKeyValueObservingOptionNew context:nil];
-        
+
         _activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         _activity.center = CGPointMake(floor(self.frame.size.width / 2), floor(self.frame.size.height / 2));
         _activity.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         _activity.alpha = 0;
         [_activity startAnimating];
         [self addSubview:_activity];
-        
+
         _refreshing = NO;
         _canRefresh = YES;
         _ignoreInset = NO;
@@ -74,7 +80,7 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
         _didSetInset = NO;
         _hasSectionHeaders = NO;
         _tintColor = [UIColor colorWithRed:155.0 / 255.0 green:162.0 / 255.0 blue:172.0 / 255.0 alpha:1.0];
-        
+
         _shapeLayer = [CAShapeLayer layer];
         _shapeLayer.fillColor = [_tintColor CGColor];
         _shapeLayer.strokeColor = [[[UIColor darkGrayColor] colorWithAlphaComponent:0.5] CGColor];
@@ -84,13 +90,13 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
         _shapeLayer.shadowOpacity = 0.4;
         _shapeLayer.shadowRadius = 0.5;
         [self.layer addSublayer:_shapeLayer];
-        
+
         _arrowLayer = [CAShapeLayer layer];
         _arrowLayer.strokeColor = [[[UIColor darkGrayColor] colorWithAlphaComponent:0.5] CGColor];
         _arrowLayer.lineWidth = 0.5;
         _arrowLayer.fillColor = [[UIColor whiteColor] CGColor];
         [_shapeLayer addSublayer:_arrowLayer];
-        
+
         _highlightLayer = [CAShapeLayer layer];
         _highlightLayer.fillColor = [[[UIColor whiteColor] colorWithAlphaComponent:0.2] CGColor];
         [_shapeLayer addSublayer:_highlightLayer];
@@ -127,6 +133,44 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
     _shapeLayer.fillColor = [_tintColor CGColor];
 }
 
+- (UIColor *)backgroundColor
+{
+    if (!_backgroundColor) {
+        _backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:238.0/255.0 alpha:1];
+    }
+    return _backgroundColor;
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor
+{
+    _backgroundColor = backgroundColor;
+    self.topBackgroundView.backgroundColor = _backgroundColor;
+}
+
+- (void)setShowsBackground:(BOOL)showsBackground
+{
+    _showsBackground = showsBackground;
+    if (showsBackground) {
+        [self addTopBackgroundView];
+    } else {
+        [self.topBackgroundView removeFromSuperview];
+        self.topBackgroundView = nil;
+    }
+}
+
+- (void)addTopBackgroundView
+{
+    if (self.topBackgroundView) return;
+    UIScrollView *scrollView = self.scrollView;
+
+    UIView *topBackgroundView = [[UIView alloc] initWithFrame:(CGRect){ {0, -scrollView.frame.size.height}, scrollView.frame.size}];
+    topBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    topBackgroundView.backgroundColor = [self backgroundColor];
+
+    [scrollView addSubview:topBackgroundView];
+    self.topBackgroundView = topBackgroundView;
+}
+
 - (void)setActivityIndicatorViewStyle:(UIActivityIndicatorViewStyle)activityIndicatorViewStyle
 {
     _activity.activityIndicatorViewStyle = activityIndicatorViewStyle;
@@ -146,26 +190,26 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
         }
         return;
     }
-    
+
     if (!self.enabled || _ignoreOffset) {
         return;
     }
-    
+
     CGFloat offset = [[change objectForKey:@"new"] CGPointValue].y + self.originalContentInset.top;
-    
+
     if (_refreshing) {
         if (offset != 0) {
             // Keep thing pinned at the top
-            
+
             [CATransaction begin];
             [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
             _shapeLayer.position = CGPointMake(0, kMaxDistance + offset + kOpenedViewHeight);
             [CATransaction commit];
             _activity.center = CGPointMake(floor(self.frame.size.width / 2), MIN(offset + self.frame.size.height + floor(kOpenedViewHeight / 2), self.frame.size.height - kOpenedViewHeight/ 2));
-            
+
             _ignoreInset = YES;
             _ignoreOffset = YES;
-            
+
             if (offset < 0) {
                 // Set the inset depending on the situation
                 if (offset >= -kOpenedViewHeight) {
@@ -211,21 +255,21 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
             }
         }
     }
-    
+
     BOOL triggered = NO;
-    
+
     CGMutablePathRef path = CGPathCreateMutable();
-    
+
     //Calculate some useful points and values
     CGFloat verticalShift = MAX(0, -((kMaxTopRadius + kMaxBottomRadius + kMaxTopPadding + kMaxBottomPadding) + offset));
     CGFloat distance = MIN(kMaxDistance, fabs(verticalShift));
     CGFloat percentage = 1 - (distance / kMaxDistance);
-    
+
     CGFloat currentTopPadding = lerp(kMinTopPadding, kMaxTopPadding, percentage);
     CGFloat currentTopRadius = lerp(kMinTopRadius, kMaxTopRadius, percentage);
     CGFloat currentBottomRadius = lerp(kMinBottomRadius, kMaxBottomRadius, percentage);
     CGFloat currentBottomPadding =  lerp(kMinBottomPadding, kMaxBottomPadding, percentage);
-    
+
     CGPoint bottomOrigin = CGPointMake(floor(self.bounds.size.width / 2), self.bounds.size.height - currentBottomPadding -currentBottomRadius);
     CGPoint topOrigin = CGPointZero;
     if (distance == 0) {
@@ -237,36 +281,36 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
             triggered = YES;
         }
     }
-    
+
     //Top semicircle
     CGPathAddArc(path, NULL, topOrigin.x, topOrigin.y, currentTopRadius, 0, M_PI, YES);
-    
+
     //Left curve
     CGPoint leftCp1 = CGPointMake(lerp((topOrigin.x - currentTopRadius), (bottomOrigin.x - currentBottomRadius), 0.1), lerp(topOrigin.y, bottomOrigin.y, 0.2));
     CGPoint leftCp2 = CGPointMake(lerp((topOrigin.x - currentTopRadius), (bottomOrigin.x - currentBottomRadius), 0.9), lerp(topOrigin.y, bottomOrigin.y, 0.2));
     CGPoint leftDestination = CGPointMake(bottomOrigin.x - currentBottomRadius, bottomOrigin.y);
-    
+
     CGPathAddCurveToPoint(path, NULL, leftCp1.x, leftCp1.y, leftCp2.x, leftCp2.y, leftDestination.x, leftDestination.y);
-    
+
     //Bottom semicircle
     CGPathAddArc(path, NULL, bottomOrigin.x, bottomOrigin.y, currentBottomRadius, M_PI, 0, YES);
-    
+
     //Right curve
     CGPoint rightCp2 = CGPointMake(lerp((topOrigin.x + currentTopRadius), (bottomOrigin.x + currentBottomRadius), 0.1), lerp(topOrigin.y, bottomOrigin.y, 0.2));
     CGPoint rightCp1 = CGPointMake(lerp((topOrigin.x + currentTopRadius), (bottomOrigin.x + currentBottomRadius), 0.9), lerp(topOrigin.y, bottomOrigin.y, 0.2));
     CGPoint rightDestination = CGPointMake(topOrigin.x + currentTopRadius, topOrigin.y);
-    
+
     CGPathAddCurveToPoint(path, NULL, rightCp1.x, rightCp1.y, rightCp2.x, rightCp2.y, rightDestination.x, rightDestination.y);
     CGPathCloseSubpath(path);
-    
+
     if (!triggered) {
         // Set paths
-        
+
         _shapeLayer.path = path;
         _shapeLayer.shadowPath = path;
-        
+
         // Add the arrow shape
-        
+
         CGFloat currentArrowSize = lerp(kMinArrowSize, kMaxArrowSize, percentage);
         CGFloat currentArrowRadius = lerp(kMinArrowRadius, kMaxArrowRadius, percentage);
         CGFloat arrowBigRadius = currentArrowRadius + (currentArrowSize / 2);
@@ -282,20 +326,20 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
         _arrowLayer.path = arrowPath;
         [_arrowLayer setFillRule:kCAFillRuleEvenOdd];
         CGPathRelease(arrowPath);
-        
+
         // Add the highlight shape
-        
+
         CGMutablePathRef highlightPath = CGPathCreateMutable();
         CGPathAddArc(highlightPath, NULL, topOrigin.x, topOrigin.y, currentTopRadius, 0, M_PI, YES);
         CGPathAddArc(highlightPath, NULL, topOrigin.x, topOrigin.y + 1.25, currentTopRadius, M_PI, 0, NO);
-        
+
         _highlightLayer.path = highlightPath;
         [_highlightLayer setFillRule:kCAFillRuleNonZero];
         CGPathRelease(highlightPath);
-        
+
     } else {
         // Start the shape disappearance animation
-        
+
         CGFloat radius = lerp(kMinBottomRadius, kMaxBottomRadius, 0.2);
         CABasicAnimation *pathMorph = [CABasicAnimation animationWithKeyPath:@"path"];
         pathMorph.duration = 0.15;
@@ -330,7 +374,7 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
         alphaAnimation.removedOnCompletion = NO;
         [_arrowLayer addAnimation:alphaAnimation forKey:nil];
         [_highlightLayer addAnimation:alphaAnimation forKey:nil];
-        
+
         [CATransaction begin];
         [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
         _activity.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1);
@@ -339,12 +383,12 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
             _activity.alpha = 1;
             _activity.layer.transform = CATransform3DMakeScale(1, 1, 1);
         } completion:nil];
-        
+
         self.refreshing = YES;
         _canRefresh = NO;
         [self sendActionsForControlEvents:UIControlEventValueChanged];
     }
-    
+
     CGPathRelease(path);
 }
 
@@ -359,16 +403,16 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
         [_shapeLayer addAnimation:alphaAnimation forKey:nil];
         [_arrowLayer addAnimation:alphaAnimation forKey:nil];
         [_highlightLayer addAnimation:alphaAnimation forKey:nil];
-        
+
         _activity.alpha = 1;
         _activity.layer.transform = CATransform3DMakeScale(1, 1, 1);
-        
+
         CGPoint offset = self.scrollView.contentOffset;
         _ignoreInset = YES;
         [self.scrollView setContentInset:UIEdgeInsetsMake(kOpenedViewHeight + self.originalContentInset.top, self.originalContentInset.left, self.originalContentInset.bottom, self.originalContentInset.right)];
         _ignoreInset = NO;
         [self.scrollView setContentOffset:offset animated:NO];
-        
+
         self.refreshing = YES;
         _canRefresh = NO;
     }
