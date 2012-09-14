@@ -5,6 +5,9 @@
 #import "DZCLab.h"
 #import "DZCAboutViewController.h"
 #import "DZCSubLabsViewController.h"
+#import "UIColor+DZCColors.h"
+
+#import <QuartzCore/QuartzCore.h>
 
 static NSString *DZCLabsTableViewSectionTitles[DZCLabStatusCount];
 static NSString *DZCLabsTableViewSectionCellIDs[DZCLabStatusCount];
@@ -65,6 +68,8 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     self.tableView.allowsMultipleSelection = NO;
     
     self.labOrdering = [self retrieveSavedSortOrder];
+
+    self.navigationController.navigationBar.tintColor = [UIColor dzc_logoBlueColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -413,6 +418,48 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     }
     
     return indexPath;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *title = [tableView.dataSource tableView:tableView titleForHeaderInSection:section];
+
+    UILabel * headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    headerLabel.backgroundColor = [UIColor clearColor];
+    headerLabel.opaque = NO;
+    headerLabel.textColor = [UIColor whiteColor];
+    headerLabel.highlightedTextColor = [UIColor whiteColor];
+    headerLabel.shadowColor = [UIColor darkTextColor];
+    headerLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+
+    UIFont *titleFont = [UIFont boldSystemFontOfSize:16];
+    headerLabel.font = titleFont;
+
+    CGSize textSize = [title sizeWithFont:titleFont];
+    headerLabel.frame = (CGRect) { {10.0, 1.0} , textSize };
+
+    headerLabel.text = (NSString*)title;
+
+    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 0.0, tableView.bounds.size.width, textSize.height+2.0)];
+    headerView.backgroundColor = [UIColor dzc_tableViewHeaderColor];
+    [headerView addSubview:headerLabel];
+
+    CALayer *topBorder = [CALayer layer];
+    topBorder.frame = CGRectMake(0.0, 0.0, headerView.frame.size.width, 1.0);
+    topBorder.backgroundColor = [UIColor colorWithRed:25.0/255.0 green:25.0/255.0 blue:25.0/255.0 alpha:0.8].CGColor;
+    [headerView.layer addSublayer:topBorder];
+
+    CALayer *secondaryTopBorder = [CALayer layer];
+    secondaryTopBorder.frame = CGRectMake(0.0, 1.0, headerView.frame.size.width, 1.0);
+    secondaryTopBorder.backgroundColor = [UIColor colorWithRed:80.0/255.0 green:80.0/255.0 blue:140.0/255.0 alpha:0.6].CGColor;
+    [headerView.layer addSublayer:secondaryTopBorder];
+
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0.0, headerView.frame.size.height, headerView.frame.size.width, 1.0);
+    bottomBorder.backgroundColor = [UIColor colorWithRed:25.0/255.0 green:25.0/255.0 blue:25.0/255.0 alpha:0.9].CGColor;
+    [headerView.layer addSublayer:bottomBorder];
+
+    return headerView;
 }
 
 #pragma mark - Property overrides

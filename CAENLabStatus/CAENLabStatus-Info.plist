@@ -53,9 +53,18 @@
 		<key>UINavigationBar</key>
 		<dict>
 			<key>Style</key>
-			<string>UIBarStyleBlack</string>
+			<string>UIBarStyleDefault</string>
+			<key>TintColor</key>
+			<dict>
+				<key>Blue</key>
+				<real>0.30980392156862746</real>
+				<key>Green</key>
+				<real>0.14117647058823529</real>
+				<key>Red</key>
+				<real>0.11372549019607843</real>
+			</dict>
 			<key>Translucent</key>
-			<true/>
+			<false/>
 		</dict>
 	</dict>
 	<key>UISupportedInterfaceOrientations</key>

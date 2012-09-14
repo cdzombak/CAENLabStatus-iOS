@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9324A61F1602AFD900EF33A9 /* UIColor+DZCColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 9324A61E1602AFD900EF33A9 /* UIColor+DZCColors.m */; };
 		9347848714F32168009C5703 /* m_student_made_refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848614F32168009C5703 /* m_student_made_refresh.png */; };
 		9347848D14F32624009C5703 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848914F32624009C5703 /* Icon-72.png */; };
 		9347848E14F32624009C5703 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848A14F32624009C5703 /* Icon-Small-50.png */; };
@@ -57,6 +58,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9324A61D1602AFD900EF33A9 /* UIColor+DZCColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+DZCColors.h"; sourceTree = "<group>"; };
+		9324A61E1602AFD900EF33A9 /* UIColor+DZCColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+DZCColors.m"; sourceTree = "<group>"; };
 		9347848614F32168009C5703 /* m_student_made_refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m_student_made_refresh.png; sourceTree = "<group>"; };
 		9347848914F32624009C5703 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		9347848A14F32624009C5703 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
@@ -197,6 +200,8 @@
 				93D9F6BE14D48B1E00AD2152 /* Vendor */,
 				93FDA8B514D7455200787F8C /* Views */,
 				93D9F68814D39C2B00AD2152 /* View Controllers */,
+				9324A61D1602AFD900EF33A9 /* UIColor+DZCColors.h */,
+				9324A61E1602AFD900EF33A9 /* UIColor+DZCColors.m */,
 			);
 			path = CAENLabStatus;
 			sourceTree = "<group>";
@@ -428,6 +433,7 @@
 				93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */,
 				93BBAB7114E8493300B19049 /* PullRefreshTableViewController.m in Sources */,
 				9347849314F32953009C5703 /* Appirater.m in Sources */,
+				9324A61F1602AFD900EF33A9 /* UIColor+DZCColors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
