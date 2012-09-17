@@ -2,6 +2,7 @@
 -----------------
 
 * Better refresh error handling
+* Minor UI improvements
 
 ????-??-?? v2.0
 ---------------
