@@ -19,7 +19,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 }
 
 /* Number of times to retry failed API queries */
-#define RETRIES ((NSUInteger)2)
+#define RETRIES ((NSUInteger) 3)
 
 /* Seconds to wait between retries */
 #define RETRY_DELAY_SECONDS ((double) 1.0)
