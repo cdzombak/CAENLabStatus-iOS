@@ -21,6 +21,9 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 /* Number of times to retry failed API queries */
 #define RETRIES ((NSUInteger)2)
 
+/* Seconds to wait between retries */
+#define RETRY_DELAY_SECONDS ((double) 1.0)
+
 #pragma mark Network Activity Indicator
 
 @interface UIApplication(NetworkActivityIndicator)
@@ -100,7 +103,11 @@ static int networkActivityCount = 0;
             if (error && retries > 0) {
                 NSLog(@"Retrying lab status query...");
                 retries--;
-                [self reloadLabStatusesWithBlock:reloadLabStatusResultBlock];
+
+                dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, RETRY_DELAY_SECONDS*NSEC_PER_SEC);
+                dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
+                    [self reloadLabStatusesWithBlock:reloadLabStatusResultBlock];
+                } );
             } else if (error) {
                 if (block) block(nil, error);
             } else {
@@ -139,7 +146,11 @@ static int networkActivityCount = 0;
             if (error && retries > 0) {
                 NSLog(@"Retrying host info query...");
                 retries--;
-                [self reloadHostInfoForLab:lab withBlock:reloadHostInfoResultBlock];
+
+                dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, RETRY_DELAY_SECONDS*NSEC_PER_SEC);
+                dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
+                    [self reloadHostInfoForLab:lab withBlock:reloadHostInfoResultBlock];
+                } );
             } else if (error) {
                 if (block) block(nil, nil, lab, error);
             } else {
