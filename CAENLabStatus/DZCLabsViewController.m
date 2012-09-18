@@ -253,6 +253,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
     cell.textLabel.text = lab.humanName;
 
+    cell.textLabel.font = [UIFont systemFontOfSize:cell.textLabel.font.pointSize];
     cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     cell.detailTextLabel.text = @"...";
     cell.detailTextLabel.font = [UIFont systemFontOfSize:16.0];
@@ -275,9 +276,11 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%d (%d%%) free", freeCount, (int)roundf(freePercent*100)];
                 
-                if (usedPercent >= 0.9) {
+                if (usedPercent >= 0.8) {
+                    cell.textLabel.font = [UIFont systemFontOfSize:cell.textLabel.font.pointSize];
                     cell.detailTextLabel.font = [UIFont systemFontOfSize:17.0];
                 } else {
+                    cell.textLabel.font = [UIFont boldSystemFontOfSize:cell.textLabel.font.pointSize];
                     cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:17.0];
                 }
             }];
