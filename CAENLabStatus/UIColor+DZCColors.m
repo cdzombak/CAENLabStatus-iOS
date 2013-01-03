@@ -28,7 +28,10 @@
 
 + (UIColor *)dzc_tableViewBackgroundColor
 {
-    return [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:238.0/255.0 alpha:1];
+    return [UIColor colorWithRed:226.0/255.0
+                           green:231.0/255.0
+                            blue:238.0/255.0
+                           alpha:1.0];
 }
 
 @end
