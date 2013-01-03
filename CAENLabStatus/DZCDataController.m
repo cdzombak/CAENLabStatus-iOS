@@ -298,8 +298,11 @@ static int networkActivityCount = 0;
 
     // in event of a conflict between those two canonical data sources, http://labwatch.engin.umich.edu/labs/mobile.php wins
     // because it is my goal to emulate that page
-    
+
     // I hate everything.
+
+    // now, there certainly are better ways to ship a dataset with an app.
+    // but I didn't know that when I wrote this, and at least it's a pretty small dataset.
     
     if (!_labs) {
         _labs = [NSSet setWithObjects:
