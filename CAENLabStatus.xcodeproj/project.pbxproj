@@ -58,16 +58,16 @@
 /* Begin PBXFileReference section */
 		9324A61D1602AFD900EF33A9 /* UIColor+DZCColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+DZCColors.h"; sourceTree = "<group>"; };
 		9324A61E1602AFD900EF33A9 /* UIColor+DZCColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+DZCColors.m"; sourceTree = "<group>"; };
-		9324A6271602BF8F00EF33A9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		9324A6291602BFB900EF33A9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		9324A62A1602BFB900EF33A9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		9324A6271602BF8F00EF33A9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		9324A6291602BFB900EF33A9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
+		9324A62A1602BFB900EF33A9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
 		9324A6471602DD2D00EF33A9 /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODRefreshControl.h; sourceTree = "<group>"; };
 		9324A6481602DD2D00EF33A9 /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODRefreshControl.m; sourceTree = "<group>"; };
 		9347848614F32168009C5703 /* m_student_made_refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m_student_made_refresh.png; sourceTree = "<group>"; };
-		9347848914F32624009C5703 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
-		9347848A14F32624009C5703 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
-		9347848B14F32624009C5703 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
-		9347848C14F32624009C5703 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		9347848914F32624009C5703 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "../Icon-72.png"; sourceTree = "<group>"; };
+		9347848A14F32624009C5703 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "../Icon-Small-50.png"; sourceTree = "<group>"; };
+		9347848B14F32624009C5703 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "../Icon-Small.png"; sourceTree = "<group>"; };
+		9347848C14F32624009C5703 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "../Icon-Small@2x.png"; sourceTree = "<group>"; };
 		9347849414F329CF009C5703 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		9347849614F329D8009C5703 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		937CCCA41686463D0075BD01 /* greyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButton.png; sourceTree = "<group>"; };
@@ -77,8 +77,8 @@
 		93BBAB6914E83AC000B19049 /* DZCSubLabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCSubLabsViewController.h; sourceTree = "<group>"; };
 		93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCSubLabsViewController.m; sourceTree = "<group>"; };
 		93BBAB7214E84A1700B19049 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		93BBAB8414E8646800B19049 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		93BBAB8614E8647000B19049 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		93BBAB8414E8646800B19049 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
+		93BBAB8614E8647000B19049 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "../Icon@2x.png"; sourceTree = "<group>"; };
 		93D9F65F14D3997600AD2152 /* CAENLabStatus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAENLabStatus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93D9F66314D3997600AD2152 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93D9F66514D3997600AD2152 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -158,19 +158,12 @@
 		93D9F65414D3997600AD2152 = {
 			isa = PBXGroup;
 			children = (
-				9324A6291602BFB900EF33A9 /* Default.png */,
-				9324A62A1602BFB900EF33A9 /* Default@2x.png */,
-				9324A6271602BF8F00EF33A9 /* Default-568h@2x.png */,
-				9347848914F32624009C5703 /* Icon-72.png */,
-				9347848A14F32624009C5703 /* Icon-Small-50.png */,
-				9347848B14F32624009C5703 /* Icon-Small.png */,
-				9347848C14F32624009C5703 /* Icon-Small@2x.png */,
-				93BBAB8614E8647000B19049 /* Icon@2x.png */,
-				93BBAB8414E8646800B19049 /* Icon.png */,
 				93D9F66914D3997600AD2152 /* CAENLabStatus */,
+				93FDA8BF14D9FE1A00787F8C /* Resources */,
+				93D9F66A14D3997600AD2152 /* Supporting Files */,
+				93D9F6BE14D48B1E00AD2152 /* Vendor */,
 				93D9F66214D3997600AD2152 /* Frameworks */,
 				93D9F66014D3997600AD2152 /* Products */,
-				93FDA8BF14D9FE1A00787F8C /* Resources */,
 			);
 			sourceTree = "<group>";
 		};
@@ -200,9 +193,7 @@
 			children = (
 				93D9F67214D3997600AD2152 /* DZCAppDelegate.h */,
 				93D9F67314D3997600AD2152 /* DZCAppDelegate.m */,
-				93D9F66A14D3997600AD2152 /* Supporting Files */,
 				93D9F69D14D483E700AD2152 /* Data */,
-				93D9F6BE14D48B1E00AD2152 /* Vendor */,
 				93FDA8B514D7455200787F8C /* Views */,
 				93D9F68814D39C2B00AD2152 /* View Controllers */,
 				9324A61D1602AFD900EF33A9 /* UIColor+DZCColors.h */,
@@ -218,8 +209,18 @@
 				93D9F66C14D3997600AD2152 /* InfoPlist.strings */,
 				93D9F66F14D3997600AD2152 /* main.m */,
 				93D9F67114D3997600AD2152 /* CAENLabStatus-Prefix.pch */,
+				9324A6291602BFB900EF33A9 /* Default.png */,
+				9324A62A1602BFB900EF33A9 /* Default@2x.png */,
+				9324A6271602BF8F00EF33A9 /* Default-568h@2x.png */,
+				9347848914F32624009C5703 /* Icon-72.png */,
+				9347848A14F32624009C5703 /* Icon-Small-50.png */,
+				9347848B14F32624009C5703 /* Icon-Small.png */,
+				9347848C14F32624009C5703 /* Icon-Small@2x.png */,
+				93BBAB8614E8647000B19049 /* Icon@2x.png */,
+				93BBAB8414E8646800B19049 /* Icon.png */,
 			);
 			name = "Supporting Files";
+			path = CAENLabStatus;
 			sourceTree = "<group>";
 		};
 		93D9F68814D39C2B00AD2152 /* View Controllers */ = {
@@ -283,6 +284,7 @@
 				9324A6461602DD2D00EF33A9 /* ODRefreshControl */,
 			);
 			name = Vendor;
+			path = CAENLabStatus;
 			sourceTree = "<group>";
 		};
 		93FDA8B214D7451700787F8C /* API */ = {
