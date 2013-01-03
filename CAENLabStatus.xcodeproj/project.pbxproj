@@ -48,6 +48,8 @@
 		93D9F6BD14D48B1400AD2152 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6B314D48B1400AD2152 /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93D9F6C114D4904B00AD2152 /* DZCLabStatusApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6C014D4904B00AD2152 /* DZCLabStatusApiClient.m */; };
 		93D9F6C414D5081F00AD2152 /* DZCHostInfoApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6C314D5081F00AD2152 /* DZCHostInfoApiClient.m */; };
+		93E1DA3B1696492900B04CF0 /* DZCLabTableViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E1DA3A1696492900B04CF0 /* DZCLabTableViewManager.m */; };
+		93E1DA3E16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E1DA3D16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.m */; };
 		93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E80C5714D78812008850FE /* DZCLabStatusHelper.m */; };
 		93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E80C5A14D797F5008850FE /* DZCAboutViewController.m */; };
 		93E80C5D14D797F5008850FE /* DZCAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E80C5B14D797F5008850FE /* DZCAboutViewController.xib */; };
@@ -120,6 +122,10 @@
 		93D9F6C014D4904B00AD2152 /* DZCLabStatusApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabStatusApiClient.m; sourceTree = "<group>"; };
 		93D9F6C214D5081F00AD2152 /* DZCHostInfoApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCHostInfoApiClient.h; sourceTree = "<group>"; };
 		93D9F6C314D5081F00AD2152 /* DZCHostInfoApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCHostInfoApiClient.m; sourceTree = "<group>"; };
+		93E1DA391696481B00B04CF0 /* DZCLabTableViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DZCLabTableViewManager.h; sourceTree = "<group>"; };
+		93E1DA3A1696492900B04CF0 /* DZCLabTableViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabTableViewManager.m; sourceTree = "<group>"; };
+		93E1DA3C16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLabTableViewManagerWithSublabs.h; sourceTree = "<group>"; };
+		93E1DA3D16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabTableViewManagerWithSublabs.m; sourceTree = "<group>"; };
 		93E80C5614D78812008850FE /* DZCLabStatusHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLabStatusHelper.h; sourceTree = "<group>"; };
 		93E80C5714D78812008850FE /* DZCLabStatusHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabStatusHelper.m; sourceTree = "<group>"; };
 		93E80C5914D797F5008850FE /* DZCAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCAboutViewController.h; sourceTree = "<group>"; };
@@ -232,6 +238,10 @@
 				93D9F68614D39C2500AD2152 /* DZCLabsListViewController.m */,
 				93BBAB6914E83AC000B19049 /* DZCLabViewController.h */,
 				93BBAB6A14E83AC000B19049 /* DZCLabViewController.m */,
+				93E1DA391696481B00B04CF0 /* DZCLabTableViewManager.h */,
+				93E1DA3A1696492900B04CF0 /* DZCLabTableViewManager.m */,
+				93E1DA3C16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.h */,
+				93E1DA3D16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -430,6 +440,8 @@
 				93BBAB6B14E83AC000B19049 /* DZCLabViewController.m in Sources */,
 				9324A61F1602AFD900EF33A9 /* UIColor+DZCColors.m in Sources */,
 				9324A6491602DD2D00EF33A9 /* ODRefreshControl.m in Sources */,
+				93E1DA3B1696492900B04CF0 /* DZCLabTableViewManager.m in Sources */,
+				93E1DA3E16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

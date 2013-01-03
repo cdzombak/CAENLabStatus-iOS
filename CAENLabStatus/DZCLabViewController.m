@@ -2,10 +2,11 @@
 #import "DZCDataController.h"
 #import "DZCLab.h"
 #import "UIColor+DZCColors.h"
+#import "DZCLabTableViewManager.h"
 
 @interface DZCLabViewController ()
 
-@property (nonatomic, strong) NSMutableArray *labs;
+@property (nonatomic, strong) DZCLabTableViewManager *tvManager;
 
 @end
 
@@ -13,9 +14,11 @@
 
 - (id)initWithLab:(DZCLab *)lab
 {
-    self = [super initWithStyle:UITableViewStylePlain];
+    UITableViewStyle tvStyle = [DZCLabTableViewManager tableViewStyleForLab:lab];
+    self = [super initWithStyle:tvStyle];
     if (self) {
         _lab = lab;
+        self.title = self.lab.humanName;
     }
     return self;
 }
@@ -26,99 +29,19 @@
 {
     [super viewDidLoad];
 
-    self.tableView.allowsSelection = NO;
-    self.tableView.allowsMultipleSelection = NO;
-    self.tableView.rowHeight = 55.0;
-}
+    self.tvManager = [DZCLabTableViewManager tableViewManagerForLab:self.lab dataController:self.dataController];
+    self.tvManager.detailNavController = self.navigationController;
+    [self.tvManager configureTableView:self.tableView];
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    self.navigationItem.title = self.lab.humanName;
-    
-    [self loadData];
-}
+    // display map + sublabs if so, plain
+    // display map + groups ( usage , hosts ) otherwise
 
-#pragma mark - Data managament
-
-- (void)loadData
-{
-    self.labs = nil;
-    
-    for (DZCLab *lab in self.lab.subLabs) {
-        [self.labs addObject:lab];
-    }
-    
-    [self.labs sortUsingSelector:@selector(compareHumanName:)];
-
+    [self.tvManager prepareData];
     [self.tableView reloadData];
-}
-
-#pragma mark - UITableViewDataSource methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.labs count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
-    
-    if ([self.labs count] < indexPath.row+1) {
-        return cell;
-    }
-    
-    DZCLab *lab = (self.labs)[indexPath.row];
-    
-    cell.textLabel.text = lab.humanName;
-
-    cell.textLabel.font = [UIFont systemFontOfSize:cell.textLabel.font.pointSize];
-    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
-    cell.detailTextLabel.text = @"...";
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:16.0];
-    
-    [self.dataController machineCountsInLab:lab withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
-        if (error) {
-            cell.detailTextLabel.text = @"...";
-            return;
-        }
-
-        NSInteger freeCount = [total intValue] - [used intValue];
-        float usedPercent = [used floatValue] / [total floatValue];
-        float freePercent = 1.0 - usedPercent;
-
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d (%d%%) free", freeCount, (int)roundf(freePercent*100)];
-
-        if (usedPercent >= 0.8) {
-            cell.textLabel.font = [UIFont systemFontOfSize:cell.textLabel.font.pointSize];
-            cell.detailTextLabel.font = [UIFont systemFontOfSize:17.0];
-        } else {
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:cell.textLabel.font.pointSize];
-            cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:17.0];
-        }
-    }];
-
-    return cell;
 }
 
 #pragma mark - Property overrides
 
-- (NSMutableArray *)labs {
-    if (!_labs) {
-        _labs = [NSMutableArray array];
-    }
-    return _labs;
-}
+// n/a
 
 @end
