@@ -6,6 +6,11 @@
 
 @property(nonatomic, strong) DZCDataController *dataController;
 
+/**
+ * Designated initializer
+ */
+- (id)init;
+
 - (void)refreshData;
 
 @end

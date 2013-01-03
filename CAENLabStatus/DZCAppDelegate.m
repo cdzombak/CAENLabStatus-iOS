@@ -22,11 +22,10 @@
     [[UINavigationBar appearance] setTintColor:[UIColor dzc_logoBlueColor]];
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.labsViewController = [[DZCLabsViewController alloc] initWithStyle:UITableViewStylePlain];
+        self.labsViewController = [[DZCLabsViewController alloc] init];
         self.labsViewController.dataController = self.dataController;
         
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.labsViewController];
-        
         self.rootViewController = navController;
     } else {
         //self.rootViewController = [[DZCRootViewController alloc] initWithNibName:@"DZCRootViewController_iPad" bundle:nil];

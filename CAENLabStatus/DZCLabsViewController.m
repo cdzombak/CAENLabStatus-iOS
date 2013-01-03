@@ -42,6 +42,13 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 @synthesize dataController = _dataController, labsByStatus = _labsByStatus, statusForTableViewSection = _statusForTableViewSection, labOrdering = _labOrdering;
 
+- (id)init
+{
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) { }
+    return self;
+}
+
 #pragma mark - UIViewController View lifecycle
 
 - (void)viewDidLoad
