@@ -4,8 +4,10 @@
 
 @interface DZCAppDelegate ()
 
+@property (nonatomic, strong) UIViewController *rootViewController;
 @property (nonatomic, strong) DZCDataController *dataController;
 @property (nonatomic, strong) DZCLabsViewController *labsViewController;
+
 @property (nonatomic, assign) BOOL appWasInBackground;
 
 @end
