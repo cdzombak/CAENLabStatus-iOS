@@ -12,8 +12,6 @@
 
 @implementation DZCLab
 
-@synthesize building = _building, room = _room, humanName = _humanName, hostCount = _hostCount, subLabs = _subLabs;
-
 - (id)initWithBuilding:(NSString *)building
                   room:(NSString *)room
              humanName:(NSString *)humanName

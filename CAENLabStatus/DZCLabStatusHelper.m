@@ -86,7 +86,7 @@
         status = DZCLabStatusOpen;
     }
     
-    return [NSNumber numberWithInt:status];
+    return @(status);
 }
 
 @end

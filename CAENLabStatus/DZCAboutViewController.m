@@ -2,8 +2,6 @@
 
 @implementation DZCAboutViewController
 
-@synthesize appVersionLabel = _appVersionLabel;
-
 #pragma mark - UIViewController View lifecycle
 
 - (void)viewDidLoad
@@ -18,7 +16,7 @@
                                                                   action:@selector(pressedDoneButton:)];
     self.navigationItem.leftBarButtonItem = doneButton;
     
-    self.appVersionLabel.text = [NSString stringWithFormat:@"version %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+    self.appVersionLabel.text = [NSString stringWithFormat:@"version %@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
 
     self.view.backgroundColor = [UIColor underPageBackgroundColor];
 

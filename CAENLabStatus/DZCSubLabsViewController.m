@@ -16,8 +16,6 @@
 
 @implementation DZCSubLabsViewController
 
-@synthesize lab = _lab, labs = _labs, dataController = _dataController;
-
 - (id)initWithLab:(DZCLab *)lab
 {
     self = [super initWithStyle:UITableViewStylePlain];
@@ -106,7 +104,7 @@
         return cell;
     }
     
-    DZCLab *lab = [self.labs objectAtIndex:indexPath.row];
+    DZCLab *lab = (self.labs)[indexPath.row];
     
     cell.textLabel.text = lab.humanName;
 

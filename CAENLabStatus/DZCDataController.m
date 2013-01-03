@@ -79,14 +79,14 @@ static int networkActivityCount = 0;
  * It can be set to nil to clear the cache; it is recreated as an empty mutable dictionary on any access/ */
 @property (nonatomic, strong) NSMutableDictionary *labHostInfo;
 
-- (void)setLabsFromApiResponse:(id)response;
-- (NSString *)apiIdForLab:(DZCLab *)lab;
-
 @end
 
 @implementation DZCDataController
 
-@synthesize labHostInfo = _labHostInfo, labs = _labs, labStatusApiClient = _labStatusApiClient, hostInfoApiClient = _hostInfoApiClient, labStatuses = _labStatuses;
+@synthesize labStatusApiClient = _labStatusApiClient,
+            hostInfoApiClient = _hostInfoApiClient,
+            labs = _labs
+            ;
 
 - (void)labsAndStatusesWithBlock:(void(^)(NSDictionary *labs, NSError *error))block
 {
@@ -125,20 +125,20 @@ static int networkActivityCount = 0;
         NSUInteger used = 0;
         
         for (id host in hosts) {
-            NSNumber *inUse = [host objectForKey:@"in_use"];
+            NSNumber *inUse = host[@"in_use"];
             if ([inUse boolValue] == YES) {
                 used++;
             }
         }
         
         NSNumber *total = [lab hostCount];
-        if ([hosts count] > [total intValue]) total = [NSNumber numberWithInt:[hosts count]];
+        if ([hosts count] > [total intValue]) total = @([hosts count]);
         
-        if (block) block([NSNumber numberWithInt:used], total, lab, nil);
+        if (block) block(@(used), total, lab, nil);
     };
     
-    if ([self.labHostInfo objectForKey:lab]) {
-        hostInfoReady([self.labHostInfo objectForKey:lab]);
+    if ((self.labHostInfo)[lab]) {
+        hostInfoReady((self.labHostInfo)[lab]);
     } else {
         __block NSUInteger retries = RETRIES;
         
@@ -154,7 +154,7 @@ static int networkActivityCount = 0;
             } else if (error) {
                 if (block) block(nil, nil, lab, error);
             } else {
-                hostInfoReady([self.labHostInfo objectForKey:lab]);
+                hostInfoReady((self.labHostInfo)[lab]);
             }
         } copy];
         
@@ -196,7 +196,7 @@ static int networkActivityCount = 0;
                          parameters:@{@"building": lab.building, @"room": lab.room}
                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                 if (responseObject != nil) {
-                                    [self.labHostInfo setObject:responseObject forKey:lab];
+                                    (self.labHostInfo)[lab] = responseObject;
                                     if (block) block(nil);
                                 } else {
                                     if (block) block([[NSError alloc] init]);
@@ -230,7 +230,7 @@ static int networkActivityCount = 0;
     self.labStatuses = nil;
     
     for (DZCLab* lab in self.labs) {
-        NSString* statusString = [response objectForKey:[self apiIdForLab:lab]];
+        NSString* statusString = response[[self apiIdForLab:lab]];
         DZCLabStatus status;
         
         if ([statusString isEqualToString:DZCLabStatusStrings[DZCLabStatusOpen]]) {
@@ -252,7 +252,7 @@ static int networkActivityCount = 0;
             status = [[DZCLabStatusHelper statusGuessForLab:(DZCLab *)lab] intValue];
         }
         
-        [self.labStatuses setObject:@(status) forKey:lab];
+        (self.labStatuses)[lab] = @(status);
     }
 }
 

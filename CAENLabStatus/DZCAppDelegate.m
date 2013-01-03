@@ -15,8 +15,6 @@
 
 @implementation DZCAppDelegate
 
-@synthesize window = _window, rootViewController = _viewController, dataController = _dataController, labsViewController = _labsViewController, appWasInBackground = _appWasInBackground;
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[UINavigationBar appearance] setTintColor:[UIColor dzc_logoBlueColor]];

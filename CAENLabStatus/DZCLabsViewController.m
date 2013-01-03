@@ -27,18 +27,13 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 @property (nonatomic, strong) NSMutableArray *labOrdering;
 @property (nonatomic, strong) NSMutableDictionary *labsByStatus;
 @property (nonatomic, strong) NSMutableArray *statusForTableViewSection;
+
+@property (nonatomic, readonly, strong) UIBarButtonItem *aboutButtonItem;
 @property (nonatomic, strong) ODRefreshControl *pullRefreshControl;
 
-- (void)loadData;
-- (DZCLabStatus) statusForSection:(NSInteger)section;
-@property (nonatomic, readonly, strong) UIBarButtonItem *aboutButtonItem;
-
-- (BOOL)saveSortOrder:(NSMutableArray *)sortOrder;
-- (NSMutableArray *)retrieveSavedSortOrder;
 @property (nonatomic, readonly, strong) UIViewController *aboutViewController;
 
 @end
-
 
 @implementation DZCLabsViewController
 
@@ -160,20 +155,20 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
         self.statusForTableViewSection = nil;
         
         for (id lab in sortedLabs) {
-            DZCLabStatus status = [(NSNumber *)[labsResult objectForKey:lab] intValue];
+            DZCLabStatus status = [(NSNumber *)labsResult[lab] intValue];
             
-            NSMutableArray *labs = [self.labsByStatus objectForKey:[NSNumber numberWithInt:status]];
+            NSMutableArray *labs = (self.labsByStatus)[@(status)];
             if (!labs) {
-                [self.labsByStatus setObject:[NSMutableArray array] forKey:[NSNumber numberWithInt:status]];
-                labs = [self.labsByStatus objectForKey:[NSNumber numberWithInt:status]];
+                (self.labsByStatus)[@(status)] = [NSMutableArray array];
+                labs = (self.labsByStatus)[@(status)];
             }
             
             [labs addObject:lab];
         }
         
         for (DZCLabStatus i=0; i<DZCLabStatusCount; ++i) {
-            if ([self.labsByStatus objectForKey:[NSNumber numberWithInt:i]] != nil) {
-                [self.statusForTableViewSection addObject:[NSNumber numberWithInt:i]];
+            if ((self.labsByStatus)[@(i)] != nil) {
+                [self.statusForTableViewSection addObject:@(i)];
             }
         }
         
@@ -185,7 +180,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 - (DZCLabStatus) statusForSection:(NSInteger)section
 {
-    return [[self.statusForTableViewSection objectAtIndex:section] intValue];
+    return [(self.statusForTableViewSection)[section] intValue];
 }
 
 - (BOOL)saveSortOrder:(NSMutableArray *)sortOrder
@@ -232,7 +227,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [(NSArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:[self statusForSection:section]]] count];
+    return [(self.labsByStatus)[@([self statusForSection:section])] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -245,11 +240,11 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    if ([[self.labsByStatus objectForKey:[NSNumber numberWithInt:status]] count] < indexPath.row+1) {
+    if ([(self.labsByStatus)[@(status)] count] < indexPath.row+1) {
         return cell;
     }
     
-    DZCLab *lab = [(NSArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:status]] objectAtIndex:indexPath.row];
+    DZCLab *lab = ((NSArray *)(self.labsByStatus)[@(status)])[indexPath.row];
 
     cell.textLabel.text = lab.humanName;
 
@@ -339,9 +334,9 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     }
     
     DZCLabStatus status = [self statusForSection:sourceIndexPath.section];
-    NSMutableArray *labs = (NSMutableArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:status]];
+    NSMutableArray *labs = (NSMutableArray *)(self.labsByStatus)[@(status)];
 
-    DZCLab *lab = [labs objectAtIndex:sourceIndexPath.row];
+    DZCLab *lab = labs[sourceIndexPath.row];
     [labs removeObjectAtIndex:sourceIndexPath.row];
     [labs insertObject:lab atIndex:destinationIndexPath.row];
     
@@ -350,7 +345,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     if (destinationIndexPath.row == [labs count]-1) {
         [self.labOrdering addObject:lab.humanName];
     } else {
-        DZCLab *aboveLab = [labs objectAtIndex:destinationIndexPath.row+1];
+        DZCLab *aboveLab = labs[destinationIndexPath.row+1];
         NSInteger aboveLabOrderIdx = [self.labOrdering indexOfObject:aboveLab.humanName];
         [self.labOrdering insertObject:lab.humanName atIndex:aboveLabOrderIdx];
     }
@@ -373,7 +368,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    DZCLabStatus status = [[self.statusForTableViewSection objectAtIndex:section] intValue];
+    DZCLabStatus status = [(self.statusForTableViewSection)[section] intValue];
     return DZCLabsTableViewSectionTitles[status];
 }
 
@@ -393,7 +388,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 {
     NSLog(@"pressed %d.%d", indexPath.section, indexPath.row);
     
-    DZCLab *lab = [(NSArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:[self statusForSection:indexPath.section]]] objectAtIndex:indexPath.row];
+    DZCLab *lab = ((NSArray *)(self.labsByStatus)[@([self statusForSection:indexPath.section])])[indexPath.row]; // TODO extract into objectForRowAtIndexPath
     if (lab.subLabs == nil || [lab.subLabs count] == 0) {
         return;
     }
@@ -405,7 +400,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DZCLab *lab = [(NSArray *)[self.labsByStatus objectForKey:[NSNumber numberWithInt:[self statusForSection:indexPath.section]]] objectAtIndex:indexPath.row];
+    DZCLab *lab = ((NSArray *)(self.labsByStatus)[@([self statusForSection:indexPath.section])])[indexPath.row];
     
     if (lab.subLabs == nil || [lab.subLabs count] == 0) {
         return nil;
