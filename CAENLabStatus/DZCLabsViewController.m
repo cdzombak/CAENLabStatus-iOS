@@ -115,45 +115,11 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
             return;
         }
-        
-        NSArray* sortedLabs = nil;
-        if (!self.labOrdering) {
-            sortedLabs = [[labsResult allKeys] sortedArrayUsingSelector:@selector(compareHumanName:)];
-            
-            self.labOrdering = [NSMutableArray array];
-            
-            for (id lab in sortedLabs) {
-                [self.labOrdering addObject:[lab humanName]];
-            }
-            
-            [self saveSortOrder:self.labOrdering];
-        } else {
-            sortedLabs = [[labsResult allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                NSUInteger idx1 = [self.labOrdering indexOfObject:[obj1 humanName]];
-                NSUInteger idx2 = [self.labOrdering indexOfObject:[obj2 humanName]];
-                
-                if (idx1 == NSNotFound) {
-                    [self.labOrdering addObject:[obj1 humanName]];
-                    return (NSComparisonResult)NSOrderedAscending;
-                }
-                if (idx2 == NSNotFound) {
-                    [self.labOrdering addObject:[obj2 humanName]];
-                    return (NSComparisonResult)NSOrderedDescending;
-                }
-                if (idx1 == idx2) {
-                    return (NSComparisonResult)NSOrderedSame;
-                }
-                if (idx1 > idx2) {
-                    return (NSComparisonResult)NSOrderedDescending;
-                }
-                else {
-                    return (NSComparisonResult)NSOrderedAscending;
-                }
-            }];
-        }
-        
+
+        NSArray* sortedLabs = [self sortedLabsFrom:[labsResult allKeys]];
+
         self.statusForTableViewSection = nil;
-        
+
         for (id lab in sortedLabs) {
             DZCLabStatus status = [(NSNumber *)labsResult[lab] intValue];
             
@@ -183,6 +149,9 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     return [(self.statusForTableViewSection)[section] intValue];
 }
 
+
+#pragma mark - Sorting
+
 - (BOOL)saveSortOrder:(NSMutableArray *)sortOrder
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
@@ -209,6 +178,48 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     }
     
     return [NSMutableArray arrayWithArray:resultArray];
+}
+
+- (NSArray *)sortedLabsFrom:(NSArray *)unsortedLabs
+{
+    NSArray *sortedLabs;
+
+    if (!self.labOrdering) {
+        sortedLabs = [unsortedLabs sortedArrayUsingSelector:@selector(compareHumanName:)];
+
+        self.labOrdering = [NSMutableArray array];
+
+        for (id lab in sortedLabs) {
+            [self.labOrdering addObject:[lab humanName]];
+        }
+
+        [self saveSortOrder:self.labOrdering];
+    } else {
+        sortedLabs = [unsortedLabs sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            NSUInteger idx1 = [self.labOrdering indexOfObject:[obj1 humanName]];
+            NSUInteger idx2 = [self.labOrdering indexOfObject:[obj2 humanName]];
+
+            if (idx1 == NSNotFound) {
+                [self.labOrdering addObject:[obj1 humanName]];
+                return (NSComparisonResult)NSOrderedAscending;
+            }
+            if (idx2 == NSNotFound) {
+                [self.labOrdering addObject:[obj2 humanName]];
+                return (NSComparisonResult)NSOrderedDescending;
+            }
+            if (idx1 == idx2) {
+                return (NSComparisonResult)NSOrderedSame;
+            }
+            if (idx1 > idx2) {
+                return (NSComparisonResult)NSOrderedDescending;
+            }
+            else {
+                return (NSComparisonResult)NSOrderedAscending;
+            }
+        }];
+    }
+
+    return sortedLabs;
 }
 
 #pragma mark - ODRefreshControl related
