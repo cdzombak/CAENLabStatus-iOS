@@ -2,15 +2,15 @@
 
 @class DZCLab;
 
-typedef enum {
-    DZCLabStatusOpen,
+typedef NS_ENUM(NSInteger, DZCLabStatus) {
+    DZCLabStatusOpen = 0,
     DZCLabStatusReservedSoon,
     DZCLabStatusPartiallyReserved,
     DZCLabStatusReserved,
     DZCLabStatusClosedSoon,
     DZCLabStatusClosed,
     DZCLabStatusCount
-} DZCLabStatus;
+};
 
 @interface DZCDataController : NSObject
 
