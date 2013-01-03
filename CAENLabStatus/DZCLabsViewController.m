@@ -142,13 +142,18 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     }];
 }
 
-#pragma mark - Private methods
+#pragma mark - Data helper methods
 
 - (DZCLabStatus) statusForSection:(NSInteger)section
 {
     return [(self.statusForTableViewSection)[section] intValue];
 }
 
+- (DZCLab *)objectForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSNumber *statusForSection = @([self statusForSection:indexPath.section]);
+    return self.labsByStatus[statusForSection][indexPath.row];
+}
 
 #pragma mark - Sorting
 
@@ -255,7 +260,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
         return cell;
     }
     
-    DZCLab *lab = ((NSArray *)(self.labsByStatus)[@(status)])[indexPath.row];
+    DZCLab *lab = [self objectForRowAtIndexPath:indexPath];
 
     cell.textLabel.text = lab.humanName;
 
@@ -399,10 +404,10 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 {
     NSLog(@"pressed %d.%d", indexPath.section, indexPath.row);
     
-    DZCLab *lab = ((NSArray *)(self.labsByStatus)[@([self statusForSection:indexPath.section])])[indexPath.row]; // TODO extract into objectForRowAtIndexPath
     if (lab.subLabs == nil || [lab.subLabs count] == 0) {
         return;
     }
+    DZCLab *lab = [self objectForRowAtIndexPath:indexPath];
     
     DZCSubLabsViewController *subLabViewController = [[DZCSubLabsViewController alloc] initWithLab:lab];
     subLabViewController.dataController = self.dataController;
@@ -411,7 +416,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DZCLab *lab = ((NSArray *)(self.labsByStatus)[@([self statusForSection:indexPath.section])])[indexPath.row];
+    DZCLab *lab = [self objectForRowAtIndexPath:indexPath];
     
     if (lab.subLabs == nil || [lab.subLabs count] == 0) {
         return nil;
