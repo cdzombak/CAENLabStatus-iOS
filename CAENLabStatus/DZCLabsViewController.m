@@ -104,9 +104,9 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
         
         if (error) {
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Retrieving Data", nil)
-                                        message:NSLocalizedString(@"Please ensure you have a network connection. If you do, the CAEN lab info service might be down.\n\nTry refreshing again.", nil)
+                                        message:NSLocalizedString(@"Please ensure you have an Internet connection. If you do, the CAEN lab info service might be down.\n\nTry refreshing again.", nil)
                                        delegate:nil
-                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                              cancelButtonTitle:NSLocalizedString(@":(", nil)
                               otherButtonTitles:nil]
              show];
 
