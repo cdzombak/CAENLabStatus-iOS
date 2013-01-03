@@ -2,7 +2,7 @@
 #import "DZCDataController.h"
 #import "DZCLab.h"
 #import "DZCAboutViewController.h"
-#import "DZCSubLabsViewController.h"
+#import "DZCLabViewController.h"
 #import "ODRefreshControl.h"
 #import "UIColor+DZCColors.h"
 
@@ -403,7 +403,7 @@ static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewContr
     DZCLab *lab = [self objectForRowAtIndexPath:indexPath];
     if (lab.subLabs.count == 0) return;
     
-    DZCSubLabsViewController *subLabViewController = [[DZCSubLabsViewController alloc] initWithLab:lab];
+    DZCLabViewController *subLabViewController = [[DZCLabViewController alloc] initWithLab:lab];
     subLabViewController.dataController = self.dataController;
     
     [self.navigationController pushViewController:subLabViewController animated:YES];

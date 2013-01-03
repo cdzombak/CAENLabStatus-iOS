@@ -1,15 +1,15 @@
-#import "DZCSubLabsViewController.h"
+#import "DZCLabViewController.h"
 #import "DZCDataController.h"
 #import "DZCLab.h"
 #import "UIColor+DZCColors.h"
 
-@interface DZCSubLabsViewController ()
+@interface DZCLabViewController ()
 
 @property (nonatomic, strong) NSMutableArray *labs;
 
 @end
 
-@implementation DZCSubLabsViewController
+@implementation DZCLabViewController
 
 - (id)initWithLab:(DZCLab *)lab
 {

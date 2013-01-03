@@ -23,7 +23,7 @@
 		937CCCA91686463D0075BD01 /* greyButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA51686463D0075BD01 /* greyButton@2x.png */; };
 		937CCCAA1686463D0075BD01 /* greyButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA61686463D0075BD01 /* greyButtonHighlight.png */; };
 		937CCCAB1686463D0075BD01 /* greyButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA71686463D0075BD01 /* greyButtonHighlight@2x.png */; };
-		93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */; };
+		93BBAB6B14E83AC000B19049 /* DZCLabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB6A14E83AC000B19049 /* DZCLabViewController.m */; };
 		93BBAB7314E84A1700B19049 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BBAB7214E84A1700B19049 /* QuartzCore.framework */; };
 		93BBAB8514E8646800B19049 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB8414E8646800B19049 /* Icon.png */; };
 		93BBAB8714E8647000B19049 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93BBAB8614E8647000B19049 /* Icon@2x.png */; };
@@ -74,8 +74,8 @@
 		937CCCA51686463D0075BD01 /* greyButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButton@2x.png"; sourceTree = "<group>"; };
 		937CCCA61686463D0075BD01 /* greyButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButtonHighlight.png; sourceTree = "<group>"; };
 		937CCCA71686463D0075BD01 /* greyButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButtonHighlight@2x.png"; sourceTree = "<group>"; };
-		93BBAB6914E83AC000B19049 /* DZCSubLabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCSubLabsViewController.h; sourceTree = "<group>"; };
-		93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCSubLabsViewController.m; sourceTree = "<group>"; };
+		93BBAB6914E83AC000B19049 /* DZCLabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLabViewController.h; sourceTree = "<group>"; };
+		93BBAB6A14E83AC000B19049 /* DZCLabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabViewController.m; sourceTree = "<group>"; };
 		93BBAB7214E84A1700B19049 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		93BBAB8414E8646800B19049 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
 		93BBAB8614E8647000B19049 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "../Icon@2x.png"; sourceTree = "<group>"; };
@@ -230,8 +230,8 @@
 				93E80C5A14D797F5008850FE /* DZCAboutViewController.m */,
 				93D9F68514D39C2500AD2152 /* DZCLabsListViewController.h */,
 				93D9F68614D39C2500AD2152 /* DZCLabsListViewController.m */,
-				93BBAB6914E83AC000B19049 /* DZCSubLabsViewController.h */,
-				93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */,
+				93BBAB6914E83AC000B19049 /* DZCLabViewController.h */,
+				93BBAB6A14E83AC000B19049 /* DZCLabViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -427,7 +427,7 @@
 				93D9F6C414D5081F00AD2152 /* DZCHostInfoApiClient.m in Sources */,
 				93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */,
 				93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */,
-				93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */,
+				93BBAB6B14E83AC000B19049 /* DZCLabViewController.m in Sources */,
 				9324A61F1602AFD900EF33A9 /* UIColor+DZCColors.m in Sources */,
 				9324A6491602DD2D00EF33A9 /* ODRefreshControl.m in Sources */,
 			);

@@ -3,7 +3,7 @@
 @class DZCLab;
 @class DZCDataController;
 
-@interface DZCSubLabsViewController : UITableViewController
+@interface DZCLabViewController : UITableViewController
 
 @property (nonatomic, readonly, strong) DZCLab *lab;
 @property (nonatomic, strong) DZCDataController *dataController;
