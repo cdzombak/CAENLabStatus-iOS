@@ -1,4 +1,4 @@
-#import "DZCLabsViewController.h"
+#import "DZCLabsListViewController.h"
 #import "DZCDataController.h"
 #import "DZCLab.h"
 #import "DZCAboutViewController.h"
@@ -20,9 +20,9 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     }
 }
 
-static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControllerSortOrder";
+static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewControllerSortOrder";
 
-@interface DZCLabsViewController () 
+@interface DZCLabsListViewController () 
 
 @property (nonatomic, strong) NSMutableArray *labOrdering;
 @property (nonatomic, strong) NSMutableDictionary *labsByStatus;
@@ -35,7 +35,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 @end
 
-@implementation DZCLabsViewController
+@implementation DZCLabsListViewController
 
 @synthesize aboutButtonItem = _aboutButtonItem,
             aboutViewController = _aboutViewController
@@ -164,7 +164,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
         return NO;
     }
     
-	[standardUserDefaults setObject:sortOrder forKey:DZCLabsViewControllerSortOrderPrefsKey];
+	[standardUserDefaults setObject:sortOrder forKey:DZCLabsListViewControllerSortOrderPrefsKey];
 	[standardUserDefaults synchronize];
     
     return YES;
@@ -177,7 +177,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
         return nil;
     }
     
-    NSArray *resultArray = [standardUserDefaults arrayForKey:DZCLabsViewControllerSortOrderPrefsKey];
+    NSArray *resultArray = [standardUserDefaults arrayForKey:DZCLabsListViewControllerSortOrderPrefsKey];
     if (resultArray == nil) {
         return nil;
     }

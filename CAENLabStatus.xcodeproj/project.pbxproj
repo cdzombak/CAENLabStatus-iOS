@@ -33,7 +33,7 @@
 		93D9F66E14D3997600AD2152 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93D9F66C14D3997600AD2152 /* InfoPlist.strings */; };
 		93D9F67014D3997600AD2152 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F66F14D3997600AD2152 /* main.m */; };
 		93D9F67414D3997600AD2152 /* DZCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F67314D3997600AD2152 /* DZCAppDelegate.m */; };
-		93D9F68714D39C2500AD2152 /* DZCLabsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F68614D39C2500AD2152 /* DZCLabsViewController.m */; };
+		93D9F68714D39C2500AD2152 /* DZCLabsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F68614D39C2500AD2152 /* DZCLabsListViewController.m */; };
 		93D9F69914D4827700AD2152 /* DZCDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69814D4827700AD2152 /* DZCDataController.m */; };
 		93D9F69C14D483E400AD2152 /* DZCLab.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F69B14D483E400AD2152 /* DZCLab.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93D9F6B414D48B1400AD2152 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 93D9F6A014D48B1400AD2152 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -89,8 +89,8 @@
 		93D9F67114D3997600AD2152 /* CAENLabStatus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAENLabStatus-Prefix.pch"; sourceTree = "<group>"; };
 		93D9F67214D3997600AD2152 /* DZCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DZCAppDelegate.h; sourceTree = "<group>"; };
 		93D9F67314D3997600AD2152 /* DZCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DZCAppDelegate.m; sourceTree = "<group>"; };
-		93D9F68514D39C2500AD2152 /* DZCLabsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLabsViewController.h; sourceTree = "<group>"; };
-		93D9F68614D39C2500AD2152 /* DZCLabsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabsViewController.m; sourceTree = "<group>"; };
+		93D9F68514D39C2500AD2152 /* DZCLabsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLabsListViewController.h; sourceTree = "<group>"; };
+		93D9F68614D39C2500AD2152 /* DZCLabsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabsListViewController.m; sourceTree = "<group>"; };
 		93D9F69714D4827700AD2152 /* DZCDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCDataController.h; sourceTree = "<group>"; };
 		93D9F69814D4827700AD2152 /* DZCDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCDataController.m; sourceTree = "<group>"; };
 		93D9F69A14D483E400AD2152 /* DZCLab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLab.h; sourceTree = "<group>"; };
@@ -228,8 +228,8 @@
 			children = (
 				93E80C5914D797F5008850FE /* DZCAboutViewController.h */,
 				93E80C5A14D797F5008850FE /* DZCAboutViewController.m */,
-				93D9F68514D39C2500AD2152 /* DZCLabsViewController.h */,
-				93D9F68614D39C2500AD2152 /* DZCLabsViewController.m */,
+				93D9F68514D39C2500AD2152 /* DZCLabsListViewController.h */,
+				93D9F68614D39C2500AD2152 /* DZCLabsListViewController.m */,
 				93BBAB6914E83AC000B19049 /* DZCSubLabsViewController.h */,
 				93BBAB6A14E83AC000B19049 /* DZCSubLabsViewController.m */,
 			);
@@ -410,7 +410,7 @@
 			files = (
 				93D9F67014D3997600AD2152 /* main.m in Sources */,
 				93D9F67414D3997600AD2152 /* DZCAppDelegate.m in Sources */,
-				93D9F68714D39C2500AD2152 /* DZCLabsViewController.m in Sources */,
+				93D9F68714D39C2500AD2152 /* DZCLabsListViewController.m in Sources */,
 				93D9F69914D4827700AD2152 /* DZCDataController.m in Sources */,
 				93D9F69C14D483E400AD2152 /* DZCLab.m in Sources */,
 				93D9F6B414D48B1400AD2152 /* AFHTTPClient.m in Sources */,

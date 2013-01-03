@@ -1,13 +1,13 @@
 #import "DZCAppDelegate.h"
 #import "DZCDataController.h"
-#import "DZCLabsViewController.h"
+#import "DZCLabsListViewController.h"
 #import "UIColor+DZCColors.h"
 
 @interface DZCAppDelegate ()
 
 @property (nonatomic, strong) UIViewController *rootViewController;
 @property (nonatomic, strong) DZCDataController *dataController;
-@property (nonatomic, strong) DZCLabsViewController *labsViewController;
+@property (nonatomic, strong) DZCLabsListViewController *labsViewController;
 
 @property (nonatomic, assign) BOOL appWasInBackground;
 
@@ -20,7 +20,7 @@
     [[UINavigationBar appearance] setTintColor:[UIColor dzc_logoBlueColor]];
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.labsViewController = [[DZCLabsViewController alloc] init];
+        self.labsViewController = [[DZCLabsListViewController alloc] init];
         self.labsViewController.dataController = self.dataController;
         
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.labsViewController];

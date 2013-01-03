@@ -2,7 +2,7 @@
 
 @class DZCDataController;
 
-@interface DZCLabsViewController : UITableViewController
+@interface DZCLabsListViewController : UITableViewController
 
 @property(nonatomic, strong) DZCDataController *dataController;
 
