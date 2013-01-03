@@ -1,16 +1,11 @@
 #import "DZCSubLabsViewController.h"
 #import "DZCDataController.h"
 #import "DZCLab.h"
-#import "ODRefreshControl.h"
 #import "UIColor+DZCColors.h"
 
 @interface DZCSubLabsViewController ()
 
 @property (nonatomic, strong) NSMutableArray *labs;
-@property (nonatomic, strong) ODRefreshControl *pullRefreshControl;
-
-- (void)refreshData;
-- (void)loadData;
 
 @end
 
@@ -34,11 +29,6 @@
     self.tableView.allowsSelection = NO;
     self.tableView.allowsMultipleSelection = NO;
     self.tableView.rowHeight = 55.0;
-
-    self.pullRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
-    self.pullRefreshControl.tintColor = [UIColor dzc_refreshViewColor];
-    self.pullRefreshControl.backgroundColor = [UIColor dzc_tableViewBackgroundColor];
-    [self.pullRefreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -52,12 +42,6 @@
 
 #pragma mark - Data managament
 
-- (void)refreshData
-{
-    [self.dataController clearCache];
-    [self loadData];
-}
-
 - (void)loadData
 {
     self.labs = nil;
@@ -67,20 +51,11 @@
     }
     
     [self.labs sortUsingSelector:@selector(compareHumanName:)];
-    
-    [self.pullRefreshControl endRefreshing];
 
     [self.tableView reloadData];
 }
 
-#pragma mark - ODRefreshControl related
-
-- (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
-{
-    [self refreshData];
-}
-
-#pragma mark - Table view data source
+#pragma mark - UITableViewDataSource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
