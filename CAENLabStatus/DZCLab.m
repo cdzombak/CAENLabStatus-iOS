@@ -7,6 +7,8 @@
 @property (nonatomic, readwrite, copy) NSString *humanName;
 @property (nonatomic, readwrite, copy) NSNumber *hostCount;
 @property (nonatomic, readwrite, copy) NSSet    *subLabs;
+@property (nonatomic, readwrite, copy) NSNumber *latitude;
+@property (nonatomic, readwrite, copy) NSNumber *longitude;
 
 @end
 
@@ -29,6 +31,22 @@
     return self;
 }
 
+- (id)initWithBuilding:(NSString*)building
+                  room:(NSString*)room
+             humanName:(NSString*)humanName
+             hostCount:(NSNumber *)hostCount
+              latitude:(NSNumber *)latitude
+             longitude:(NSNumber *)longitude
+               subLabs:(NSSet *)subLabs
+{
+    self = [self initWithBuilding:building room:room humanName:humanName hostCount:hostCount subLabs:subLabs];
+    if (self) {
+        self.latitude = latitude;
+        self.longitude = longitude;
+    }
+    return self;
+}
+
 - (void)dealloc
 {
     [_building release];
@@ -36,6 +54,8 @@
     [_humanName release];
     [_hostCount release];
     [_subLabs release];
+    [_latitude release];
+    [_longitude release];
     
     [super dealloc];
 }
