@@ -1,6 +1,7 @@
 #import "DZCAppDelegate.h"
 #import "DZCDataController.h"
 #import "DZCLabsViewController.h"
+#import "UIColor+DZCColors.h"
 
 @interface DZCAppDelegate ()
 
@@ -18,6 +19,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[UINavigationBar appearance] setTintColor:[UIColor dzc_logoBlueColor]];
+
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.labsViewController = [[DZCLabsViewController alloc] initWithStyle:UITableViewStylePlain];
         self.labsViewController.dataController = self.dataController;

@@ -66,8 +66,6 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     [self.pullRefreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
     
     self.labOrdering = [self retrieveSavedSortOrder];
-
-    self.navigationController.navigationBar.tintColor = [UIColor dzc_logoBlueColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
