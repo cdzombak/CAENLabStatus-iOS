@@ -2,11 +2,11 @@
 
 @interface DZCLab ()
 
-@property (nonatomic, copy) NSString *building;
-@property (nonatomic, copy) NSString *room;
-@property (nonatomic, copy) NSString *humanName;
-@property (nonatomic, copy) NSNumber *hostCount;
-@property (nonatomic, copy) NSSet    *subLabs;
+@property (nonatomic, readwrite, copy) NSString *building;
+@property (nonatomic, readwrite, copy) NSString *room;
+@property (nonatomic, readwrite, copy) NSString *humanName;
+@property (nonatomic, readwrite, copy) NSNumber *hostCount;
+@property (nonatomic, readwrite, copy) NSSet    *subLabs;
 
 @end
 
