@@ -122,18 +122,18 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
         for (id lab in sortedLabs) {
             DZCLabStatus status = [(NSNumber *)labsResult[lab] intValue];
-            
-            NSMutableArray *labs = (self.labsByStatus)[@(status)];
+
+            NSMutableArray *labs = self.labsByStatus[@(status)];
             if (!labs) {
-                (self.labsByStatus)[@(status)] = [NSMutableArray array];
-                labs = (self.labsByStatus)[@(status)];
+                self.labsByStatus[@(status)] = [NSMutableArray array];
+                labs = self.labsByStatus[@(status)];
             }
-            
+
             [labs addObject:lab];
         }
         
         for (DZCLabStatus i=0; i<DZCLabStatusCount; ++i) {
-            if ((self.labsByStatus)[@(i)] != nil) {
+            if (self.labsByStatus[@(i)] != nil) {
                 [self.statusForTableViewSection addObject:@(i)];
             }
         }
@@ -144,7 +144,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 #pragma mark - Data helper methods
 
-- (DZCLabStatus) statusForSection:(NSInteger)section
+- (DZCLabStatus)statusForSection:(NSInteger)section
 {
     return [(self.statusForTableViewSection)[section] intValue];
 }
@@ -243,7 +243,8 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [(self.labsByStatus)[@([self statusForSection:section])] count];
+    NSNumber *statusForSection = @([self statusForSection:section]);
+    return [self.labsByStatus[statusForSection] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -255,18 +256,19 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    
-    if ([(self.labsByStatus)[@(status)] count] < indexPath.row+1) {
+
+    // this is clearly here to prevent some out-of-bounds error, but I wish I'd commented better why it was necessary
+    if ([self.labsByStatus[@(status)] count] < indexPath.row+1) {
         return cell;
     }
     
     DZCLab *lab = [self objectForRowAtIndexPath:indexPath];
 
     cell.textLabel.text = lab.humanName;
-
     cell.textLabel.font = [UIFont systemFontOfSize:cell.textLabel.font.pointSize];
-    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+
     cell.detailTextLabel.text = @"...";
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     cell.detailTextLabel.font = [UIFont systemFontOfSize:16.0];
     
     switch (status) {
@@ -325,14 +327,12 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
         cell.showsReorderControl = NO;
     }
     
-    if (status != DZCLabStatusClosed && status != DZCLabStatusReserved && lab.subLabs && [lab.subLabs count] > 0) {
+    if (status != DZCLabStatusClosed && status != DZCLabStatusReserved && lab.subLabs.count > 0) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        //cell.userInteractionEnabled = YES;
     } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        //cell.userInteractionEnabled = NO;
     }
     
     return cell;
@@ -345,12 +345,10 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-    if (sourceIndexPath.section != destinationIndexPath.section) {
-        NSLog(@"WARNING: it appears a move to another section succeeded somehow");
-    }
+    NSParameterAssert(sourceIndexPath.section == destinationIndexPath.section);
     
     DZCLabStatus status = [self statusForSection:sourceIndexPath.section];
-    NSMutableArray *labs = (NSMutableArray *)(self.labsByStatus)[@(status)];
+    NSMutableArray *labs = (NSMutableArray *)(self.labsByStatus[@(status)]);
 
     DZCLab *lab = labs[sourceIndexPath.row];
     [labs removeObjectAtIndex:sourceIndexPath.row];
@@ -402,12 +400,8 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"pressed %d.%d", indexPath.section, indexPath.row);
-    
-    if (lab.subLabs == nil || [lab.subLabs count] == 0) {
-        return;
-    }
     DZCLab *lab = [self objectForRowAtIndexPath:indexPath];
+    if (lab.subLabs.count == 0) return;
     
     DZCSubLabsViewController *subLabViewController = [[DZCSubLabsViewController alloc] initWithLab:lab];
     subLabViewController.dataController = self.dataController;
@@ -418,11 +412,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     DZCLab *lab = [self objectForRowAtIndexPath:indexPath];
     
-    if (lab.subLabs == nil || [lab.subLabs count] == 0) {
-        return nil;
-    }
-    
-    return indexPath;
+    return (lab.subLabs.count == 0) ? nil : indexPath;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
