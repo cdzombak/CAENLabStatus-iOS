@@ -17,7 +17,6 @@
 		9347848E14F32624009C5703 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848A14F32624009C5703 /* Icon-Small-50.png */; };
 		9347848F14F32624009C5703 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848B14F32624009C5703 /* Icon-Small.png */; };
 		9347849014F32624009C5703 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848C14F32624009C5703 /* Icon-Small@2x.png */; };
-		9347849314F32953009C5703 /* Appirater.m in Sources */ = {isa = PBXBuildFile; fileRef = 9347849214F32953009C5703 /* Appirater.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9347849514F329CF009C5703 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849414F329CF009C5703 /* CFNetwork.framework */; };
 		9347849714F329D9009C5703 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849614F329D8009C5703 /* SystemConfiguration.framework */; };
 		937CCCA81686463D0075BD01 /* greyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA41686463D0075BD01 /* greyButton.png */; };
@@ -69,8 +68,6 @@
 		9347848A14F32624009C5703 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		9347848B14F32624009C5703 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		9347848C14F32624009C5703 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
-		9347849114F32953009C5703 /* Appirater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appirater.h; sourceTree = "<group>"; };
-		9347849214F32953009C5703 /* Appirater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Appirater.m; sourceTree = "<group>"; };
 		9347849414F329CF009C5703 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		9347849614F329D8009C5703 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		937CCCA41686463D0075BD01 /* greyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButton.png; sourceTree = "<group>"; };
@@ -284,8 +281,6 @@
 			children = (
 				93D9F69E14D48B1400AD2152 /* AFNetworking */,
 				9324A6461602DD2D00EF33A9 /* ODRefreshControl */,
-				9347849114F32953009C5703 /* Appirater.h */,
-				9347849214F32953009C5703 /* Appirater.m */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
@@ -431,7 +426,6 @@
 				93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */,
 				93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */,
 				93BBAB6B14E83AC000B19049 /* DZCSubLabsViewController.m in Sources */,
-				9347849314F32953009C5703 /* Appirater.m in Sources */,
 				9324A61F1602AFD900EF33A9 /* UIColor+DZCColors.m in Sources */,
 				9324A6491602DD2D00EF33A9 /* ODRefreshControl.m in Sources */,
 			);
