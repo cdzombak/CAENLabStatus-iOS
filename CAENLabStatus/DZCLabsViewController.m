@@ -31,16 +31,20 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 - (void)loadData;
 - (DZCLabStatus) statusForSection:(NSInteger)section;
+@property (nonatomic, readonly, strong) UIBarButtonItem *aboutButtonItem;
 
 - (BOOL)saveSortOrder:(NSMutableArray *)sortOrder;
 - (NSMutableArray *)retrieveSavedSortOrder;
+@property (nonatomic, readonly, strong) UIViewController *aboutViewController;
 
 @end
 
 
 @implementation DZCLabsViewController
 
-@synthesize dataController = _dataController, labsByStatus = _labsByStatus, statusForTableViewSection = _statusForTableViewSection, labOrdering = _labOrdering;
+@synthesize aboutButtonItem = _aboutButtonItem,
+            aboutViewController = _aboutViewController
+            ;
 
 - (id)init
 {
@@ -54,13 +58,8 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-       
-    UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"247-InfoCircle"]
-                                                                    style:UIBarButtonItemStylePlain
-                                                                   target:self
-                                                                   action:@selector(pressedAboutButton:)];
     
-    self.navigationItem.leftBarButtonItem = aboutButton;
+    self.navigationItem.leftBarButtonItem = self.aboutButtonItem;
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.tableView.allowsSelection = YES;
@@ -88,11 +87,7 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 
 - (void)pressedAboutButton:(id)sender
 {
-    DZCAboutViewController *aboutViewController = [[DZCAboutViewController alloc] initWithNibName:@"DZCAboutViewController" bundle:nil];
-    aboutViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    aboutViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-    
-    [self.navigationController presentViewController:aboutViewController animated:YES completion:nil];
+    [self.navigationController presentViewController:self.aboutViewController animated:YES completion:nil];
 }
 
 #pragma mark - Data Management
@@ -462,6 +457,27 @@ static NSString *DZCLabsViewControllerSortOrderPrefsKey = @"DZCLabsViewControlle
 }
 
 #pragma mark - Property overrides
+
+- (UIBarButtonItem *)aboutButtonItem
+{
+    if (!_aboutButtonItem) {
+        _aboutButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"247-InfoCircle"]
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(pressedAboutButton:)];
+    }
+    return _aboutButtonItem;
+}
+
+- (UIViewController *)aboutViewController
+{
+    if (!_aboutViewController) {
+        _aboutViewController = [[DZCAboutViewController alloc] initWithNibName:@"DZCAboutViewController" bundle:nil];
+        _aboutViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
+        _aboutViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+    }
+    return _aboutViewController;
+}
 
 - (NSMutableDictionary *)labsByStatus
 {
