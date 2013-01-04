@@ -6,6 +6,7 @@
 
 @interface DZCLabViewController ()
 
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) DZCLabTableViewManager *tvManager;
 
 @end
@@ -14,8 +15,7 @@
 
 - (id)initWithLab:(DZCLab *)lab
 {
-    UITableViewStyle tvStyle = [DZCLabTableViewManager tableViewStyleForLab:lab];
-    self = [super initWithStyle:tvStyle];
+    self = [super init];
     if (self) {
         _lab = lab;
         self.title = self.lab.humanName;
@@ -23,21 +23,48 @@
     return self;
 }
 
+// display map + sublabs if so, plain
+// display map + groups ( usage , hosts ) otherwise
+
 #pragma mark - UIViewController View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.view.autoresizesSubviews = YES;
+
+    UITableViewStyle tvStyle = [DZCLabTableViewManager tableViewStyleForLab:self.lab];
+    self.tableView = [[UITableView alloc] initWithFrame:(CGRect){CGPointZero, self.view.bounds.size} style:tvStyle];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    [self.view addSubview:self.tableView];
+
     self.tvManager = [DZCLabTableViewManager tableViewManagerForLab:self.lab dataController:self.dataController];
     self.tvManager.detailNavController = self.navigationController;
     [self.tvManager configureTableView:self.tableView];
 
-    // display map + sublabs if so, plain
-    // display map + groups ( usage , hosts ) otherwise
-
     [self.tvManager prepareData];
     [self.tableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    NSArray *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
+    if (selectedIndexPaths.count) {
+        for (NSIndexPath *indexPath in selectedIndexPaths) {
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    [self.tableView flashScrollIndicators];
 }
 
 #pragma mark - Property overrides
