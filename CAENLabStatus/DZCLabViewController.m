@@ -3,11 +3,13 @@
 #import "DZCLab.h"
 #import "UIColor+DZCColors.h"
 #import "DZCLabTableViewManager.h"
+#import "CDZTableViewSplitDelegate.h"
 
-@interface DZCLabViewController ()
+@interface DZCLabViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) DZCLabTableViewManager *tvManager;
+@property (nonatomic, strong) CDZTableViewSplitDelegate *tvSplitDelegate;
 
 @end
 
@@ -43,6 +45,8 @@
     self.tvManager = [DZCLabTableViewManager tableViewManagerForLab:self.lab dataController:self.dataController];
     self.tvManager.detailNavController = self.navigationController;
     [self.tvManager configureTableView:self.tableView];
+    self.tvSplitDelegate = [[CDZTableViewSplitDelegate alloc] initWithScrollViewDelegate:self tableViewDelegate:self.tableView.delegate];
+    self.tableView.delegate = self.tvSplitDelegate;
 
     [self.tvManager prepareData];
     [self.tableView reloadData];
@@ -65,6 +69,13 @@
     [super viewDidAppear:animated];
 
     [self.tableView flashScrollIndicators];
+}
+
+#pragma mark - UIScrollViewDelegate methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 #pragma mark - Property overrides
