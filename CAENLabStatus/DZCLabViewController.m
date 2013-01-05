@@ -65,10 +65,6 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 
     [self setupParallaxView];
 
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.mapZoomLocation, DZCLabVCMapStartingZoom*DZC_METERS_PER_MILE, DZCLabVCMapStartingZoom*DZC_METERS_PER_MILE);
-    [self.mapView setRegion:viewRegion animated:NO];
-    [self.mapView addAnnotation:self.lab];
-
     [self.tvManager prepareData];
     [self.tableView reloadData];
 }
@@ -83,6 +79,22 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
             [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
     }
+
+    // we deal with the mapview here because it is destroyed when we leave the screen
+    // and recreated when we come back.
+    CGFloat mapViewTotalHeight = 2*fabs(DZCLabVCMapViewYOffset)+DZCLabVCMapHeight;
+    CGRect mapViewFrame = CGRectMake(0, DZCLabVCMapViewYOffset, self.view.bounds.size.width, mapViewTotalHeight);
+    self.mapView = [[MKMapView alloc] initWithFrame:mapViewFrame];
+    self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.mapView.userInteractionEnabled = NO;
+    self.mapView.mapType = MKMapTypeHybrid;
+
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.mapZoomLocation, DZCLabVCMapStartingZoom*DZC_METERS_PER_MILE, DZCLabVCMapStartingZoom*DZC_METERS_PER_MILE);
+    [self.mapView setRegion:viewRegion animated:NO];
+    [self.mapView addAnnotation:self.lab];
+
+    [self.view addSubview:self.mapView];
+    [self.view sendSubviewToBack:self.mapView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -90,6 +102,14 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
     [super viewDidAppear:animated];
 
     [self.tableView flashScrollIndicators];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    [self.mapView removeFromSuperview];
+    self.mapView = nil;
 }
 
 - (void)headerViewTouched:(id)sender
@@ -135,15 +155,6 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
     blackBorderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
     [tableHeaderView addSubview:blackBorderView];
     self.tableView.tableHeaderView = tableHeaderView;
-
-    CGFloat mapViewTotalHeight = 2*fabs(DZCLabVCMapViewYOffset)+tableHeaderView.bounds.size.height;
-    CGRect mapViewFrame = CGRectMake(0, DZCLabVCMapViewYOffset, self.view.bounds.size.width, mapViewTotalHeight);
-    self.mapView = [[MKMapView alloc] initWithFrame:mapViewFrame];
-    self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.mapView.userInteractionEnabled = NO;
-    self.mapView.mapType = MKMapTypeHybrid;
-    [self.view addSubview:self.mapView];
-    [self.view sendSubviewToBack:self.mapView];
 
     UIGestureRecognizer *headerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headerViewTouched:)];
     [tableHeaderView addGestureRecognizer:headerTapRecognizer];
