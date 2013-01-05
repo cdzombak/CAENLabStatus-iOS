@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
-@interface DZCLab : NSObject <NSCopying>
+@interface DZCLab : NSObject <NSCopying, MKAnnotation>
 
 @property (nonatomic, readonly, copy) NSString *building;
 @property (nonatomic, readonly, copy) NSString *room;
