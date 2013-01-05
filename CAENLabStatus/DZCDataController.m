@@ -81,7 +81,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 
 - (void)machineCountsInLab:(DZCLab *)lab withBlock:(void(^)(NSNumber *used, NSNumber *total, DZCLab *lab, NSError *error))block
 {
-    __block void (^hostInfoReady)(NSArray *) = [^(NSArray *hosts) {
+    __block void (^hostInfoReady)(NSArray *) = ^(NSArray *hosts) {
         NSUInteger used = 0;
 
         for (id host in hosts) {
@@ -95,7 +95,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
         if ([hosts count] > [total intValue]) total = @([hosts count]);
 
         if (block) block(@(used), total, lab, nil);
-    } copy];
+    };
     
     if ((self.labHostInfo)[lab]) {
         hostInfoReady(self.labHostInfo[lab]);
@@ -114,7 +114,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 {
     __block NSInteger retries = RETRIES;
 
-    __block void (^retryResultBlock)(id, NSError *) = [^(id response, NSError* error) {
+    __block void (^retryResultBlock)(id, NSError *) = ^(id response, NSError* error) {
         if (response && !error) {
             [self setLabsFromApiResponse:response];
             if (resultBlock) resultBlock(nil);
@@ -133,7 +133,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
             if (!error) error = [[NSError alloc] init];
             if (resultBlock) resultBlock(error);
         }
-    } copy];
+    };
 
     [self makeLabStatusApiRequestWithBlock:retryResultBlock];
 }
@@ -159,7 +159,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 {
     __block NSInteger retries = RETRIES;
 
-    __block void (^retryResultBlock)(id, NSError *) = [^(id response, NSError* error) {
+    __block void (^retryResultBlock)(id, NSError *) = ^(id response, NSError* error) {
         if (response && !error) {
             self.labHostInfo[lab] = response;
             if (block) block(nil);
@@ -178,7 +178,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
             if (!error) error = [[NSError alloc] init];
             if (block) block(error);
         }
-    } copy];
+    };
 
     [self makeHostInfoApiRequestForLab:lab withBlock:retryResultBlock];
 }
