@@ -20,6 +20,12 @@ __attribute__((constructor)) static void __InitTableViewStrings()
     }
 }
 
+typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
+    DZCLabsListFilterAll = 0,
+    DZCLabsListFilterNorth,
+    DZCLabsListFilterCentral,
+};
+
 static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewControllerSortOrder";
 
 @interface DZCLabsListViewController () 
@@ -30,6 +36,9 @@ static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewContr
 
 @property (nonatomic, readonly, strong) UIBarButtonItem *aboutButtonItem;
 @property (nonatomic, strong) ODRefreshControl *pullRefreshControl;
+
+@property (nonatomic, strong) UISegmentedControl *filterControl;
+@property (nonatomic, assign) DZCLabsListFilter selectedFilter;
 
 @property (nonatomic, readonly, strong) UIViewController *aboutViewController;
 
@@ -56,7 +65,9 @@ static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewContr
     
     self.navigationItem.leftBarButtonItem = self.aboutButtonItem;
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
+
+    [self configureFilterControl];
+
     self.tableView.allowsSelection = YES;
     self.tableView.allowsMultipleSelection = NO;
     self.tableView.rowHeight = 55.0;
@@ -74,15 +85,70 @@ static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewContr
     [super viewWillAppear:animated];
     
     self.navigationItem.title = NSLocalizedString(@"CAEN Labs", nil);
+
+    self.tableView.contentOffset = (CGPoint) {0.0, 43.0};
     
     [self loadData];
 }
 
-#pragma mark - Buttons
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+
+    self.filterControl.enabled = !editing;
+}
+
+- (void)configureFilterControl
+{
+    UISegmentedControl *filterControl = [[UISegmentedControl alloc] initWithItems:@[
+                                         NSLocalizedString(@"All", nil),
+                                         NSLocalizedString(@"North", nil),
+                                         NSLocalizedString(@"Central", nil)
+                                         ]];
+    filterControl.tintColor = [UIColor colorWithRed:0.204 green:0.219 blue:0.483 alpha:1.000];
+    filterControl.segmentedControlStyle = UISegmentedControlStyleBar;
+
+    filterControl.selectedSegmentIndex = DZCLabsListFilterAll;
+    self.selectedFilter = DZCLabsListFilterAll;
+    
+    CGRect filterControlFrame = filterControl.frame;
+    filterControlFrame.size.height = 36.0;
+    filterControlFrame.size.width = self.view.bounds.size.width - 10.0;
+    filterControlFrame.origin.x = 5.0;
+    filterControlFrame.origin.y = 4.0;
+    filterControl.frame = filterControlFrame;
+
+    [filterControl addTarget:self
+                      action:@selector(filterControlChanged:)
+            forControlEvents:UIControlEventValueChanged];
+
+    UIToolbar *filterControlContainer = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, 43.0)];
+    filterControlContainer.tintColor = [UIColor colorWithRed:0.204 green:0.219 blue:0.483 alpha:1.000];
+    [filterControlContainer addSubview:filterControl];
+
+    self.tableView.tableHeaderView = filterControlContainer;
+    self.filterControl = filterControl;
+}
+
+#pragma mark - UI Actions
 
 - (void)pressedAboutButton:(id)sender
 {
     [self.navigationController presentViewController:self.aboutViewController animated:YES completion:nil];
+}
+
+- (void)filterControlChanged:(id)sender
+{
+    NSParameterAssert(sender == self.filterControl);
+
+    self.selectedFilter = self.filterControl.selectedSegmentIndex;
+    [self loadData];
+
+    if (self.selectedFilter == DZCLabsListFilterAll) {
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    } else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
 }
 
 #pragma mark - Data Management
@@ -116,12 +182,29 @@ static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewContr
             return;
         }
 
-        NSArray* sortedLabs = [self sortedLabsFrom:[labsResult allKeys]];
+        // labsResult is a dict mapping DZCLab => (NSNumber)status
+        NSMutableDictionary *filteredLabs = [NSMutableDictionary dictionary];
+        [labsResult enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            BOOL includeThisLab = (self.selectedFilter == DZCLabsListFilterAll);
+
+            DZCLab *lab = key;
+            // 42.285 // todo remove hardcoded values
+            BOOL isNorth = ([lab.latitude doubleValue] > 42.285);
+            if (self.selectedFilter == DZCLabsListFilterNorth && isNorth) includeThisLab = YES;
+            if (self.selectedFilter == DZCLabsListFilterCentral && !isNorth) includeThisLab = YES;
+
+            if (includeThisLab) filteredLabs[key] = obj;
+            
+            *stop = NO;
+            return;
+        }];
+
+        NSArray* sortedLabs = [self sortedLabsFrom:[filteredLabs allKeys]];
 
         self.statusForTableViewSection = nil;
 
         for (id lab in sortedLabs) {
-            DZCLabStatus status = [(NSNumber *)labsResult[lab] intValue];
+            DZCLabStatus status = [(NSNumber *)filteredLabs[lab] intValue];
 
             NSMutableArray *labs = self.labsByStatus[@(status)];
             if (!labs) {
