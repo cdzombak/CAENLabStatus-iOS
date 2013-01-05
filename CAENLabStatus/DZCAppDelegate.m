@@ -4,13 +4,15 @@
 #import "UIColor+DZCColors.h"
 #import "AFNetworkActivityIndicatorManager.h"
 
+static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
+
 @interface DZCAppDelegate ()
 
 @property (nonatomic, strong) UIViewController *rootViewController;
 @property (nonatomic, strong) DZCDataController *dataController;
 @property (nonatomic, strong) DZCLabsListViewController *labsViewController;
 
-@property (nonatomic, assign) BOOL appWasInBackground;
+@property (nonatomic, strong) NSDate *appBackgroundTime;
 
 @end
 
@@ -33,8 +35,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.rootViewController;
     [self.window makeKeyAndVisible];
-    
-    self.appWasInBackground = NO;
 
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
 
@@ -43,12 +43,12 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    self.appWasInBackground = YES;
+    self.appBackgroundTime = [NSDate date];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    if (self.appWasInBackground) {
+    if (self.appBackgroundTime && [[NSDate date] timeIntervalSinceDate:self.appBackgroundTime] > DZCAppBackgroundRefreshTimeout) {
         [self.dataController clearCache];
         [self.dataController reloadLabStatusesWithBlock:nil];
         
