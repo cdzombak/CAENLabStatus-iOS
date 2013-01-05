@@ -8,8 +8,8 @@
 
 #define DZC_METERS_PER_MILE 1609.344
 
-static const CGFloat DZCLabVCMapStartingZoom = 0.4;
-static const CGFloat DZCLabVCMapHeight = 100.0;
+static const CGFloat DZCLabVCMapStartingZoom = 0.35;
+static const CGFloat DZCLabVCMapHeight = 110.0;
 static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 
 @interface DZCLabViewController () <UIScrollViewDelegate>
