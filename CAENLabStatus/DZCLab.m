@@ -14,23 +14,6 @@
 
 @implementation DZCLab
 
-- (id)initWithBuilding:(NSString *)building
-                  room:(NSString *)room
-             humanName:(NSString *)humanName
-             hostCount:(NSNumber *)hostCount
-               subLabs:(NSSet *)subLabs
-{
-    self = [super init];
-    if (self) {    
-        self.building = building;
-        self.room = room;
-        self.humanName = humanName;
-        self.hostCount = hostCount;
-        self.subLabs = subLabs;
-    }
-    return self;
-}
-
 - (id)initWithBuilding:(NSString*)building
                   room:(NSString*)room
              humanName:(NSString*)humanName
@@ -39,8 +22,13 @@
              longitude:(NSNumber *)longitude
                subLabs:(NSSet *)subLabs
 {
-    self = [self initWithBuilding:building room:room humanName:humanName hostCount:hostCount subLabs:subLabs];
+    self = [super init];
     if (self) {
+        self.building = building;
+        self.room = room;
+        self.humanName = humanName;
+        self.hostCount = hostCount;
+        self.subLabs = subLabs;
         self.latitude = latitude;
         self.longitude = longitude;
     }

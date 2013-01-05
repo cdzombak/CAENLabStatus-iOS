@@ -11,8 +11,6 @@
 @property (nonatomic, readonly, copy) NSNumber *latitude;
 @property (nonatomic, readonly, copy) NSNumber *longitude;
 
-- (id)initWithBuilding:(NSString*)building room:(NSString*)room humanName:(NSString*)humanName hostCount:(NSNumber *)hostCount subLabs:(NSSet *)subLabs DEPRECATED_ATTRIBUTE;
-
 - (id)initWithBuilding:(NSString*)building
                   room:(NSString*)room
              humanName:(NSString*)humanName
