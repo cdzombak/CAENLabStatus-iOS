@@ -336,19 +336,19 @@ static int networkActivityCount = 0;
                                                    nil]
                   ],
                  [[DZCLab alloc] initWithBuilding:@"BAITS_COMAN" room:@"1000" humanName:@"Baits II 1000" hostCount:@2 subLabs:nil],
-                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"" humanName:@"Duderstadt Ctr (all)" hostCount:@345
+                 [[DZCLab alloc] initWithBuilding:@"DC" room:@"" humanName:@"Duderstadt Ctr (all)" hostCount:@345 latitude:@(42.29114) longitude:@(-83.71577)
                                           subLabs:[NSSet setWithObjects:
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"2E" humanName:@"2nd Floor East" hostCount:@12 subLabs:nil],
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"2S" humanName:@"2nd Floor South" hostCount:@20 subLabs:nil],
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"2SW" humanName:@"2nd Floor SW" hostCount:@29 subLabs:nil],
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3E" humanName:@"3rd Floor East" hostCount:@25 subLabs:nil],
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3EA" humanName:@"3rd Floor East Alcove" hostCount:@22 subLabs:nil],
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3NE" humanName:@"3rd Floor NE" hostCount:@90 subLabs:nil],
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3S" humanName:@"3rd Floor South" hostCount:@16 subLabs:nil],
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3SW" humanName:@"3rd Floor SW" hostCount:@80 subLabs:nil],
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3WA" humanName:@"3rd Floor West Alcove" hostCount:@25 subLabs:nil],
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"LLE" humanName:@"Lower Level East" hostCount:@12 subLabs:nil],
-                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"LLC" humanName:@"Lower Level Center" hostCount:@12 subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"2E" humanName:@"2nd Floor East" hostCount:@12 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"2S" humanName:@"2nd Floor South" hostCount:@20 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"2SW" humanName:@"2nd Floor SW" hostCount:@29 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3E" humanName:@"3rd Floor East" hostCount:@25 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3EA" humanName:@"3rd Floor East Alcove" hostCount:@22 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3NE" humanName:@"3rd Floor NE" hostCount:@90 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3S" humanName:@"3rd Floor South" hostCount:@16 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3SW" humanName:@"3rd Floor SW" hostCount:@80 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"3WA" humanName:@"3rd Floor West Alcove" hostCount:@25 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"LLE" humanName:@"Lower Level East" hostCount:@12 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
+                                                   [[DZCLab alloc] initWithBuilding:@"DC" room:@"LLC" humanName:@"Lower Level Center" hostCount:@12 latitude:@(42.29114) longitude:@(-83.71577) subLabs:nil],
                                                    nil]
                   ],
                  nil];
