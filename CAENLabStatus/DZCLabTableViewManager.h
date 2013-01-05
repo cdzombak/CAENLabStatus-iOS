@@ -11,7 +11,7 @@
 + (DZCLabTableViewManager *)tableViewManagerForLab:(DZCLab *)lab dataController:(DZCDataController *)dataController;
 + (UITableViewStyle)tableViewStyleForLab:(DZCLab *)lab;
 
-@property (nonatomic, weak) UINavigationController *detailNavController;
+@property (nonatomic, copy) void(^vcPushBlock)(UIViewController *vc);
 
 @property (nonatomic, readonly, strong) DZCLab *lab;
 @property (nonatomic, readonly, strong) DZCDataController *dataController;

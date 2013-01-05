@@ -1,6 +1,7 @@
 #import "DZCLabTableViewManagerWithSublabs.h"
 #import "DZCLab.h"
 #import "DZCDataController.h"
+#import "DZCLabViewController.h"
 
 @interface DZCLabTableViewManagerWithSublabs ()
 
@@ -14,7 +15,7 @@
 {
     [super configureTableView:tableView];
 
-    tableView.allowsSelection = NO;
+    tableView.allowsSelection = YES;
     tableView.allowsMultipleSelection = NO;
     tableView.rowHeight = 55.0;
 }
@@ -47,6 +48,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
 
     DZCLab *lab = self.sortedSubLabs[indexPath.row];
@@ -80,6 +82,24 @@
     }];
     
     return cell;
+}
+
+#pragma mark - UITableViewDelegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSParameterAssert(indexPath.section == 0);
+
+    DZCLab *lab = self.sortedSubLabs[indexPath.row];
+    DZCLabViewController *labVC = [[DZCLabViewController alloc] initWithLab:lab];
+    labVC.dataController = self.dataController;
+
+    if (self.vcPushBlock) self.vcPushBlock(labVC);
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.backgroundColor = [UIColor whiteColor];
 }
 
 @end
