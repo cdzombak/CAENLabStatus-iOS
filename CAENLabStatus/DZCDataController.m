@@ -236,7 +236,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
         } else {
             // nil, empty, or unrecognized string means the lab is either closed or not present but open
             // defer to another, date/time processing controller
-            NSLog(@"fyi: unknown status string '%@' for lab '%@' in building '%@'", statusString, [lab humanName], [lab building]);
+//            NSLog(@"fyi: unknown status string '%@' for lab '%@' in building '%@'", statusString, [lab humanName], [lab building]);
             status = [[DZCLabStatusHelper statusGuessForLab:(DZCLab *)lab] intValue];
         }
         
