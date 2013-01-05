@@ -51,113 +51,136 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 
 - (void)labsAndStatusesWithBlock:(void(^)(NSDictionary *labs, NSError *error))block
 {
-    void (^labsReady)(NSDictionary*) = ^(NSDictionary* labStatuses) {
-        if (block) block(labStatuses, nil);
-    };
-    
     if ([self.labStatuses count] != 0) {
-        labsReady(self.labStatuses);
+        if (block) block(self.labStatuses, nil);
     } else {
-        __block NSUInteger retries = RETRIES;
-        
-        __block void (^reloadLabStatusResultBlock)(NSError *) = [^(NSError* error) {
-            if (error && retries > 0) {
-                NSLog(@"Retrying lab status query...");
-                retries--;
-
-                dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, RETRY_DELAY_SECONDS*NSEC_PER_SEC);
-                dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
-                    [self reloadLabStatusesWithBlock:reloadLabStatusResultBlock];
-                } );
-            } else if (error) {
+        [self reloadLabStatusesWithBlock:^(NSError* error) {
+            if (error) {
                 if (block) block(nil, error);
             } else {
-                labsReady(self.labStatuses);
+                if (block) block(self.labStatuses, nil);
             }
-        } copy];
-        
-        [self reloadLabStatusesWithBlock:reloadLabStatusResultBlock];
+        }];
     }
 }
 
 - (void)machineCountsInLab:(DZCLab *)lab withBlock:(void(^)(NSNumber *used, NSNumber *total, DZCLab *lab, NSError *error))block
 {
-    void (^hostInfoReady)(NSArray *) = ^(NSArray *hosts) {
+    __block void (^hostInfoReady)(NSArray *) = [^(NSArray *hosts) {
         NSUInteger used = 0;
-        
+
         for (id host in hosts) {
             NSNumber *inUse = host[@"in_use"];
-            if ([inUse boolValue] == YES) {
+            if ([inUse boolValue]) {
                 used++;
             }
         }
-        
+
         NSNumber *total = [lab hostCount];
         if ([hosts count] > [total intValue]) total = @([hosts count]);
-        
+
         if (block) block(@(used), total, lab, nil);
-    };
+    } copy];
     
     if ((self.labHostInfo)[lab]) {
-        hostInfoReady((self.labHostInfo)[lab]);
+        hostInfoReady(self.labHostInfo[lab]);
     } else {
-        __block NSUInteger retries = RETRIES;
-        
-        __block void (^reloadHostInfoResultBlock)(NSError *) = [^(NSError* error) {
-            if (error && retries > 0) {
-                NSLog(@"Retrying host info query...");
-                retries--;
-
-                dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, RETRY_DELAY_SECONDS*NSEC_PER_SEC);
-                dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
-                    [self reloadHostInfoForLab:lab withBlock:reloadHostInfoResultBlock];
-                } );
-            } else if (error) {
+        [self reloadHostInfoForLab:lab withBlock:^(NSError *error) {
+            if (error) {
                 if (block) block(nil, nil, lab, error);
             } else {
-                hostInfoReady((self.labHostInfo)[lab]);
+                hostInfoReady(self.labHostInfo[lab]);
             }
-        } copy];
-        
-        [self reloadHostInfoForLab:lab withBlock:reloadHostInfoResultBlock];
+        }];
     }
 }
 
-- (void)reloadLabStatusesWithBlock:(void(^)(NSError *error))block
+- (void)reloadLabStatusesWithBlock:(void(^)(NSError *error))resultBlock
 {
-//    NSLog(@"Kicking off lab status request...");
+    __block NSInteger retries = RETRIES;
 
+    __block void (^retryResultBlock)(id, NSError *) = [^(id response, NSError* error) {
+        if (response && !error) {
+            [self setLabsFromApiResponse:response];
+            if (resultBlock) resultBlock(nil);
+            return;
+        }
+
+        if (retries > 0) {
+            NSLog(@"Retrying lab status query...");
+            retries--;
+
+            dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, RETRY_DELAY_SECONDS*NSEC_PER_SEC);
+            dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
+                [self makeLabStatusApiRequestWithBlock:retryResultBlock];
+            });
+        } else {
+            if (!error) error = [[NSError alloc] init];
+            if (resultBlock) resultBlock(error);
+        }
+    } copy];
+
+    [self makeLabStatusApiRequestWithBlock:retryResultBlock];
+}
+
+- (void)makeLabStatusApiRequestWithBlock:(void(^)(id response, NSError *error))resultBlock
+{
     [self.labStatusApiClient getPath:@"lab-statuses.php"
                           parameters:nil
                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                  if (responseObject != nil) {
-                                     [self setLabsFromApiResponse:responseObject];
-                                     if (block) block(nil);
+                                     if (resultBlock) resultBlock(responseObject, nil);
                                  } else {
-                                     if (block) block([[NSError alloc] init]);
+                                     if (resultBlock) resultBlock(responseObject, [[NSError alloc] init]);
                                  }
                              }
                              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                 if (block) block(error);
+                                 if (resultBlock) resultBlock(nil, error);
                              }
-    ];
+     ];
 }
 
 - (void)reloadHostInfoForLab:(DZCLab *)lab withBlock:(void(^)(NSError *error))block
 {
-//    NSLog(@"Kicking off host info request for %@...", [self apiIdForLab:lab]);
+    __block NSInteger retries = RETRIES;
+
+    __block void (^retryResultBlock)(id, NSError *) = [^(id response, NSError* error) {
+        if (response && !error) {
+            self.labHostInfo[lab] = response;
+            if (block) block(nil);
+            return;
+        }
+
+        if (retries > 0) {
+            NSLog(@"Retrying host info query...");
+            retries--;
+
+            dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, RETRY_DELAY_SECONDS*NSEC_PER_SEC);
+            dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
+                [self makeHostInfoApiRequestForLab:lab withBlock:retryResultBlock];
+            });
+        } else {
+            if (!error) error = [[NSError alloc] init];
+            if (block) block(error);
+        }
+    } copy];
+
+    [self makeHostInfoApiRequestForLab:lab withBlock:retryResultBlock];
+}
+
+- (void)makeHostInfoApiRequestForLab:(DZCLab *)lab withBlock:(void(^)(id response, NSError *error))block
+{
     [self.hostInfoApiClient getPath:@"computers.json"
                          parameters:@{@"building": lab.building, @"room": lab.room}
                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                 if (responseObject != nil) {
-                                    (self.labHostInfo)[lab] = responseObject;
-                                    if (block) block(nil);
+                                    if (block) block(responseObject, nil);
                                 } else {
-                                    if (block) block([[NSError alloc] init]);
+                                    if (block) block(nil, [[NSError alloc] init]);
                                 }
                             }
                             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                if (block) block(error);
+                                if (block) block(nil, error);
                             }
      ];
 }
