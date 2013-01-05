@@ -42,7 +42,8 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return DZCNoSublabsTableViewSumSections;
+    if (self.hosts.count) return DZCNoSublabsTableViewSumSections;
+    else return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
