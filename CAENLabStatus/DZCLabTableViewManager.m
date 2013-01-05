@@ -2,6 +2,7 @@
 #import "DZCLab.h"
 #import "DZCDataController.h"
 #import "DZCLabTableViewManagerWithSublabs.h"
+#import "DZCLabTableViewManagerNoSublabs.h"
 
 @interface DZCLabTableViewManager ()
 
@@ -19,8 +20,7 @@
     if (lab.subLabs.count != 0) {
         return [[DZCLabTableViewManagerWithSublabs alloc] initWithLab:lab dataController:dataController];
     }
-    #warning TODO CDZ subclass for one lab
-    return [[DZCLabTableViewManager alloc] initWithLab:lab dataController:dataController];
+    return [[DZCLabTableViewManagerNoSublabs alloc] initWithLab:lab dataController:dataController];
 }
 
 + (UITableViewStyle)tableViewStyleForLab:(DZCLab *)lab
