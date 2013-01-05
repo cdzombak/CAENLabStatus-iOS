@@ -13,6 +13,8 @@ build/
 *.xcodeproj/project.xcworkspace/xcuserdata/*
 *.xcodeproj/xcuserdata/*
 
+*.xcworkspace/xcuserdata
+
 # if not using Xcode 4:
 *.xcodeproj/project.xcworkspace/*
 
