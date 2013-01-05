@@ -119,14 +119,6 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
 
             _usageCell.textLabel.text = [NSString stringWithFormat:@"%d%% free", (int)roundf(freePercent*100)];
             _usageCell.detailTextLabel.text = [NSString stringWithFormat:@"%d of %d computers free", freeCount, [total intValue]];
-
-//            if (usedPercent >= 0.8) {
-//                cell.textLabel.font = [UIFont systemFontOfSize:cell.textLabel.font.pointSize];
-//                cell.detailTextLabel.font = [UIFont systemFontOfSize:17.0];
-//            } else {
-//                cell.textLabel.font = [UIFont boldSystemFontOfSize:cell.textLabel.font.pointSize];
-//                cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:17.0];
-//            }
         }];
     }
     return _usageCell;
