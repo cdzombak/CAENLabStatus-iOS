@@ -2,6 +2,7 @@
 #import "DZCDataController.h"
 #import "DZCLabsListViewController.h"
 #import "UIColor+DZCColors.h"
+#import "AFNetworkActivityIndicatorManager.h"
 
 @interface DZCAppDelegate ()
 
@@ -34,6 +35,8 @@
     [self.window makeKeyAndVisible];
     
     self.appWasInBackground = NO;
+
+    [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
 
     return YES;
 }
