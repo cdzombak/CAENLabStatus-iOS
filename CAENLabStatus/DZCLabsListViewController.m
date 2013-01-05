@@ -107,6 +107,7 @@ static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewContr
                                          ]];
     filterControl.tintColor = [UIColor colorWithRed:0.204 green:0.219 blue:0.483 alpha:1.000];
     filterControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    filterControl.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
     filterControl.selectedSegmentIndex = DZCLabsListFilterAll;
     self.selectedFilter = DZCLabsListFilterAll;
