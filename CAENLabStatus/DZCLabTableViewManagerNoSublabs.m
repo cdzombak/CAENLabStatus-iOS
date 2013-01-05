@@ -33,7 +33,11 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
 {
     [self.dataController hostsInLab:self.lab withBlock:^(NSArray *hosts, NSError *error) {
         if (error) return;
-        self.hosts = hosts;
+        self.hosts = [hosts sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            NSString *hostname1 = obj1[@"hostname"];
+            NSString *hostname2 = obj2[@"hostname"];
+            return [hostname1 localizedCaseInsensitiveCompare:hostname2];
+        }];
         [self.tableView reloadData];
     }];
 }
