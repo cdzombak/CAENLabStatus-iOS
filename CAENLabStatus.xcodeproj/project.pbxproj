@@ -51,6 +51,7 @@
 		93E1DA3B1696492900B04CF0 /* DZCLabTableViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E1DA3A1696492900B04CF0 /* DZCLabTableViewManager.m */; };
 		93E1DA3E16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E1DA3D16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.m */; };
 		93E1DA451697356900B04CF0 /* CDZTableViewSplitDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E1DA441697356900B04CF0 /* CDZTableViewSplitDelegate.m */; };
+		93E1DA471697492700B04CF0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E1DA461697492600B04CF0 /* MapKit.framework */; };
 		93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E80C5714D78812008850FE /* DZCLabStatusHelper.m */; };
 		93E80C5C14D797F5008850FE /* DZCAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E80C5A14D797F5008850FE /* DZCAboutViewController.m */; };
 		93E80C5D14D797F5008850FE /* DZCAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E80C5B14D797F5008850FE /* DZCAboutViewController.xib */; };
@@ -129,6 +130,7 @@
 		93E1DA3D16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabTableViewManagerWithSublabs.m; sourceTree = "<group>"; };
 		93E1DA431697356800B04CF0 /* CDZTableViewSplitDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDZTableViewSplitDelegate.h; sourceTree = "<group>"; };
 		93E1DA441697356900B04CF0 /* CDZTableViewSplitDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDZTableViewSplitDelegate.m; sourceTree = "<group>"; };
+		93E1DA461697492600B04CF0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		93E80C5614D78812008850FE /* DZCLabStatusHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLabStatusHelper.h; sourceTree = "<group>"; };
 		93E80C5714D78812008850FE /* DZCLabStatusHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabStatusHelper.m; sourceTree = "<group>"; };
 		93E80C5914D797F5008850FE /* DZCAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCAboutViewController.h; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93E1DA471697492700B04CF0 /* MapKit.framework in Frameworks */,
 				9347849714F329D9009C5703 /* SystemConfiguration.framework in Frameworks */,
 				9347849514F329CF009C5703 /* CFNetwork.framework in Frameworks */,
 				93BBAB7314E84A1700B19049 /* QuartzCore.framework in Frameworks */,
@@ -187,6 +190,7 @@
 		93D9F66214D3997600AD2152 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93E1DA461697492600B04CF0 /* MapKit.framework */,
 				9347849614F329D8009C5703 /* SystemConfiguration.framework */,
 				9347849414F329CF009C5703 /* CFNetwork.framework */,
 				93BBAB7214E84A1700B19049 /* QuartzCore.framework */,
