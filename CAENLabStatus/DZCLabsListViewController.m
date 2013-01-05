@@ -326,15 +326,10 @@ static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewContr
     } else {
         cell.showsReorderControl = NO;
     }
-    
-    if (status != DZCLabStatusClosed && status != DZCLabStatusReserved && lab.subLabs.count > 0) {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
+
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+
     return cell;
 }
 
@@ -401,18 +396,10 @@ static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewContr
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DZCLab *lab = [self objectForRowAtIndexPath:indexPath];
-    if (lab.subLabs.count == 0) return;
-    
     DZCLabViewController *subLabViewController = [[DZCLabViewController alloc] initWithLab:lab];
     subLabViewController.dataController = self.dataController;
     
     [self.navigationController pushViewController:subLabViewController animated:YES];
-}
-
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DZCLab *lab = [self objectForRowAtIndexPath:indexPath];
-    
-    return (lab.subLabs.count == 0) ? nil : indexPath;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
