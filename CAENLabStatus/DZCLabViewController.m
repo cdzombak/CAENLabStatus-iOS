@@ -179,8 +179,8 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 
     bgViewFrame.origin.y = DZCLabVCMapHeight - scrollOffset;
 
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.mapZoomLocation, mileZoom*DZC_METERS_PER_MILE, mileZoom*DZC_METERS_PER_MILE);
-    [self.mapView setRegion:viewRegion animated:NO];
+//    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.mapZoomLocation, mileZoom*DZC_METERS_PER_MILE, mileZoom*DZC_METERS_PER_MILE);
+//    [self.mapView setRegion:viewRegion animated:NO];
 
     self.bgView.frame = bgViewFrame;
     self.mapView.frame = mapViewFrame;
