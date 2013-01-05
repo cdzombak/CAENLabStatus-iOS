@@ -92,6 +92,18 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
     [self.tableView flashScrollIndicators];
 }
 
+- (void)headerViewTouched:(id)sender
+{
+    Class mapItemClass = [MKMapItem class];
+    if (mapItemClass && [mapItemClass respondsToSelector:@selector(openMapsWithItems:launchOptions:)]) {
+        MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:self.mapZoomLocation
+                                                       addressDictionary:nil];
+        MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
+        mapItem.name = self.lab.humanName;
+        [mapItem openInMapsWithLaunchOptions:nil];
+    }
+}
+
 #pragma mark - Top view and parallax creation
 
 - (void)setupParallaxView
@@ -132,6 +144,9 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
     self.mapView.mapType = MKMapTypeHybrid;
     [self.view addSubview:self.mapView];
     [self.view sendSubviewToBack:self.mapView];
+
+    UIGestureRecognizer *headerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headerViewTouched:)];
+    [tableHeaderView addGestureRecognizer:headerTapRecognizer];
 }
 
 #pragma mark - UIScrollViewDelegate methods
