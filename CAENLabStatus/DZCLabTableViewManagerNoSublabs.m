@@ -10,6 +10,9 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
 @interface DZCLabTableViewManagerNoSublabs ()
 
 @property (nonatomic, readonly, strong) UITableViewCell *usageCell;
+@property (nonatomic, weak) UITableView *tableView;
+
+@property (nonatomic, strong) NSArray *hosts;
 
 @end
 
@@ -28,7 +31,11 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
 
 - (void)prepareData
 {
-    // no-op
+    [self.dataController hostsInLab:self.lab withBlock:^(NSArray *hosts, NSError *error) {
+        if (error) return;
+        self.hosts = hosts;
+        [self.tableView reloadData];
+    }];
 }
 
 #pragma mark - UITableViewDataSource methods
@@ -44,7 +51,7 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
         case DZCNoSublabsTableViewSectionUsage:
             return 1;
         case DZCNoSublabsTableViewSectionHosts:
-            return 2; // TODO
+            return self.hosts.count;
         default:
             [NSException raise:@"DZCInvalidSectionException" format:@"Invalid section %d for lab table view", section];
             return 0;
@@ -62,10 +69,12 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
     static NSString *HostCellIdentifier = @"HostCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HostCellIdentifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:HostCellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:HostCellIdentifier];
     }
 
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", indexPath];
+    id host = self.hosts[indexPath.row];
+    cell.textLabel.text = host[@"hostname"];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ / %@ / %@", host[@"vendor"], host[@"ip"], host[@"model"]];
 
     return cell;
 }
