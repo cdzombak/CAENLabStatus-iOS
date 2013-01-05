@@ -97,19 +97,22 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 - (void)setupParallaxView
 {
     if (self.tableView.backgroundView) {
-        // backgrounds with this stuff are hard
-        UIView *bgView = self.tableView.backgroundView;
-        self.tableView.backgroundView = nil;
-        bgView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        // If someone wants to give me any hints on managing the background of a group-style
+        // table view while still having a transparent header view, please do.
 
-        CGRect bgFrame = bgView.frame;
+        self.bgView = [[UIView alloc] initWithFrame:self.tableView.backgroundView.frame];
+        self.bgView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.bgView.backgroundColor = [UIColor dzc_groupTableViewBackgroundColor];
+
+        CGRect bgFrame = self.bgView.frame;
         bgFrame.origin.y = DZCLabVCMapHeight;
-        bgFrame.size.height += 200; // for good measure.
-        bgView.frame = bgFrame;
-        [self.view addSubview:bgView];
-        [self.view sendSubviewToBack:bgView];
+        self.bgView.frame = bgFrame;
 
-        self.bgView = bgView;
+        [self.view addSubview:self.bgView];
+        [self.view sendSubviewToBack:self.bgView];
+
+        self.view.backgroundColor = [UIColor dzc_groupTableViewBackgroundColor];
+        self.tableView.backgroundView = nil;
     }
 
     UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, DZCLabVCMapHeight)];
