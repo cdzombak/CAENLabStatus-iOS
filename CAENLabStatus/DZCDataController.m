@@ -64,6 +64,21 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     }
 }
 
+- (void)hostsInLab:(DZCLab *)lab withBlock:(void(^)(NSArray *hosts, NSError *error))block
+{
+    if (self.labHostInfo[lab] != nil) {
+        if (block) block(self.labHostInfo[lab], nil);
+    } else {
+        [self reloadHostInfoForLab:lab withBlock:^(NSError *error) {
+            if (error) {
+                if (block) block(nil, error);
+            } else {
+                if (block) block(self.labHostInfo[lab], nil);
+            }
+        }];
+    }
+}
+
 - (void)machineCountsInLab:(DZCLab *)lab withBlock:(void(^)(NSNumber *used, NSNumber *total, DZCLab *lab, NSError *error))block
 {
     __block void (^hostInfoReady)(NSArray *) = [^(NSArray *hosts) {

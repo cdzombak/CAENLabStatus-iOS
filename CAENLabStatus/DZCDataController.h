@@ -35,6 +35,14 @@ typedef NS_ENUM(NSInteger, DZCLabStatus) {
 - (void)machineCountsInLab:(DZCLab *)lab withBlock:(void(^)(NSNumber *used, NSNumber *total, DZCLab *lab, NSError *error))block;
 
 /**
+ * Get info about the hosts in the given lab.
+ *
+ * Calls your block with an array of dictionaries once any network activity is complete.
+ * `error` will be nil if these was no error.
+ */
+- (void)hostsInLab:(DZCLab *)lab withBlock:(void(^)(NSArray *hosts, NSError *error))block;
+
+/**
  * Make the data controller (re)load and cache all lab statuses.
  * 
  * This is intended to be used when the app launches or returns to
