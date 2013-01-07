@@ -28,6 +28,8 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
 
 static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewControllerSortOrder";
 
+static const CGFloat DZCFilterBarHeight = 43.0;
+
 @interface DZCLabsListViewController () 
 
 @property (nonatomic, strong) NSMutableArray *labOrdering;
@@ -113,17 +115,17 @@ static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewContr
     self.selectedFilter = DZCLabsListFilterAll;
     
     CGRect filterControlFrame = filterControl.frame;
-    filterControlFrame.size.height = 36.0;
+    filterControlFrame.size.height = DZCFilterBarHeight - 10.0;
+    filterControlFrame.origin.y = 5.0;
     filterControlFrame.size.width = self.view.bounds.size.width - 10.0;
     filterControlFrame.origin.x = 5.0;
-    filterControlFrame.origin.y = 4.0;
     filterControl.frame = filterControlFrame;
 
     [filterControl addTarget:self
                       action:@selector(filterControlChanged:)
             forControlEvents:UIControlEventValueChanged];
 
-    UIToolbar *filterControlContainer = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, 43.0)];
+    UIToolbar *filterControlContainer = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, DZCFilterBarHeight)];
     filterControlContainer.tintColor = [UIColor colorWithRed:0.204 green:0.219 blue:0.483 alpha:1.000];
     [filterControlContainer addSubview:filterControl];
 
@@ -215,13 +217,13 @@ static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewContr
 
             [labs addObject:lab];
         }
-        
+
         for (DZCLabStatus i=0; i<DZCLabStatusCount; ++i) {
             if (self.labsByStatus[@(i)] != nil) {
                 [self.statusForTableViewSection addObject:@(i)];
             }
         }
-        
+
         [self.tableView reloadData];
     }];
 }
