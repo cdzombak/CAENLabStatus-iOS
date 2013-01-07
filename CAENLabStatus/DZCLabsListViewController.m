@@ -90,7 +90,9 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 {
     [super viewWillAppear:animated];
 
-    self.tableView.contentOffset = (CGPoint) {0.0, 43.0};
+    if (self.tableView.contentOffset.y < DZCFilterBarHeight) {
+        self.tableView.contentOffset = (CGPoint) {0.0, DZCFilterBarHeight};
+    }
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
@@ -528,6 +530,33 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     [headerView addSubview:bottomBorder];
 
     return headerView;
+}
+
+#pragma mark - UIScrollViewDelegate methods
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate) {
+        [self adjustFilterBarVisibilityAfterScrollViewScrolled];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self adjustFilterBarVisibilityAfterScrollViewScrolled];
+}
+
+- (void)adjustFilterBarVisibilityAfterScrollViewScrolled
+{
+    static const CGFloat DZCFilterBarMagnetismProportion = 1.6;
+    
+    if (self.tableView.contentOffset.y < (DZCFilterBarHeight/DZCFilterBarMagnetismProportion)) {
+        [self.tableView setContentOffset:(CGPoint){0.0, 0.0} animated:YES];
+    }
+    else if (self.tableView.contentOffset.y > (DZCFilterBarHeight/DZCFilterBarMagnetismProportion)
+             && self.tableView.contentOffset.y < DZCFilterBarHeight) {
+        [self.tableView setContentOffset:(CGPoint){0.0, DZCFilterBarHeight} animated:YES];
+    }
 }
 
 #pragma mark - Property overrides
