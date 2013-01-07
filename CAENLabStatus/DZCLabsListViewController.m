@@ -55,7 +55,9 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 - (id)init
 {
     self = [super initWithStyle:UITableViewStylePlain];
-    if (self) { }
+    if (self) {
+        self.title = NSLocalizedString(@"CAEN Labs", nil);
+    }
     return self;
 }
 
@@ -87,8 +89,6 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    self.navigationItem.title = NSLocalizedString(@"CAEN Labs", nil);
 
     self.tableView.contentOffset = (CGPoint) {0.0, 43.0};
 }
