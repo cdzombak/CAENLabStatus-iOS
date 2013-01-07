@@ -80,6 +80,8 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     [self.pullRefreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
     
     self.labOrdering = [self retrieveSavedSortOrder];
+
+    [self loadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -89,8 +91,6 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     self.navigationItem.title = NSLocalizedString(@"CAEN Labs", nil);
 
     self.tableView.contentOffset = (CGPoint) {0.0, 43.0};
-    
-    [self loadData];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
@@ -158,7 +158,7 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 
 - (void)refreshData
 {
-    self.labsByStatus = nil;
+    self.labsByStatus = nil; // TODO I think this causes some interaction which can cause a crash sometimes
     [self.dataController clearCache];
     [self loadData];
 }
