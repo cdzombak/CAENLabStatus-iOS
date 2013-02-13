@@ -29,8 +29,6 @@ static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
     [iRate sharedInstance].applicationName = NSLocalizedString(@"CAEN Labs", nil);
     [iRate sharedInstance].message = NSLocalizedString(@"Is this app useful? Could you help me out by rating it in the App Store? It'll just take a minute. Thanks!", nil);
     [iRate sharedInstance].disableAlertViewResizing = NO;
-
-    [iRate sharedInstance].previewMode = YES;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
