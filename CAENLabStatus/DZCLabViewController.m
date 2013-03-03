@@ -67,11 +67,12 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
     self.tvSplitDelegate = [[CDZTableViewSplitDelegate alloc] initWithScrollViewDelegate:self tableViewDelegate:self.tableView.delegate];
     self.tableView.delegate = self.tvSplitDelegate;
 
+    CDZWeakSelf weakSelf = self;
     self.tvManager.vcPushBlock = ^(UIViewController *vc) {
-        if ([vc respondsToSelector:@selector(setMapImage:)] && self.mapImage) {
-            [(id)vc setMapImage:self.mapImage];
+        if ([vc respondsToSelector:@selector(setMapImage:)] && weakSelf.mapImage) {
+            [(id)vc setMapImage:weakSelf.mapImage];
         }
-        [self.navigationController pushViewController:vc animated:YES];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
     };
 
     [self setupParallaxView];

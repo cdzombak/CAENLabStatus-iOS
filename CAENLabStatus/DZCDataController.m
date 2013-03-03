@@ -114,7 +114,10 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 {
     __block NSInteger retries = RETRIES;
 
-    __block void (^retryResultBlock)(id, NSError *) = ^(id response, NSError* error) {
+    // http://jeremywsherman.com/blog/2013/02/27/leak-free-recursive-blocks/
+    void (^__block __weak weakRetryResultBlock)(id, NSError *);
+    void (^retryResultBlock)(id, NSError *);
+    weakRetryResultBlock = retryResultBlock = ^(id response, NSError* error) {
         if (response && !error) {
             [self setLabsFromApiResponse:response];
             if (resultBlock) resultBlock(nil);
@@ -127,7 +130,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 
             dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, RETRY_DELAY_SECONDS*NSEC_PER_SEC);
             dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
-                [self makeLabStatusApiRequestWithBlock:retryResultBlock];
+                [self makeLabStatusApiRequestWithBlock:weakRetryResultBlock];
             });
         } else {
             if (!error) error = [[NSError alloc] init];
@@ -159,7 +162,10 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 {
     __block NSInteger retries = RETRIES;
 
-    __block void (^retryResultBlock)(id, NSError *) = ^(id response, NSError* error) {
+    // http://jeremywsherman.com/blog/2013/02/27/leak-free-recursive-blocks/
+    void (^__block __weak weakRetryResultBlock)(id, NSError *);
+    void (^retryResultBlock)(id, NSError *);
+    weakRetryResultBlock = retryResultBlock = ^(id response, NSError* error) {
         if (response && !error) {
             self.labHostInfo[lab] = response;
             if (block) block(nil);
@@ -172,7 +178,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 
             dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, RETRY_DELAY_SECONDS*NSEC_PER_SEC);
             dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
-                [self makeHostInfoApiRequestForLab:lab withBlock:retryResultBlock];
+                [self makeHostInfoApiRequestForLab:lab withBlock:weakRetryResultBlock];
             });
         } else {
             if (!error) error = [[NSError alloc] init];
