@@ -5,22 +5,27 @@
 #import "DZCLabTableViewManager.h"
 #import "CDZTableViewSplitDelegate.h"
 #import <MapKit/MapKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 #define DZC_METERS_PER_MILE 1609.344
 
-static const CGFloat DZCLabVCMapStartingZoom = 0.35;
+static const CGFloat DZCLabVCMapZoom = 0.35;
 static const CGFloat DZCLabVCMapHeight = 110.0;
 static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 
-@interface DZCLabViewController () <UIScrollViewDelegate>
+@interface DZCLabViewController () <UIScrollViewDelegate, MKMapViewDelegate>
 
 @property (nonatomic, assign) CLLocationCoordinate2D mapZoomLocation;
 @property (nonatomic, strong) MKMapView *mapView;
+@property (nonatomic, strong) UIImageView *mapImageView;
 @property (nonatomic, strong) UIView *bgView;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) DZCLabTableViewManager *tvManager;
 @property (nonatomic, strong) CDZTableViewSplitDelegate *tvSplitDelegate;
+
+@property (nonatomic, assign) BOOL mapViewIsReady;
+@property (nonatomic, assign) BOOL viewHasAppeared;
 
 @property (nonatomic, readwrite, strong) DZCLab *lab;
 
@@ -34,6 +39,9 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
     if (self) {
         self.lab = lab;
         self.title = self.lab.humanName;
+
+        self.mapViewIsReady = NO;
+        self.viewHasAppeared = NO;
     }
     return self;
 }
@@ -60,6 +68,9 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
     self.tableView.delegate = self.tvSplitDelegate;
 
     self.tvManager.vcPushBlock = ^(UIViewController *vc) {
+        if ([vc respondsToSelector:@selector(setMapImage:)] && self.mapImage) {
+            [(id)vc setMapImage:self.mapImage];
+        }
         [self.navigationController pushViewController:vc animated:YES];
     };
 
@@ -82,24 +93,42 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 
     // we deal with the mapview here because it is destroyed when we leave the screen
     // and recreated when we come back.
+    
     CGFloat mapViewTotalHeight = 2*fabs(DZCLabVCMapViewYOffset)+DZCLabVCMapHeight;
     CGRect mapViewFrame = CGRectMake(0, DZCLabVCMapViewYOffset, self.view.bounds.size.width, mapViewTotalHeight);
-    self.mapView = [[MKMapView alloc] initWithFrame:mapViewFrame];
-    self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.mapView.userInteractionEnabled = NO;
-    self.mapView.mapType = MKMapTypeHybrid;
+    
+    if (self.mapImage == nil) {
+        self.mapView = [[MKMapView alloc] initWithFrame:mapViewFrame];
+        self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.mapView.userInteractionEnabled = NO;
+        self.mapView.mapType = MKMapTypeHybrid;
 
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.mapZoomLocation, DZCLabVCMapStartingZoom*DZC_METERS_PER_MILE, DZCLabVCMapStartingZoom*DZC_METERS_PER_MILE);
-    [self.mapView setRegion:viewRegion animated:NO];
-    [self.mapView addAnnotation:self.lab];
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.mapZoomLocation, DZCLabVCMapZoom*DZC_METERS_PER_MILE, DZCLabVCMapZoom*DZC_METERS_PER_MILE);
+        [self.mapView setRegion:viewRegion animated:NO];
+        [self.mapView addAnnotation:self.lab];
 
-    [self.view addSubview:self.mapView];
-    [self.view sendSubviewToBack:self.mapView];
+        [self.view addSubview:self.mapView];
+        [self.view sendSubviewToBack:self.mapView];
+        
+        self.mapView.delegate = self;
+    } else if (self.mapImageView == nil) {
+        self.mapImageView = [[UIImageView alloc] initWithFrame:mapViewFrame];
+        self.mapImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.mapImageView.userInteractionEnabled = NO;
+
+        self.mapImageView.image = self.mapImage;
+
+        [self.view addSubview:self.mapImageView];
+        [self.view sendSubviewToBack:self.mapImageView];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
+    self.viewHasAppeared = YES;
+    [self saveMapViewImageIfItsReady];
 
     [self.tableView flashScrollIndicators];
 }
@@ -122,6 +151,36 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         mapItem.name = self.lab.humanName;
         [mapItem openInMapsWithLaunchOptions:nil];
     }
+}
+
+- (void)saveMapViewImageIfItsReady
+{
+    if (self.mapView == nil) return;
+    if (!(self.mapViewIsReady && self.viewHasAppeared)) return;
+
+    // I can't figure out how to reliably detect when the MKMapView is actually completely displayed.
+    // -[MKMapViewDelegate mapViewDidFinishLoadingMap:] is called when tiles are loaded, but they may
+    // not be displayed yet.
+    // There's got to be a better way to handle this…
+
+    double delayInSeconds = 0.6;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        // via http://stackoverflow.com/a/4334902/734716
+        UIGraphicsBeginImageContextWithOptions(self.mapView.bounds.size, self.mapView.opaque, 0.0);
+        [self.mapView.layer renderInContext:UIGraphicsGetCurrentContext()];
+        self.mapImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    });
+}
+
+#pragma mark - MKMapViewDelegate methods
+
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
+{
+    if (mapView != self.mapView) return;
+    self.mapViewIsReady = YES;
+    [self saveMapViewImageIfItsReady];
 }
 
 #pragma mark - Top view and parallax creation
@@ -165,13 +224,11 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat scrollOffset = scrollView.contentOffset.y;
-    CGRect mapViewFrame = self.mapView.frame;
+    CGRect mapViewFrame = (self.mapImageView != nil) ? self.mapImageView.frame : self.mapView.frame;
     CGRect bgViewFrame = self.bgView.frame;
-    CGFloat mileZoom = DZCLabVCMapStartingZoom;
 
     if (scrollOffset < 0) {
         mapViewFrame.origin.y = DZCLabVCMapViewYOffset - (scrollOffset / 3.0);
-        mileZoom += scrollOffset/3.0/900.0;
     } else {
         // We're scrolling up, return to normal behavior
         mapViewFrame.origin.y = DZCLabVCMapViewYOffset - scrollOffset;
@@ -179,11 +236,9 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 
     bgViewFrame.origin.y = DZCLabVCMapHeight - scrollOffset;
 
-//    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.mapZoomLocation, mileZoom*DZC_METERS_PER_MILE, mileZoom*DZC_METERS_PER_MILE);
-//    [self.mapView setRegion:viewRegion animated:NO];
-
     self.bgView.frame = bgViewFrame;
     self.mapView.frame = mapViewFrame;
+    self.mapImageView.frame = mapViewFrame;
 }
 
 #pragma mark - Property overrides
