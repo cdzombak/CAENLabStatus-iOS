@@ -537,25 +537,28 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (!decelerate) {
-        [self adjustFilterBarVisibilityAfterScrollViewScrolled];
+        [self adjustFilterBarVisibilityAfterScrollViewScrolled:scrollView];
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self adjustFilterBarVisibilityAfterScrollViewScrolled];
+    [self adjustFilterBarVisibilityAfterScrollViewScrolled:scrollView];
 }
 
-- (void)adjustFilterBarVisibilityAfterScrollViewScrolled
+- (void)adjustFilterBarVisibilityAfterScrollViewScrolled:(UIScrollView *)scrollView
 {
     static const CGFloat DZCFilterBarMagnetismProportion = 1.6;
-    
-    if (self.tableView.contentOffset.y < (DZCFilterBarHeight/DZCFilterBarMagnetismProportion)) {
-        [self.tableView setContentOffset:(CGPoint){0.0, 0.0} animated:YES];
+
+    // quick flick scroll up/down issue happens when you try to scroll down while
+    // [scrollView setContentOffset:… animated:YES] is still happening
+
+    if (scrollView.contentOffset.y < (DZCFilterBarHeight/DZCFilterBarMagnetismProportion)) {
+        [scrollView setContentOffset:(CGPoint){0.0, 0.0} animated:YES];
     }
-    else if (self.tableView.contentOffset.y > (DZCFilterBarHeight/DZCFilterBarMagnetismProportion)
-             && self.tableView.contentOffset.y < DZCFilterBarHeight) {
-        [self.tableView setContentOffset:(CGPoint){0.0, DZCFilterBarHeight} animated:YES];
+    else if (scrollView.contentOffset.y > (DZCFilterBarHeight/DZCFilterBarMagnetismProportion)
+             && scrollView.contentOffset.y < DZCFilterBarHeight) {
+        [scrollView setContentOffset:(CGPoint){0.0, DZCFilterBarHeight} animated:YES];
     }
 }
 
