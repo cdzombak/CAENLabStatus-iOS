@@ -94,6 +94,10 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 
     // we deal with the mapview here because it is destroyed when we leave the screen
     // and recreated when we come back.
+
+    if (!self.mapImage) {
+        self.mapImage = [self.dataController cachedMapImageForLab:self.lab];
+    }
     
     CGFloat mapViewTotalHeight = 2*fabs(DZCLabVCMapViewYOffset)+DZCLabVCMapHeight;
     CGRect mapViewFrame = CGRectMake(0, DZCLabVCMapViewYOffset, self.view.bounds.size.width, mapViewTotalHeight);
@@ -142,6 +146,8 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
     self.mapView = nil;
 }
 
+#pragma mark - UI Interactions
+
 - (void)headerViewTouched:(id)sender
 {
     Class mapItemClass = [MKMapItem class];
@@ -153,6 +159,8 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         [mapItem openInMapsWithLaunchOptions:nil];
     }
 }
+
+#pragma mark - Map image management
 
 - (void)saveMapViewImageIfItsReady
 {
@@ -172,6 +180,8 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         [self.mapView.layer renderInContext:UIGraphicsGetCurrentContext()];
         self.mapImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
+
+        [self.dataController cacheMapImage:self.mapImage forLab:self.lab];
     });
 }
 

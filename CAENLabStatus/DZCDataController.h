@@ -66,4 +66,16 @@ typedef NS_ENUM(NSInteger, DZCLabStatus) {
  */
 - (void)clearCache;
 
+/**
+ * Fetch the map image cached for the given lab, if it exists.
+ * Returns a map image or NULL.
+ */
+- (UIImage *)cachedMapImageForLab:(DZCLab *)lab;
+
+/**
+ * Caches the given image as the map image for the given lab.
+ */
+- (void)cacheMapImage:(UIImage *)image forLab:(DZCLab *)lab;
+
+
 @end
