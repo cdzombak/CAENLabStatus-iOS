@@ -96,7 +96,7 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
     // and recreated when we come back.
 
     if (!self.mapImage) {
-        self.mapImage = [self.dataController cachedMapImageForLab:self.lab];
+        self.mapImage = [self.dataController cachedMapImageForBuilding:self.lab.building];
     }
     
     CGFloat mapViewTotalHeight = 2*fabs(DZCLabVCMapViewYOffset)+DZCLabVCMapHeight;
@@ -181,7 +181,7 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         self.mapImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
 
-        [self.dataController cacheMapImage:self.mapImage forLab:self.lab];
+        [self.dataController cacheMapImage:self.mapImage forBuilding:self.lab.building];
     });
 }
 

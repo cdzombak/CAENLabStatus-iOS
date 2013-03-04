@@ -217,13 +217,14 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 
 #pragma mark - Map Image Caching
 
-- (UIImage *)cachedMapImageForLab:(DZCLab *)lab
+- (UIImage *)cachedMapImageForBuilding:(NSString *)building
 {
-    return [self.mapImageCache objectForKey:lab];
+    return [self.mapImageCache objectForKey:building];
 }
 
-- (void)cacheMapImage:(UIImage *)image forLab:(DZCLab *)lab {
-    [self.mapImageCache setObject:image forKey:lab];
+- (void)cacheMapImage:(UIImage *)image forBuilding:(NSString *)building
+{
+    [self.mapImageCache setObject:image forKey:building];
 }
 
 #pragma mark - Private helper methods
