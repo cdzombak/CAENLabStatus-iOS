@@ -44,6 +44,8 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 
 @property (nonatomic, readonly, strong) UIViewController *aboutViewController;
 
+@property (nonatomic, readonly, assign) BOOL hidesFilterBarByDefault;
+
 @end
 
 @implementation DZCLabsListViewController
@@ -90,7 +92,7 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 {
     [super viewWillAppear:animated];
 
-    if (self.tableView.contentOffset.y < DZCFilterBarHeight) {
+    if (self.tableView.contentOffset.y < DZCFilterBarHeight && self.hidesFilterBarByDefault) {
         self.tableView.contentOffset = (CGPoint) {0.0, DZCFilterBarHeight};
     }
 }
@@ -604,6 +606,11 @@ static const CGFloat DZCFilterBarHeight = 43.0;
         _statusForTableViewSection = [NSMutableArray array];
     }
     return _statusForTableViewSection;
+}
+
+- (BOOL)hidesFilterBarByDefault
+{
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone;
 }
 
 @end
