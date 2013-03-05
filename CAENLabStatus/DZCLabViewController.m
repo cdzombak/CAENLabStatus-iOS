@@ -10,8 +10,9 @@
 #define DZC_METERS_PER_MILE 1609.344
 
 static const CGFloat DZCLabVCMapZoom = 0.35;
-static const CGFloat DZCLabVCMapHeight = 110.0;
-static const CGFloat DZCLabVCMapViewYOffset = -150.0;
+static const CGFloat DZCLabVCMapVisibleHeight = 110.0;
+static const CGFloat DZCLabVCMapViewYOffsetPhone = -140.0;
+static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0;
 
 @interface DZCLabViewController () <UIScrollViewDelegate, MKMapViewDelegate>
 
@@ -27,6 +28,8 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 @property (nonatomic, assign) BOOL showsParallaxView;
 @property (nonatomic, assign) BOOL mapViewIsReady;
 @property (nonatomic, assign) BOOL viewHasAppeared;
+
+@property (nonatomic, assign) CGFloat mapViewYOffset;
 
 @property (nonatomic, readwrite, strong) DZCLab *lab;
 
@@ -44,6 +47,7 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         self.showsParallaxView = YES;
         self.mapViewIsReady = NO;
         self.viewHasAppeared = NO;
+        self.mapViewYOffset = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? DZCLabVCMapViewYOffsetPhone : DZCLabVCMapViewYOffsetPad;
     }
     return self;
 }
@@ -108,8 +112,8 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         self.mapImage = [self.dataController cachedMapImageForBuilding:self.lab.building];
     }
     
-    CGFloat mapViewTotalHeight = 2*fabs(DZCLabVCMapViewYOffset)+DZCLabVCMapHeight;
-    CGRect mapViewFrame = CGRectMake(0, DZCLabVCMapViewYOffset, self.view.bounds.size.width, mapViewTotalHeight);
+    CGFloat mapViewTotalHeight = 2*fabs(self.mapViewYOffset)+DZCLabVCMapVisibleHeight;
+    CGRect mapViewFrame = CGRectMake(0, self.mapViewYOffset, self.view.bounds.size.width, mapViewTotalHeight);
     
     if (self.mapImage == nil) {
         self.mapView = [[MKMapView alloc] initWithFrame:mapViewFrame];
@@ -216,7 +220,7 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         self.bgView.backgroundColor = [UIColor dzc_groupTableViewBackgroundColor];
 
         CGRect bgFrame = self.bgView.frame;
-        bgFrame.origin.y = DZCLabVCMapHeight;
+        bgFrame.origin.y = DZCLabVCMapVisibleHeight;
         self.bgView.frame = bgFrame;
 
         [self.view addSubview:self.bgView];
@@ -226,10 +230,10 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         self.tableView.backgroundView = nil;
     }
 
-    UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, DZCLabVCMapHeight)];
+    UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, DZCLabVCMapVisibleHeight)];
     tableHeaderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     tableHeaderView.backgroundColor = [UIColor clearColor];
-    UIView *blackBorderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, DZCLabVCMapHeight-1.0, self.view.bounds.size.width, 1.0)];
+    UIView *blackBorderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, DZCLabVCMapVisibleHeight-1.0, self.view.bounds.size.width, 1.0)];
     blackBorderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     blackBorderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
     [tableHeaderView addSubview:blackBorderView];
@@ -250,13 +254,13 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
     CGRect bgViewFrame = self.bgView.frame;
 
     if (scrollOffset < 0) {
-        mapViewFrame.origin.y = DZCLabVCMapViewYOffset - (scrollOffset / 3.0);
+        mapViewFrame.origin.y = self.mapViewYOffset - (scrollOffset / 3.0);
     } else {
         // We're scrolling up, return to normal behavior
-        mapViewFrame.origin.y = DZCLabVCMapViewYOffset - scrollOffset;
+        mapViewFrame.origin.y = self.mapViewYOffset - scrollOffset;
     }
 
-    bgViewFrame.origin.y = DZCLabVCMapHeight - scrollOffset;
+    bgViewFrame.origin.y = DZCLabVCMapVisibleHeight - scrollOffset;
 
     self.bgView.frame = bgViewFrame;
     self.mapView.frame = mapViewFrame;
