@@ -219,11 +219,13 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 
 - (UIImage *)cachedMapImageForBuilding:(NSString *)building
 {
+    if (!building) return nil;
     return [self.mapImageCache objectForKey:building];
 }
 
 - (void)cacheMapImage:(UIImage *)image forBuilding:(NSString *)building
 {
+    if (!image || !building) return;
     [self.mapImageCache setObject:image forKey:building];
 }
 

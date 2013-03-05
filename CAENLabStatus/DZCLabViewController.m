@@ -186,7 +186,7 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         self.mapImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
 
-        [self.dataController cacheMapImage:self.mapImage forBuilding:self.lab.building];
+        if (self.lab.building) [self.dataController cacheMapImage:self.mapImage forBuilding:self.lab.building];
     });
 }
 
