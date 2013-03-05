@@ -14,3 +14,5 @@
 #endif
 
 #define CDZWeakSelf __weak __typeof__((__typeof__(self))self)
+
+#define DZC_METERS_PER_MILE 1609.344

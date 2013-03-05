@@ -7,8 +7,6 @@
 #import <MapKit/MapKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-#define DZC_METERS_PER_MILE 1609.344
-
 static const CGFloat DZCLabVCMapZoom = 0.35;
 static const CGFloat DZCLabVCMapVisibleHeight = 110.0;
 static const CGFloat DZCLabVCMapViewYOffsetPhone = -140.0;
@@ -79,11 +77,8 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0;
             [(id)vc setMapImage:weakSelf.mapImage];
         }
 
-        if (weakSelf.padDetailNavigationController) {
-            [weakSelf.padDetailNavigationController setViewControllers:@[vc] animated:NO];
-        } else {
-            [weakSelf.navigationController pushViewController:vc animated:YES];
-        }
+        UINavigationController *targetVC = weakSelf.padDetailNavigationController ? weakSelf.padDetailNavigationController : weakSelf.navigationController;
+        [targetVC pushViewController:vc animated:YES];
     };
 
     if (self.showsParallaxView) [self setupParallaxView];

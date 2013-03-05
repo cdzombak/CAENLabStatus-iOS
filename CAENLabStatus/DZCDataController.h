@@ -14,6 +14,8 @@ typedef NS_ENUM(NSInteger, DZCLabStatus) {
 
 @interface DZCDataController : NSObject
 
+@property (nonatomic, readonly, strong) NSSet *labs;
+
 /**
  * Gets each known lab and its status, loading data from the network into
  * the cache if necessary.

@@ -18,6 +18,8 @@
 		9347849014F32624009C5703 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848C14F32624009C5703 /* Icon-Small@2x.png */; };
 		9347849514F329CF009C5703 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849414F329CF009C5703 /* CFNetwork.framework */; };
 		9347849714F329D9009C5703 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849614F329D8009C5703 /* SystemConfiguration.framework */; };
+		9375E69616E6A4E5003FFA27 /* DZCEmptyDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9375E69516E6A4E5003FFA27 /* DZCEmptyDetailViewController.m */; };
+		9375E69816E6A81A003FFA27 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9375E69716E6A81A003FFA27 /* CoreLocation.framework */; };
 		937CCCA81686463D0075BD01 /* greyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA41686463D0075BD01 /* greyButton.png */; };
 		937CCCA91686463D0075BD01 /* greyButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA51686463D0075BD01 /* greyButton@2x.png */; };
 		937CCCAA1686463D0075BD01 /* greyButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA61686463D0075BD01 /* greyButtonHighlight.png */; };
@@ -65,6 +67,9 @@
 		9347848C14F32624009C5703 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "../Icon-Small@2x.png"; sourceTree = "<group>"; };
 		9347849414F329CF009C5703 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		9347849614F329D8009C5703 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9375E69416E6A4E4003FFA27 /* DZCEmptyDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCEmptyDetailViewController.h; sourceTree = "<group>"; };
+		9375E69516E6A4E5003FFA27 /* DZCEmptyDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCEmptyDetailViewController.m; sourceTree = "<group>"; };
+		9375E69716E6A81A003FFA27 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		937CCCA41686463D0075BD01 /* greyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButton.png; sourceTree = "<group>"; };
 		937CCCA51686463D0075BD01 /* greyButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButton@2x.png"; sourceTree = "<group>"; };
 		937CCCA61686463D0075BD01 /* greyButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButtonHighlight.png; sourceTree = "<group>"; };
@@ -117,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9375E69816E6A81A003FFA27 /* CoreLocation.framework in Frameworks */,
 				93E1DA471697492700B04CF0 /* MapKit.framework in Frameworks */,
 				9347849714F329D9009C5703 /* SystemConfiguration.framework in Frameworks */,
 				9347849514F329CF009C5703 /* CFNetwork.framework in Frameworks */,
@@ -154,6 +160,7 @@
 		93D9F66214D3997600AD2152 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9375E69716E6A81A003FFA27 /* CoreLocation.framework */,
 				93E1DA461697492600B04CF0 /* MapKit.framework */,
 				9347849614F329D8009C5703 /* SystemConfiguration.framework */,
 				9347849414F329CF009C5703 /* CFNetwork.framework */,
@@ -208,6 +215,8 @@
 			children = (
 				93E80C5914D797F5008850FE /* DZCAboutViewController.h */,
 				93E80C5A14D797F5008850FE /* DZCAboutViewController.m */,
+				9375E69416E6A4E4003FFA27 /* DZCEmptyDetailViewController.h */,
+				9375E69516E6A4E5003FFA27 /* DZCEmptyDetailViewController.m */,
 				93D9F68514D39C2500AD2152 /* DZCLabsListViewController.h */,
 				93D9F68614D39C2500AD2152 /* DZCLabsListViewController.m */,
 				93BBAB6914E83AC000B19049 /* DZCLabViewController.h */,
@@ -389,6 +398,7 @@
 				93E1DA3E16964D1900B04CF0 /* DZCLabTableViewManagerWithSublabs.m in Sources */,
 				93E1DA451697356900B04CF0 /* CDZTableViewSplitDelegate.m in Sources */,
 				93E1DA4A1697A76400B04CF0 /* DZCLabTableViewManagerNoSublabs.m in Sources */,
+				9375E69616E6A4E5003FFA27 /* DZCEmptyDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

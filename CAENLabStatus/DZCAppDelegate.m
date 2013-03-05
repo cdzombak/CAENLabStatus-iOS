@@ -1,6 +1,7 @@
 #import "DZCAppDelegate.h"
 #import "DZCDataController.h"
 #import "DZCLabsListViewController.h"
+#import "DZCEmptyDetailViewController.h"
 #import "UIColor+DZCColors.h"
 #import "AFNetworkActivityIndicatorManager.h"
 #import "iRate.h"
@@ -40,7 +41,8 @@ static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
         rootVC = [[UINavigationController alloc] initWithRootViewController:self.labsViewController];
     } else { // UIUserInterfaceIdiomPad
         UISplitViewController *vc = [[UISplitViewController alloc] init];
-        UIViewController *emptyVC = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        DZCEmptyDetailViewController *emptyVC = [[DZCEmptyDetailViewController alloc] init];
+        emptyVC.dataController = self.dataController;
         UINavigationController *detailNavigationVC = [[UINavigationController alloc] initWithRootViewController:emptyVC];
         self.labsViewController = [[DZCLabsListViewController alloc] init];
         self.labsViewController.padDetailNavigationController = detailNavigationVC;

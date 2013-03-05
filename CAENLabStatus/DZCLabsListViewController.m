@@ -490,11 +490,13 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     subLabViewController.dataController = self.dataController;
     subLabViewController.padDetailNavigationController = self.padDetailNavigationController;
 
+    UINavigationController *targetVC;
     if (self.padDetailNavigationController && lab.subLabs.count == 0) {
-        [self.padDetailNavigationController setViewControllers:@[subLabViewController] animated:NO];
+        targetVC = self.padDetailNavigationController;
     } else {
-        [self.navigationController pushViewController:subLabViewController animated:YES];
+        targetVC = self.navigationController;
     }
+    [targetVC pushViewController:subLabViewController animated:YES];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

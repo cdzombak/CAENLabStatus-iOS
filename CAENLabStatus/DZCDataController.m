@@ -30,7 +30,6 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 
 @property (nonatomic, readonly, strong) DZCLabStatusApiClient *labStatusApiClient;
 @property (nonatomic, readonly, strong) DZCHostInfoApiClient *hostInfoApiClient;
-@property (nonatomic, readonly, strong) NSSet *labs;
 
 /* labStatuses is a dictionary that maps a lab object to an NSNumber with int DZCLabStatus.
  * It can be set to nil to clear the cache; it is recreated as an empty mutable dictionary on any access. */
