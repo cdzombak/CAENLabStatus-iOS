@@ -4,7 +4,8 @@
 
 @interface DZCLabsListViewController : UITableViewController
 
-@property(nonatomic, strong) DZCDataController *dataController;
+@property (nonatomic, strong) DZCDataController *dataController;
+@property (nonatomic, strong) UINavigationController *padDetailNavigationController;
 
 /**
  * Designated initializer

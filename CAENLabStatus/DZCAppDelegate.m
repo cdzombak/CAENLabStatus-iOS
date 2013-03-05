@@ -9,7 +9,6 @@ static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
 
 @interface DZCAppDelegate ()
 
-@property (nonatomic, strong) UIViewController *rootViewController;
 @property (nonatomic, strong) DZCDataController *dataController;
 @property (nonatomic, strong) DZCLabsListViewController *labsViewController;
 
@@ -35,21 +34,30 @@ static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
 {
     [[UINavigationBar appearance] setTintColor:[UIColor dzc_logoBlueColor]];
 
+    UIViewController *rootVC;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.labsViewController = [[DZCLabsListViewController alloc] init];
-        self.labsViewController.dataController = self.dataController;
-        
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.labsViewController];
-        self.rootViewController = navController;
-    } else {
-        //self.rootViewController = [[DZCRootViewController alloc] initWithNibName:@"DZCRootViewController_iPad" bundle:nil];
+        rootVC = [[UINavigationController alloc] initWithRootViewController:self.labsViewController];
+    } else { // UIUserInterfaceIdiomPad
+        UISplitViewController *vc = [[UISplitViewController alloc] init];
+        UIViewController *emptyVC = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        UINavigationController *detailNavigationVC = [[UINavigationController alloc] initWithRootViewController:emptyVC];
+        self.labsViewController = [[DZCLabsListViewController alloc] init];
+        self.labsViewController.padDetailNavigationController = detailNavigationVC;
+        vc.viewControllers = @[
+                               [[UINavigationController alloc] initWithRootViewController:self.labsViewController],
+                               detailNavigationVC
+                               ];
+        vc.delegate = self;
+        rootVC = vc;
     }
-    
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = self.rootViewController;
-    [self.window makeKeyAndVisible];
 
+    self.labsViewController.dataController = self.dataController;
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = rootVC;
+    [self.window makeKeyAndVisible];
 
     return YES;
 }
@@ -64,9 +72,17 @@ static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
     if (self.appBackgroundTime && [[NSDate date] timeIntervalSinceDate:self.appBackgroundTime] > DZCAppBackgroundRefreshTimeout) {
         [self.dataController clearCache];
         [self.dataController reloadLabStatusesWithBlock:nil];
-        
+
         [self.labsViewController refreshData];
     }
+}
+
+#pragma mark UISplitViewControllerDelegate methods
+
+- (BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation
+{
+    // nope, just keep both VCs visible always.
+    return NO;
 }
 
 #pragma mark - Property overrides

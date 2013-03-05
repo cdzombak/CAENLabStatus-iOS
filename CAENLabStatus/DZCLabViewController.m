@@ -72,7 +72,12 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         if ([vc respondsToSelector:@selector(setMapImage:)] && weakSelf.mapImage) {
             [(id)vc setMapImage:weakSelf.mapImage];
         }
-        [weakSelf.navigationController pushViewController:vc animated:YES];
+
+        if (weakSelf.padDetailNavigationController) {
+            [weakSelf.padDetailNavigationController setViewControllers:@[vc] animated:NO];
+        } else {
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
     };
 
     [self setupParallaxView];
