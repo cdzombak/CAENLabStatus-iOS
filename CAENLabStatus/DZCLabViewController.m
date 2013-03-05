@@ -24,6 +24,7 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 @property (nonatomic, strong) DZCLabTableViewManager *tvManager;
 @property (nonatomic, strong) CDZTableViewSplitDelegate *tvSplitDelegate;
 
+@property (nonatomic, assign) BOOL showsParallaxView;
 @property (nonatomic, assign) BOOL mapViewIsReady;
 @property (nonatomic, assign) BOOL viewHasAppeared;
 
@@ -40,6 +41,7 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         self.lab = lab;
         self.title = self.lab.humanName;
 
+        self.showsParallaxView = YES;
         self.mapViewIsReady = NO;
         self.viewHasAppeared = NO;
     }
@@ -80,7 +82,7 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
         }
     };
 
-    [self setupParallaxView];
+    if (self.showsParallaxView) [self setupParallaxView];
 
     [self.tvManager prepareData];
     [self.tableView reloadData];
@@ -96,6 +98,8 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
             [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
     }
+
+    if (!self.showsParallaxView) return;
 
     // we deal with the mapview here because it is destroyed when we leave the screen
     // and recreated when we come back.
@@ -239,6 +243,8 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (!self.showsParallaxView) return;
+
     CGFloat scrollOffset = scrollView.contentOffset.y;
     CGRect mapViewFrame = (self.mapImageView != nil) ? self.mapImageView.frame : self.mapView.frame;
     CGRect bgViewFrame = self.bgView.frame;
@@ -263,6 +269,12 @@ static const CGFloat DZCLabVCMapViewYOffset = -150.0;
 {
     _lab = lab;
     self.mapZoomLocation = lab.coordinate;
+}
+
+- (void)setPadDetailNavigationController:(UINavigationController *)padDetailNavigationController
+{
+    _padDetailNavigationController = padDetailNavigationController;
+    self.showsParallaxView = _padDetailNavigationController == nil || self.lab.subLabs.count == 0;
 }
 
 @end
