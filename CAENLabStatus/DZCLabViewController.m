@@ -73,11 +73,12 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0f;
 
     CDZWeakSelf weakSelf = self;
     self.tvManager.vcPushBlock = ^(UIViewController *vc) {
-        if ([vc respondsToSelector:@selector(setMapImage:)] && weakSelf.mapImage) {
-            [(id)vc setMapImage:weakSelf.mapImage];
+        CDZStrongSelf sSelf = weakSelf;
+        if ([vc respondsToSelector:@selector(setMapImage:)] && sSelf.mapImage) {
+            [(id)vc setMapImage:sSelf.mapImage];
         }
 
-        UINavigationController *targetVC = weakSelf.padDetailNavigationController ? weakSelf.padDetailNavigationController : weakSelf.navigationController;
+        UINavigationController *targetVC = sSelf.padDetailNavigationController ?: sSelf.navigationController;
         [targetVC pushViewController:vc animated:YES];
     };
 
