@@ -455,10 +455,7 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
                                                                      ]];
         _filterControl.selectedSegmentIndex = DZCLabsListFilterAll;
         self.selectedFilter = DZCLabsListFilterAll;
-
-        [_filterControl addTarget:nil
-                          action:@selector(labListFilterControlChanged:)
-                forControlEvents:UIControlEventValueChanged];
+        [_filterControl addTarget:nil action:@selector(labListFilterControlChanged:) forControlEvents:UIControlEventValueChanged];
     }
     return _filterControl;
 }
