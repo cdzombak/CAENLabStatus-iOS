@@ -1,9 +1,11 @@
 #import "DZCLabsListViewController.h"
+
 #import "DZCDataController.h"
 #import "DZCLab.h"
+
 #import "DZCAboutViewController.h"
 #import "DZCLabViewController.h"
-#import "ODRefreshControl.h"
+
 #import "UIColor+DZCColors.h"
 
 static NSString *DZCLabsTableViewSectionTitles[DZCLabStatusCount];
@@ -37,7 +39,6 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 @property (nonatomic, strong) NSMutableArray *statusForTableViewSection;
 
 @property (nonatomic, readonly, strong) UIBarButtonItem *aboutButtonItem;
-@property (nonatomic, strong) ODRefreshControl *pullRefreshControl;
 
 @property (nonatomic, strong) UISegmentedControl *filterControl;
 @property (nonatomic, assign) DZCLabsListFilter selectedFilter;
@@ -78,11 +79,9 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     self.tableView.allowsMultipleSelection = NO;
     self.tableView.rowHeight = 55.0;
 
-    self.pullRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
-    self.pullRefreshControl.tintColor = [UIColor dzc_refreshViewColor];
-    self.pullRefreshControl.backgroundColor = [UIColor dzc_refreshViewBackgroundColor];
-    [self.pullRefreshControl addTarget:self action:@selector(dropViewDidBeginRefreshing:) forControlEvents:UIControlEventValueChanged];
-    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:nil action:@selector(refreshData:) forControlEvents:UIControlEventValueChanged];
+
     self.labOrdering = [self retrieveSavedSortOrder];
 
     [self loadData];
@@ -160,6 +159,10 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 
 #pragma mark - Data Management
 
+- (void)refreshData:(UIRefreshControl *)sender {
+    [self refreshData];
+}
+
 - (void)refreshData
 {
     self.labsByStatus = nil; // TODO I think this causes some interaction which can cause a crash sometimes
@@ -171,7 +174,7 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 {
     [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labsResult, NSError *error) {
         
-        [self.pullRefreshControl endRefreshing];
+        [self.refreshControl endRefreshing];
 
         self.labsByStatus = nil;
         
@@ -315,13 +318,6 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     }
 
     return sortedLabs;
-}
-
-#pragma mark - ODRefreshControl related
-
-- (void)dropViewDidBeginRefreshing:(ODRefreshControl *)refreshControl
-{
-    [self refreshData];
 }
 
 #pragma mark - UITableViewDataSource methods

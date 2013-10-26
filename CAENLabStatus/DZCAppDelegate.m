@@ -4,7 +4,6 @@
 #import "DZCEmptyDetailViewController.h"
 #import "UIColor+DZCColors.h"
 #import "AFNetworkActivityIndicatorManager.h"
-#import "iRate.h"
 
 static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
 
@@ -18,18 +17,6 @@ static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
 @end
 
 @implementation DZCAppDelegate
-
-+ (void)initialize
-{
-    [iRate sharedInstance].daysUntilPrompt = 5;
-    [iRate sharedInstance].usesUntilPrompt = 10;
-    [iRate sharedInstance].remindPeriod = 2;
-    [iRate sharedInstance].promptAgainForEachNewVersion = NO;
-    [iRate sharedInstance].onlyPromptIfLatestVersion = YES;
-    [iRate sharedInstance].applicationName = NSLocalizedString(@"CAEN Labs", nil);
-    [iRate sharedInstance].message = NSLocalizedString(@"Is this app useful? Could you help me out by rating it in the App Store? It'll just take a minute. Thanks!", nil);
-    [iRate sharedInstance].disableAlertViewResizing = NO;
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
