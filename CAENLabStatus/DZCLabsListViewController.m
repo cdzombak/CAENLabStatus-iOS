@@ -321,7 +321,7 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
                 float usedPercent = [used floatValue] / [total floatValue];
                 float freePercent = 1.0f - usedPercent;
 
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%d (%d%%) free", freeCount, (int)roundf(freePercent*100)];
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%d (%d%%) free", (int)freeCount, (int)roundf(freePercent*100)];
                 
                 if (usedPercent >= 0.8f) {
                     cell.textLabel.font = [UIFont systemFontOfSize:cell.textLabel.font.pointSize];
@@ -350,7 +350,7 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
         }
             
         default: {
-            NSLog(@"Unknown status encountered: %d", status);
+            NSLog(@"Unknown status encountered: %ld", status);
         }
     }
 

@@ -88,7 +88,7 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
         case DZCNoSublabsTableViewSectionHosts:
             return (NSInteger) self.hosts.count;
         default:
-            [NSException raise:@"DZCInvalidSectionException" format:@"Invalid section %d for lab table view", section];
+            [NSException raise:@"DZCInvalidSectionException" format:@"Invalid section %d for lab table view", (int)section];
             return 0;
     }
 }
@@ -163,7 +163,7 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
                                           float freePercent = 1.0f - usedPercent;
                                           
                                           sSelf->_usageCell.textLabel.text = [NSString stringWithFormat:@"%d%% free", (int)roundf(freePercent*100)];
-                                          sSelf->_usageCell.detailTextLabel.text = [NSString stringWithFormat:@"%d of %d computers free", freeCount, [total intValue]];
+                                          sSelf->_usageCell.detailTextLabel.text = [NSString stringWithFormat:@"%d of %d computers free", (int)freeCount, [total intValue]];
                                       }];
     }
     return _usageCell;
