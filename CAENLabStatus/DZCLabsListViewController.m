@@ -5,7 +5,7 @@
 
 #import "DZCLabViewController.h"
 
-#import "UIColor+DZCColors.h"
+static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewControllerSortOrder"; // TODO extract this into prefs singleton
 
 static NSString *DZCLabsTableViewSectionTitles[DZCLabStatusCount];
 
@@ -26,10 +26,6 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
     DZCLabsListFilterNorth,
     DZCLabsListFilterCentral,
 };
-
-static NSString *DZCLabsListViewControllerSortOrderPrefsKey = @"DZCLabsViewControllerSortOrder";
-
-static const CGFloat DZCFilterBarHeight = 43.0;
 
 @interface DZCLabsListViewController () 
 
@@ -88,18 +84,14 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 
 #pragma mark - UI Actions
 
-- (void)filterControlChanged:(UISegmentedControl *)sender
+- (void)labListFilterControlChanged:(UISegmentedControl *)sender
 {
     NSParameterAssert(sender == self.filterControl);
 
     self.selectedFilter = self.filterControl.selectedSegmentIndex;
     [self loadData];
 
-    if (self.selectedFilter == DZCLabsListFilterAll) {
-        self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    } else {
-        self.navigationItem.rightBarButtonItem = nil;
-    }
+    self.navigationItem.rightBarButtonItem = (self.selectedFilter == DZCLabsListFilterAll) ? self.editButtonItem : nil;
 }
 
 #pragma mark - Data Management
@@ -127,7 +119,7 @@ static const CGFloat DZCFilterBarHeight = 43.0;
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Retrieving Data", nil)
                                         message:NSLocalizedString(@"Please ensure you have an Internet connection. If you do, the CAEN lab info service might be down.\n\nTry refreshing again.", nil)
                                        delegate:nil
-                              cancelButtonTitle:NSLocalizedString(@":(", nil)
+                              cancelButtonTitle:NSLocalizedString(@"😢", nil)
                               otherButtonTitles:nil]
              show];
 
@@ -150,7 +142,7 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 
             if (includeThisLab) filteredLabs[key] = obj;
             
-            *stop = NO;
+            if (stop != NULL) *stop = NO;
             return;
         }];
 
@@ -348,18 +340,11 @@ static const CGFloat DZCFilterBarHeight = 43.0;
             
         default: {
             NSLog(@"Unknown status encountered: %d", status);
-            assert(0);
         }
     }
-    
-    if (status == DZCLabStatusOpen) {
-        cell.showsReorderControl = YES;
-    } else {
-        cell.showsReorderControl = NO;
-    }
 
+    cell.showsReorderControl = (status == DZCLabStatusOpen);
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 
     return cell;
 }
@@ -411,7 +396,7 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    DZCLabStatus status = [(self.statusForTableViewSection)[section] intValue];
+    DZCLabStatus status = [self.statusForTableViewSection[(NSUInteger)section] intValue];
     return DZCLabsTableViewSectionTitles[status];
 }
 
@@ -471,16 +456,11 @@ static const CGFloat DZCFilterBarHeight = 43.0;
         _filterControl.selectedSegmentIndex = DZCLabsListFilterAll;
         self.selectedFilter = DZCLabsListFilterAll;
 
-        [_filterControl addTarget:self
-                          action:@selector(filterControlChanged:)
+        [_filterControl addTarget:nil
+                          action:@selector(labListFilterControlChanged:)
                 forControlEvents:UIControlEventValueChanged];
     }
     return _filterControl;
-}
-
-- (BOOL)hidesFilterBarByDefault
-{
-    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone;
 }
 
 @end
