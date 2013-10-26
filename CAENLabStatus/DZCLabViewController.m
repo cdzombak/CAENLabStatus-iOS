@@ -1,33 +1,33 @@
+@import MapKit;
+@import QuartzCore;
+
 #import "DZCLabViewController.h"
-#import "DZCDataController.h"
-#import "DZCLab.h"
-#import "UIColor+DZCColors.h"
 #import "DZCLabTableViewManager.h"
 #import "CDZTableViewSplitDelegate.h"
-#import <MapKit/MapKit.h>
-#import <QuartzCore/QuartzCore.h>
+
+#import "DZCDataController.h"
+#import "DZCLab.h"
+
+#import "UIColor+DZCColors.h"
 
 static const CGFloat DZCLabVCMapZoom = 0.35f;
-static const CGFloat DZCLabVCMapVisibleHeight = 110.0f;
-static const CGFloat DZCLabVCMapViewYOffsetPhone = -140.0f;
-static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0f;
 
-@interface DZCLabViewController () <UIScrollViewDelegate, MKMapViewDelegate>
+static const CGFloat DZCLabVCMapVisibleHeight = 200.f;
+
+@interface DZCLabViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, assign) CLLocationCoordinate2D mapZoomLocation;
+@property (nonatomic, readonly) CGFloat mapViewYOrigin;
+@property (nonatomic, readonly) CGFloat mapViewHeight;
+
 @property (nonatomic, strong) MKMapView *mapView;
-@property (nonatomic, strong) UIImageView *mapImageView;
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *bgView;
 
-@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) DZCLabTableViewManager *tvManager;
 @property (nonatomic, strong) CDZTableViewSplitDelegate *tvSplitDelegate;
 
 @property (nonatomic, assign) BOOL showsParallaxView;
-@property (nonatomic, assign) BOOL mapViewIsReady;
-@property (nonatomic, assign) BOOL viewHasAppeared;
-
-@property (nonatomic, assign) CGFloat mapViewYOffset;
 
 @property (nonatomic, readwrite, strong) DZCLab *lab;
 
@@ -43,9 +43,6 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0f;
         self.title = self.lab.humanName;
 
         self.showsParallaxView = YES;
-        self.mapViewIsReady = NO;
-        self.viewHasAppeared = NO;
-        self.mapViewYOffset = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? DZCLabVCMapViewYOffsetPhone : DZCLabVCMapViewYOffsetPad;
     }
     return self;
 }
@@ -56,14 +53,13 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0f;
 {
     [super viewDidLoad];
 
-    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    self.view.autoresizesSubviews = YES;
-
     UITableViewStyle tvStyle = [DZCLabTableViewManager tableViewStyleForLab:self.lab];
-    self.tableView = [[UITableView alloc] initWithFrame:(CGRect){CGPointZero, self.view.bounds.size} style:tvStyle];
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:tvStyle];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+
+    self.view.backgroundColor = self.tableView.backgroundColor;
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.tableView.backgroundView = nil;
     [self.view addSubview:self.tableView];
 
     self.tvManager = [DZCLabTableViewManager tableViewManagerForLab:self.lab dataController:self.dataController];
@@ -71,18 +67,14 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0f;
     self.tvSplitDelegate = [[CDZTableViewSplitDelegate alloc] initWithScrollViewDelegate:self tableViewDelegate:self.tableView.delegate];
     self.tableView.delegate = self.tvSplitDelegate;
 
+    if (self.showsParallaxView) [self setupParallaxView];
+
     CDZWeakSelf weakSelf = self;
     self.tvManager.vcPushBlock = ^(UIViewController *vc) {
         CDZStrongSelf sSelf = weakSelf;
-        if ([vc respondsToSelector:@selector(setMapImage:)] && sSelf.mapImage) {
-            [(id)vc setMapImage:sSelf.mapImage];
-        }
-
         UINavigationController *targetVC = sSelf.padDetailNavigationController ?: sSelf.navigationController;
         [targetVC pushViewController:vc animated:YES];
     };
-
-    if (self.showsParallaxView) [self setupParallaxView];
 
     [self.tvManager prepareData];
     [self.tableView reloadData];
@@ -93,47 +85,8 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0f;
     [super viewWillAppear:animated];
 
     NSArray *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
-    if (selectedIndexPaths.count) {
-        for (NSIndexPath *indexPath in selectedIndexPaths) {
-            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        }
-    }
-
-    if (!self.showsParallaxView) return;
-
-    // we deal with the mapview here because it is destroyed when we leave the screen
-    // and recreated when we come back.
-
-    if (!self.mapImage) {
-        self.mapImage = [self.dataController cachedMapImageForBuilding:self.lab.building];
-    }
-    
-    CGFloat mapViewTotalHeight = 2*ABS(self.mapViewYOffset)+DZCLabVCMapVisibleHeight;
-    CGRect mapViewFrame = CGRectMake(0, self.mapViewYOffset, self.view.bounds.size.width, mapViewTotalHeight);
-    
-    if (self.mapImage == nil) {
-        self.mapView = [[MKMapView alloc] initWithFrame:mapViewFrame];
-        self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.mapView.userInteractionEnabled = NO;
-        self.mapView.mapType = MKMapTypeHybrid;
-
-        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.mapZoomLocation, DZCLabVCMapZoom*DZC_METERS_PER_MILE, DZCLabVCMapZoom*DZC_METERS_PER_MILE);
-        [self.mapView setRegion:viewRegion animated:NO];
-        [self.mapView addAnnotation:self.lab];
-
-        [self.view addSubview:self.mapView];
-        [self.view sendSubviewToBack:self.mapView];
-        
-        self.mapView.delegate = self;
-    } else if (self.mapImageView == nil) {
-        self.mapImageView = [[UIImageView alloc] initWithFrame:mapViewFrame];
-        self.mapImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.mapImageView.userInteractionEnabled = NO;
-
-        self.mapImageView.image = self.mapImage;
-
-        [self.view addSubview:self.mapImageView];
-        [self.view sendSubviewToBack:self.mapImageView];
+    for (NSIndexPath *indexPath in selectedIndexPaths) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 
@@ -141,102 +94,62 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0f;
 {
     [super viewDidAppear:animated];
 
-    self.viewHasAppeared = YES;
-    [self saveMapViewImageIfItsReady];
-
     [self.tableView flashScrollIndicators];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-
-    [self.mapView removeFromSuperview];
-    self.mapView = nil;
 }
 
 #pragma mark - UI Interactions
 
 - (void)headerViewTouched:(id)sender
 {
-    Class mapItemClass = [MKMapItem class];
-    if (mapItemClass && [mapItemClass respondsToSelector:@selector(openMapsWithItems:launchOptions:)]) {
-        MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:self.mapZoomLocation
-                                                       addressDictionary:nil];
-        MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
-        mapItem.name = self.lab.humanName;
-        [mapItem openInMapsWithLaunchOptions:nil];
-    }
+    MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:self.mapZoomLocation
+                                                   addressDictionary:nil];
+    MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
+    mapItem.name = self.lab.humanName;
+    [mapItem openInMapsWithLaunchOptions:nil];
 }
 
-#pragma mark - Map image management
-
-- (void)saveMapViewImageIfItsReady
-{
-    if (self.mapView == nil) return;
-    if (!(self.mapViewIsReady && self.viewHasAppeared)) return;
-
-    // I can't figure out how to reliably detect when the MKMapView is actually completely displayed.
-    // -[MKMapViewDelegate mapViewDidFinishLoadingMap:] is called when tiles are loaded, but they may
-    // not be displayed yet.
-    // There's got to be a better way to handle this…
-
-    double delayInSeconds = 0.6;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        // via http://stackoverflow.com/a/4334902/734716
-        UIGraphicsBeginImageContextWithOptions(self.mapView.bounds.size, self.mapView.opaque, 0.0);
-        [self.mapView.layer renderInContext:UIGraphicsGetCurrentContext()];
-        self.mapImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-
-        if (self.lab.building) [self.dataController cacheMapImage:self.mapImage forBuilding:self.lab.building];
-    });
-}
-
-#pragma mark - MKMapViewDelegate methods
-
-- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
-{
-    if (mapView != self.mapView) return;
-    self.mapViewIsReady = YES;
-    [self saveMapViewImageIfItsReady];
-}
-
-#pragma mark - Top view and parallax creation
+#pragma mark - Top view and parallax
 
 - (void)setupParallaxView
 {
-    if (self.tableView.backgroundView) {
-        // If someone wants to give me any hints on managing the background of a group-style
-        // table view while still having a transparent header view, please do.
+    CGRect bgFrame = (CGRect){CGPointMake(0, DZCLabVCMapVisibleHeight), self.tableView.bounds.size};
 
-        self.bgView = [[UIView alloc] initWithFrame:self.tableView.backgroundView.frame];
-        self.bgView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.bgView.backgroundColor = [UIColor dzc_groupTableViewBackgroundColor];
+    self.bgView = [[UIView alloc] initWithFrame:bgFrame];
+    self.bgView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.bgView.backgroundColor = self.view.backgroundColor;
 
-        CGRect bgFrame = self.bgView.frame;
-        bgFrame.origin.y = DZCLabVCMapVisibleHeight;
-        self.bgView.frame = bgFrame;
+    [self.tableView addSubview:self.bgView];
+    [self.tableView sendSubviewToBack:self.bgView];
 
-        [self.view addSubview:self.bgView];
-        [self.view sendSubviewToBack:self.bgView];
-
-        self.view.backgroundColor = [UIColor dzc_groupTableViewBackgroundColor];
-        self.tableView.backgroundView = nil;
-    }
-
-    UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, DZCLabVCMapVisibleHeight)];
+    UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, CGRectGetWidth(self.view.bounds), DZCLabVCMapVisibleHeight)];
     tableHeaderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     tableHeaderView.backgroundColor = [UIColor clearColor];
-    UIView *blackBorderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, DZCLabVCMapVisibleHeight-1.0, self.view.bounds.size.width, 1.0)];
+
+    UIView *blackBorderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, DZCLabVCMapVisibleHeight-1.0, CGRectGetWidth(self.view.bounds), 1.0)];
     blackBorderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     blackBorderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
     [tableHeaderView addSubview:blackBorderView];
+
     self.tableView.tableHeaderView = tableHeaderView;
 
     UIGestureRecognizer *headerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headerViewTouched:)];
     [tableHeaderView addGestureRecognizer:headerTapRecognizer];
+
+    CGRect mapViewFrame = CGRectMake(0, self.mapViewYOrigin, CGRectGetWidth(self.view.bounds), self.mapViewHeight);
+
+    self.mapView = [[MKMapView alloc] initWithFrame:mapViewFrame];
+
+    self.mapView.userInteractionEnabled = NO;
+    self.mapView.mapType = MKMapTypeHybrid;
+    self.mapView.showsPointsOfInterest = NO;
+    self.mapView.showsUserLocation = YES;
+
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.mapZoomLocation, DZCLabVCMapZoom*DZC_METERS_PER_MILE, DZCLabVCMapZoom*DZC_METERS_PER_MILE);
+    [self.mapView setRegion:viewRegion animated:NO];
+    [self.mapView addAnnotation:self.lab];
+
+    [self.view addSubview:self.mapView];
+    [self.view sendSubviewToBack:self.mapView];
 }
 
 #pragma mark - UIScrollViewDelegate methods
@@ -246,21 +159,9 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0f;
     if (!self.showsParallaxView) return;
 
     CGFloat scrollOffset = scrollView.contentOffset.y;
-    CGRect mapViewFrame = (self.mapImageView != nil) ? self.mapImageView.frame : self.mapView.frame;
-    CGRect bgViewFrame = self.bgView.frame;
-
-    if (scrollOffset < 0) {
-        mapViewFrame.origin.y = self.mapViewYOffset - (scrollOffset / 3.0f);
-    } else {
-        // We're scrolling up, return to normal behavior
-        mapViewFrame.origin.y = self.mapViewYOffset - scrollOffset;
-    }
-
-    bgViewFrame.origin.y = DZCLabVCMapVisibleHeight - scrollOffset;
-
-    self.bgView.frame = bgViewFrame;
+    CGRect mapViewFrame = self.mapView.frame;
+    mapViewFrame.origin.y = self.mapViewYOrigin - (scrollOffset / 3.5f);
     self.mapView.frame = mapViewFrame;
-    self.mapImageView.frame = mapViewFrame;
 }
 
 #pragma mark - Property overrides
@@ -275,6 +176,14 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0f;
 {
     _padDetailNavigationController = padDetailNavigationController;
     self.showsParallaxView = _padDetailNavigationController == nil || self.lab.subLabs.count == 0;
+}
+
+- (CGFloat)mapViewHeight {
+    return CGRectGetHeight(self.view.bounds)*0.85f;
+}
+
+- (CGFloat)mapViewYOrigin {
+    return -0.2f*self.mapViewHeight;
 }
 
 @end

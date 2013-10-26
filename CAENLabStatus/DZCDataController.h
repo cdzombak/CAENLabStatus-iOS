@@ -1,4 +1,4 @@
-#import <Foundation/Foundation.h>
+@import MapKit;
 
 @class DZCLab;
 
@@ -67,17 +67,5 @@ typedef NS_ENUM(NSInteger, DZCLabStatus) {
  * Clears the cache. This affects lab status and host info.
  */
 - (void)clearCache;
-
-/**
- * Fetch the map image cached for the given building, if it exists.
- * Returns a map image or NULL.
- */
-- (UIImage *)cachedMapImageForBuilding:(NSString *)building;
-
-/**
- * Caches the given image as the map image for the given building.
- */
-- (void)cacheMapImage:(UIImage *)image forBuilding:(NSString *)building;
-
 
 @end

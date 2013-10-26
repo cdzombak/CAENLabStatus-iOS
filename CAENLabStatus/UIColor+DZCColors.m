@@ -10,20 +10,4 @@
                            alpha:1.0];
 }
 
-+ (UIColor *)dzc_refreshViewBackgroundColor
-{
-    return [UIColor colorWithRed:226.0f/255.0f
-                           green:231.0f/255.0f
-                            blue:238.0f/255.0f
-                           alpha:1.0];
-}
-
-+ (UIColor *)dzc_groupTableViewBackgroundColor
-{
-    return [UIColor colorWithRed:208.0f/255.0f
-                           green:213.0f/255.0f
-                            blue:222.0f/255.0f
-                           alpha:1.0];
-}
-
 @end

@@ -39,16 +39,13 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
  * It can be set to nil to clear the cache; it is recreated as an empty mutable dictionary on any access/ */
 @property (nonatomic, strong) NSMutableDictionary *labHostInfo;
 
-@property (nonatomic, strong, readonly) NSCache *mapImageCache;
-
 @end
 
 @implementation DZCDataController
 
 @synthesize labStatusApiClient = _labStatusApiClient,
             hostInfoApiClient = _hostInfoApiClient,
-            labs = _labs,
-            mapImageCache = _mapImageCache
+            labs = _labs
             ;
 
 - (void)labsAndStatusesWithBlock:(void(^)(NSDictionary *labs, NSError *error))block
@@ -214,20 +211,6 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
     self.labStatuses = nil;
 }
 
-#pragma mark - Map Image Caching
-
-- (UIImage *)cachedMapImageForBuilding:(NSString *)building
-{
-    if (!building) return nil;
-    return [self.mapImageCache objectForKey:building];
-}
-
-- (void)cacheMapImage:(UIImage *)image forBuilding:(NSString *)building
-{
-    if (!image || !building) return;
-    [self.mapImageCache setObject:image forKey:building];
-}
-
 #pragma mark - Private helper methods
 
 - (NSString *)apiIdForLab:(DZCLab *)lab
@@ -364,14 +347,6 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
                  nil];
     }
     return _labs;
-}
-
-- (NSCache *)mapImageCache
-{
-    if (!_mapImageCache) {
-        _mapImageCache = [[NSCache alloc] init];
-    }
-    return _mapImageCache;
 }
 
 @end

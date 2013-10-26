@@ -74,6 +74,15 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
     [self loadData];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    NSArray *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
+    for (NSIndexPath *indexPath in selectedIndexPaths) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+}
+
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
