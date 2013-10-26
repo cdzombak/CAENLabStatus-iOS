@@ -440,48 +440,6 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     [targetVC pushViewController:subLabViewController animated:YES];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    NSString *title = [tableView.dataSource tableView:tableView titleForHeaderInSection:section];
-
-    UILabel * headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    headerLabel.backgroundColor = [UIColor clearColor];
-    headerLabel.opaque = NO;
-    headerLabel.textColor = [UIColor whiteColor];
-    headerLabel.highlightedTextColor = [UIColor whiteColor];
-    headerLabel.shadowColor = [UIColor darkTextColor];
-    headerLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-
-    UIFont *titleFont = [UIFont boldSystemFontOfSize:16];
-    headerLabel.font = titleFont;
-
-    CGSize textSize = [title sizeWithFont:titleFont];
-    headerLabel.frame = (CGRect) { {10.0, 1.0} , textSize };
-
-    headerLabel.text = (NSString*)title;
-
-    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 0.0, tableView.bounds.size.width, textSize.height+2.0)];
-    headerView.backgroundColor = [UIColor dzc_tableViewHeaderColor];
-    [headerView addSubview:headerLabel];
-
-    UIView *topBorder = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, headerView.frame.size.width, 1.0)];
-    topBorder.backgroundColor = [UIColor colorWithRed:25.0/255.0 green:25.0/255.0 blue:25.0/255.0 alpha:0.8];
-    topBorder.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [headerView addSubview:topBorder];
-
-    UIView *secondaryTopBorder = [[UIView alloc] initWithFrame:CGRectMake(0.0, 1.0, headerView.frame.size.width, 1.0)];
-    secondaryTopBorder.backgroundColor = [UIColor colorWithRed:80.0/255.0 green:80.0/255.0 blue:140.0/255.0 alpha:0.6];
-    secondaryTopBorder.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [headerView addSubview:secondaryTopBorder];
-
-    UIView *bottomBorder = [[UIView alloc] initWithFrame:CGRectMake(0.0, headerView.frame.size.height, headerView.frame.size.width, 1.0)];
-    bottomBorder.backgroundColor = [UIColor colorWithRed:25.0/255.0 green:25.0/255.0 blue:25.0/255.0 alpha:0.9];
-    bottomBorder.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [headerView addSubview:bottomBorder];
-
-    return headerView;
-}
-
 #pragma mark - Property overrides
 
 - (NSMutableDictionary *)labsByStatus
