@@ -128,7 +128,7 @@ static const CGFloat DZCLabVCMapParallax = 12.f;
     tableHeaderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     tableHeaderView.backgroundColor = [UIColor clearColor];
 
-    UIView *blackBorderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, DZCLabVCMapVisibleHeight-1.0, CGRectGetWidth(self.view.bounds), 1.0)];
+    UIView *blackBorderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, DZCLabVCMapVisibleHeight-1.0, CGRectGetWidth(self.view.bounds), 0.5)];
     blackBorderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     blackBorderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
     [tableHeaderView addSubview:blackBorderView];

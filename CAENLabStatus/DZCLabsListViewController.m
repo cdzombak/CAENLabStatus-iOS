@@ -370,25 +370,26 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
     NSParameterAssert(sourceIndexPath.section == destinationIndexPath.section);
     
     DZCLabStatus status = [self statusForSection:sourceIndexPath.section];
-    NSMutableArray *labs = (NSMutableArray *)(self.labsByStatus[@(status)]);
+    NSMutableArray *labs = [self.labsByStatus[@(status)] mutableCopy];
 
     NSUInteger sourceRow = (NSUInteger) sourceIndexPath.row;
     NSUInteger destRow = (NSUInteger) destinationIndexPath.row;
 
-    DZCLab *lab = labs[sourceRow];
-    [labs removeObjectAtIndex:sourceRow];
-    [labs insertObject:lab atIndex:destRow];
-    
-    [self.labOrdering removeObject:lab.humanName];
-    
-    if (destRow == [labs count]-1) {
-        [self.labOrdering addObject:lab.humanName];
+    DZCLab *labMoved = labs[sourceRow];
+
+    [labs removeObject:labMoved];
+    [self.labOrdering removeObject:labMoved.humanName];
+
+    [labs insertObject:labMoved atIndex:destRow];
+
+    if (destRow == 0) {
+        [self.labOrdering insertObject:labMoved.humanName atIndex:0];
     } else {
-        DZCLab *aboveLab = labs[destRow];
-        NSUInteger aboveLabOrderIdx = [self.labOrdering indexOfObject:aboveLab.humanName];
-        [self.labOrdering insertObject:lab.humanName atIndex:aboveLabOrderIdx];
+        DZCLab *labAboveDestinationRow = labs[destRow-1];
+        NSUInteger orderIndexForLabAboveDestinationRow = [self.labOrdering indexOfObject:labAboveDestinationRow.humanName];
+        [self.labOrdering insertObject:labMoved.humanName atIndex:orderIndexForLabAboveDestinationRow+1];
     }
-    
+
     [self saveSortOrder:self.labOrdering];
 }
 
