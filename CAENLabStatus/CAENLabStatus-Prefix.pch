@@ -7,6 +7,8 @@
 #ifdef __OBJC__
     @import Foundation;
     @import UIKit;
+    @import MobileCoreServices;
+    @import SystemConfiguration;
 #endif
 
 #define CDZWeakSelf __weak __typeof__((__typeof__(self))self)
