@@ -17,5 +17,11 @@ DerivedData
 *.hmap
 *.xccheckout
 
-#CocoaPods
+# CocoaPods
 Pods
+
+# bootstrap script
+
+Vendor/
+.bundle/
+bin/
