@@ -92,6 +92,8 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
     [self loadData];
 
     self.navigationItem.rightBarButtonItem = (self.selectedFilter == DZCLabsListFilterAll) ? self.editButtonItem : nil;
+
+    [self.tableView setContentOffset:CGPointMake(0, -self.tableView.contentInset.top) animated:YES];
 }
 
 #pragma mark - Data Management
