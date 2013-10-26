@@ -18,7 +18,6 @@
 		839FC851181C107300BCBD42 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 839FC84E181C107300BCBD42 /* Default.png */; };
 		839FC852181C107300BCBD42 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 839FC84F181C107300BCBD42 /* Default@2x.png */; };
 		9324A61F1602AFD900EF33A9 /* UIColor+DZCColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 9324A61E1602AFD900EF33A9 /* UIColor+DZCColors.m */; };
-		9347848714F32168009C5703 /* m_student_made_refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 9347848614F32168009C5703 /* m_student_made_refresh.png */; };
 		9347849514F329CF009C5703 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849414F329CF009C5703 /* CFNetwork.framework */; };
 		9347849714F329D9009C5703 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849614F329D8009C5703 /* SystemConfiguration.framework */; };
 		9375E69616E6A4E5003FFA27 /* DZCEmptyDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9375E69516E6A4E5003FFA27 /* DZCEmptyDetailViewController.m */; };
@@ -282,7 +281,6 @@
 				937CCCA51686463D0075BD01 /* greyButton@2x.png */,
 				937CCCA61686463D0075BD01 /* greyButtonHighlight.png */,
 				937CCCA71686463D0075BD01 /* greyButtonHighlight@2x.png */,
-				9347848614F32168009C5703 /* m_student_made_refresh.png */,
 				93FDA8C014D9FE1A00787F8C /* 247-InfoCircle.png */,
 				93FDA8C114D9FE1A00787F8C /* 247-InfoCircle@2x.png */,
 			);
