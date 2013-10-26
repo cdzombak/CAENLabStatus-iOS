@@ -98,10 +98,6 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
     }
 }
 
-#pragma mark - UITableViewDelegate methods
-
-// n/a
-
 #pragma mark - Property overrides
 
 - (UITableViewCell *)usageCell
@@ -109,21 +105,26 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
     if (!_usageCell) {
         _usageCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UsageCell"];
 
+        CDZWeakSelf wSelf = self;
         [self.dataController machineCountsInLab:self.lab
                                       withBlock:^(NSNumber *used, NSNumber *total, DZCLab *l, NSError *error) {
-            if (error) {
-                _usageCell.textLabel.text = @"…";
-                _usageCell.detailTextLabel.text = nil;
-                return;
-            }
 
-            NSInteger freeCount = [total intValue] - [used intValue];
-            float usedPercent = [used floatValue] / [total floatValue];
-            float freePercent = 1.0f - usedPercent;
+                                          CDZStrongSelf sSelf = wSelf;
+                                          if (!sSelf) return;
 
-            _usageCell.textLabel.text = [NSString stringWithFormat:@"%d%% free", (int)roundf(freePercent*100)];
-            _usageCell.detailTextLabel.text = [NSString stringWithFormat:@"%d of %d computers free", freeCount, [total intValue]];
-        }];
+                                          if (error) {
+                                              sSelf->_usageCell.textLabel.text = @"…";
+                                              sSelf->_usageCell.detailTextLabel.text = nil;
+                                              return;
+                                          }
+
+                                          NSInteger freeCount = [total intValue] - [used intValue];
+                                          float usedPercent = [used floatValue] / [total floatValue];
+                                          float freePercent = 1.0f - usedPercent;
+                                          
+                                          sSelf->_usageCell.textLabel.text = [NSString stringWithFormat:@"%d%% free", (int)roundf(freePercent*100)];
+                                          sSelf->_usageCell.detailTextLabel.text = [NSString stringWithFormat:@"%d of %d computers free", freeCount, [total intValue]];
+                                      }];
     }
     return _usageCell;
 }
