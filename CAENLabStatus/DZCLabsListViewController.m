@@ -350,7 +350,7 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
         }
             
         default: {
-            NSLog(@"Unknown status encountered: %ld", status);
+            NSLog(@"Unknown status encountered: %d", (int)status);
         }
     }
 
