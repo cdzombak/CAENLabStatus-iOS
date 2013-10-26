@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
 
 - (id)init
 {
-    self = [super initWithStyle:UITableViewStylePlain];
+    self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         self.title = NSLocalizedString(@"CAEN Labs", nil);
     }
@@ -451,7 +451,7 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
 - (UISegmentedControl *)filterControl {
     if (!_filterControl) {
         _filterControl = [[UISegmentedControl alloc] initWithItems:@[
-                                                                     NSLocalizedString(@"All", nil),
+                                                                     NSLocalizedString(@"All Labs", nil),
                                                                      NSLocalizedString(@"North", nil),
                                                                      NSLocalizedString(@"Central", nil)
                                                                      ]];
