@@ -3,7 +3,6 @@
 #import "DZCDataController.h"
 #import "DZCLab.h"
 
-#import "DZCAboutViewController.h"
 #import "DZCLabViewController.h"
 
 #import "UIColor+DZCColors.h"
@@ -38,22 +37,14 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 @property (nonatomic, strong) NSMutableDictionary *labsByStatus;
 @property (nonatomic, strong) NSMutableArray *statusForTableViewSection;
 
-@property (nonatomic, readonly, strong) UIBarButtonItem *aboutButtonItem;
-
 @property (nonatomic, strong) UISegmentedControl *filterControl;
 @property (nonatomic, assign) DZCLabsListFilter selectedFilter;
-
-@property (nonatomic, readonly, strong) UIViewController *aboutViewController;
 
 @property (nonatomic, readonly, assign) BOOL hidesFilterBarByDefault;
 
 @end
 
 @implementation DZCLabsListViewController
-
-@synthesize aboutButtonItem = _aboutButtonItem,
-            aboutViewController = _aboutViewController
-            ;
 
 - (id)init
 {
@@ -69,8 +60,7 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.navigationItem.leftBarButtonItem = self.aboutButtonItem;
+
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
     [self configureFilterControl];
@@ -137,11 +127,6 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 }
 
 #pragma mark - UI Actions
-
-- (void)pressedAboutButton:(id)sender
-{
-    [self.navigationController presentViewController:self.aboutViewController animated:YES completion:nil];
-}
 
 - (void)filterControlChanged:(id)sender
 {
@@ -568,27 +553,6 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 }
 
 #pragma mark - Property overrides
-
-- (UIBarButtonItem *)aboutButtonItem
-{
-    if (!_aboutButtonItem) {
-        _aboutButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"247-InfoCircle"]
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(pressedAboutButton:)];
-    }
-    return _aboutButtonItem;
-}
-
-- (UIViewController *)aboutViewController
-{
-    if (!_aboutViewController) {
-        _aboutViewController = [[DZCAboutViewController alloc] initWithNibName:@"DZCAboutViewController" bundle:nil];
-        _aboutViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
-        _aboutViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-    }
-    return _aboutViewController;
-}
 
 - (NSMutableDictionary *)labsByStatus
 {
