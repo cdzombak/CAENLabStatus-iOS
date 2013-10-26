@@ -20,7 +20,7 @@ static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[UINavigationBar appearance] setTintColor:[UIColor dzc_logoBlueColor]];
+    [self applyStyles];
 
     UIViewController *rootVC;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -66,12 +66,18 @@ static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
     }
 }
 
-#pragma mark UISplitViewControllerDelegate methods
+#pragma mark - UI Management
+
+- (void)applyStyles {
+    [[UINavigationBar appearance] setTintColor:[UIColor dzc_blueTintColor]];
+    [[UIRefreshControl appearance] setTintColor:[UIColor dzc_blueTintColor]];
+}
+
+#pragma mark UISplitViewControllerDelegate
 
 - (BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation
 {
-    // nope, just keep both VCs visible always.
-    return NO;
+    return NO; // on iPad, keep both VCs visible, regardless of orientation.
 }
 
 #pragma mark - Property overrides
