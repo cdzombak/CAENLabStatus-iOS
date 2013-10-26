@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		839FC83E181C0B0B00BCBD42 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 839FC83D181C0B0A00BCBD42 /* MobileCoreServices.framework */; };
-		839FC850181C107300BCBD42 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 839FC84D181C107300BCBD42 /* Default-568h@2x.png */; };
-		839FC851181C107300BCBD42 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 839FC84E181C107300BCBD42 /* Default.png */; };
-		839FC852181C107300BCBD42 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 839FC84F181C107300BCBD42 /* Default@2x.png */; };
 		839FC854181C24F200BCBD42 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 839FC853181C24F200BCBD42 /* Images.xcassets */; };
 		9324A61F1602AFD900EF33A9 /* UIColor+DZCColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 9324A61E1602AFD900EF33A9 /* UIColor+DZCColors.m */; };
 		9347849514F329CF009C5703 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849414F329CF009C5703 /* CFNetwork.framework */; };
@@ -49,9 +46,6 @@
 		2F9BF83E866346FD8FC88787 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FEA9C46C9904C3BBF393C63 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		839FC83D181C0B0A00BCBD42 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		839FC84D181C107300BCBD42 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
-		839FC84E181C107300BCBD42 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
-		839FC84F181C107300BCBD42 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/Default@2x.png"; sourceTree = "<group>"; };
 		839FC853181C24F200BCBD42 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		9324A61D1602AFD900EF33A9 /* UIColor+DZCColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+DZCColors.h"; sourceTree = "<group>"; };
 		9324A61E1602AFD900EF33A9 /* UIColor+DZCColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+DZCColors.m"; sourceTree = "<group>"; };
@@ -123,16 +117,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		839FC840181C105700BCBD42 /* Launch Images */ = {
-			isa = PBXGroup;
-			children = (
-				839FC84D181C107300BCBD42 /* Default-568h@2x.png */,
-				839FC84E181C107300BCBD42 /* Default.png */,
-				839FC84F181C107300BCBD42 /* Default@2x.png */,
-			);
-			name = "Launch Images";
-			sourceTree = "<group>";
-		};
 		93D9F65414D3997600AD2152 = {
 			isa = PBXGroup;
 			children = (
@@ -188,7 +172,6 @@
 		93D9F66A14D3997600AD2152 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				839FC840181C105700BCBD42 /* Launch Images */,
 				93D9F66B14D3997600AD2152 /* CAENLabStatus-Info.plist */,
 				93D9F66C14D3997600AD2152 /* InfoPlist.strings */,
 				93D9F66F14D3997600AD2152 /* main.m */,
@@ -318,14 +301,11 @@
 			files = (
 				93D9F66E14D3997600AD2152 /* InfoPlist.strings in Resources */,
 				93FDA8C214D9FE1A00787F8C /* 247-InfoCircle.png in Resources */,
-				839FC851181C107300BCBD42 /* Default.png in Resources */,
 				93FDA8C314D9FE1A00787F8C /* 247-InfoCircle@2x.png in Resources */,
 				937CCCA81686463D0075BD01 /* greyButton.png in Resources */,
-				839FC852181C107300BCBD42 /* Default@2x.png in Resources */,
 				839FC854181C24F200BCBD42 /* Images.xcassets in Resources */,
 				937CCCA91686463D0075BD01 /* greyButton@2x.png in Resources */,
 				937CCCAA1686463D0075BD01 /* greyButtonHighlight.png in Resources */,
-				839FC850181C107300BCBD42 /* Default-568h@2x.png in Resources */,
 				937CCCAB1686463D0075BD01 /* greyButtonHighlight@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
