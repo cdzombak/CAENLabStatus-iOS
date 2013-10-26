@@ -14,10 +14,6 @@
 		9347849714F329D9009C5703 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9347849614F329D8009C5703 /* SystemConfiguration.framework */; };
 		9375E69616E6A4E5003FFA27 /* DZCEmptyDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9375E69516E6A4E5003FFA27 /* DZCEmptyDetailViewController.m */; };
 		9375E69816E6A81A003FFA27 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9375E69716E6A81A003FFA27 /* CoreLocation.framework */; };
-		937CCCA81686463D0075BD01 /* greyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA41686463D0075BD01 /* greyButton.png */; };
-		937CCCA91686463D0075BD01 /* greyButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA51686463D0075BD01 /* greyButton@2x.png */; };
-		937CCCAA1686463D0075BD01 /* greyButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA61686463D0075BD01 /* greyButtonHighlight.png */; };
-		937CCCAB1686463D0075BD01 /* greyButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CCCA71686463D0075BD01 /* greyButtonHighlight@2x.png */; };
 		93BBAB6B14E83AC000B19049 /* DZCLabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BBAB6A14E83AC000B19049 /* DZCLabViewController.m */; };
 		93BBAB7314E84A1700B19049 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BBAB7214E84A1700B19049 /* QuartzCore.framework */; };
 		93D9F66414D3997600AD2152 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9F66314D3997600AD2152 /* UIKit.framework */; };
@@ -37,8 +33,6 @@
 		93E1DA471697492700B04CF0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E1DA461697492600B04CF0 /* MapKit.framework */; };
 		93E1DA4A1697A76400B04CF0 /* DZCLabTableViewManagerNoSublabs.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E1DA491697A76400B04CF0 /* DZCLabTableViewManagerNoSublabs.m */; };
 		93E80C5814D78812008850FE /* DZCLabStatusHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E80C5714D78812008850FE /* DZCLabStatusHelper.m */; };
-		93FDA8C214D9FE1A00787F8C /* 247-InfoCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 93FDA8C014D9FE1A00787F8C /* 247-InfoCircle.png */; };
-		93FDA8C314D9FE1A00787F8C /* 247-InfoCircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93FDA8C114D9FE1A00787F8C /* 247-InfoCircle@2x.png */; };
 		D9ADA570294644189C230E36 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9BF83E866346FD8FC88787 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -54,10 +48,6 @@
 		9375E69416E6A4E4003FFA27 /* DZCEmptyDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCEmptyDetailViewController.h; sourceTree = "<group>"; };
 		9375E69516E6A4E5003FFA27 /* DZCEmptyDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCEmptyDetailViewController.m; sourceTree = "<group>"; };
 		9375E69716E6A81A003FFA27 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		937CCCA41686463D0075BD01 /* greyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButton.png; sourceTree = "<group>"; };
-		937CCCA51686463D0075BD01 /* greyButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButton@2x.png"; sourceTree = "<group>"; };
-		937CCCA61686463D0075BD01 /* greyButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButtonHighlight.png; sourceTree = "<group>"; };
-		937CCCA71686463D0075BD01 /* greyButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButtonHighlight@2x.png"; sourceTree = "<group>"; };
 		93BBAB6914E83AC000B19049 /* DZCLabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLabViewController.h; sourceTree = "<group>"; };
 		93BBAB6A14E83AC000B19049 /* DZCLabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabViewController.m; sourceTree = "<group>"; };
 		93BBAB7214E84A1700B19049 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -92,8 +82,6 @@
 		93E1DA491697A76400B04CF0 /* DZCLabTableViewManagerNoSublabs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabTableViewManagerNoSublabs.m; sourceTree = "<group>"; };
 		93E80C5614D78812008850FE /* DZCLabStatusHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCLabStatusHelper.h; sourceTree = "<group>"; };
 		93E80C5714D78812008850FE /* DZCLabStatusHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCLabStatusHelper.m; sourceTree = "<group>"; };
-		93FDA8C014D9FE1A00787F8C /* 247-InfoCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "247-InfoCircle.png"; sourceTree = "<group>"; };
-		93FDA8C114D9FE1A00787F8C /* 247-InfoCircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "247-InfoCircle@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,12 +225,6 @@
 			isa = PBXGroup;
 			children = (
 				839FC853181C24F200BCBD42 /* Images.xcassets */,
-				937CCCA41686463D0075BD01 /* greyButton.png */,
-				937CCCA51686463D0075BD01 /* greyButton@2x.png */,
-				937CCCA61686463D0075BD01 /* greyButtonHighlight.png */,
-				937CCCA71686463D0075BD01 /* greyButtonHighlight@2x.png */,
-				93FDA8C014D9FE1A00787F8C /* 247-InfoCircle.png */,
-				93FDA8C114D9FE1A00787F8C /* 247-InfoCircle@2x.png */,
 			);
 			name = Resources;
 			path = CAENLabStatus/Resources;
@@ -300,13 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93D9F66E14D3997600AD2152 /* InfoPlist.strings in Resources */,
-				93FDA8C214D9FE1A00787F8C /* 247-InfoCircle.png in Resources */,
-				93FDA8C314D9FE1A00787F8C /* 247-InfoCircle@2x.png in Resources */,
-				937CCCA81686463D0075BD01 /* greyButton.png in Resources */,
 				839FC854181C24F200BCBD42 /* Images.xcassets in Resources */,
-				937CCCA91686463D0075BD01 /* greyButton@2x.png in Resources */,
-				937CCCAA1686463D0075BD01 /* greyButtonHighlight.png in Resources */,
-				937CCCAB1686463D0075BD01 /* greyButtonHighlight@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
