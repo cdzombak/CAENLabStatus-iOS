@@ -13,6 +13,7 @@
 static const CGFloat DZCLabVCMapZoom = 0.35f;
 
 static const CGFloat DZCLabVCMapVisibleHeight = 200.f;
+static const CGFloat DZCLabVCMapParallax = 12.f;
 
 @interface DZCLabViewController () <UIScrollViewDelegate>
 
@@ -52,6 +53,8 @@ static const CGFloat DZCLabVCMapVisibleHeight = 200.f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.view.clipsToBounds = YES;
 
     UITableViewStyle tvStyle = [DZCLabTableViewManager tableViewStyleForLab:self.lab];
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:tvStyle];
@@ -135,7 +138,7 @@ static const CGFloat DZCLabVCMapVisibleHeight = 200.f;
     UIGestureRecognizer *headerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headerViewTouched:)];
     [tableHeaderView addGestureRecognizer:headerTapRecognizer];
 
-    CGRect mapViewFrame = CGRectMake(0, self.mapViewYOrigin, CGRectGetWidth(self.view.bounds), self.mapViewHeight);
+    CGRect mapViewFrame = CGRectMake(-DZCLabVCMapParallax, self.mapViewYOrigin, CGRectGetWidth(self.view.bounds)+2*DZCLabVCMapParallax, self.mapViewHeight);
 
     self.mapView = [[MKMapView alloc] initWithFrame:mapViewFrame];
 
@@ -147,6 +150,16 @@ static const CGFloat DZCLabVCMapVisibleHeight = 200.f;
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.mapZoomLocation, DZCLabVCMapZoom*DZC_METERS_PER_MILE, DZCLabVCMapZoom*DZC_METERS_PER_MILE);
     [self.mapView setRegion:viewRegion animated:NO];
     [self.mapView addAnnotation:self.lab];
+
+    UIInterpolatingMotionEffect *mapHorizontalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+    mapHorizontalEffect.minimumRelativeValue = @(-DZCLabVCMapParallax);
+    mapHorizontalEffect.maximumRelativeValue = @(DZCLabVCMapParallax);
+    [self.mapView addMotionEffect:mapHorizontalEffect];
+
+    UIInterpolatingMotionEffect *mapVerticalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+    mapVerticalEffect.minimumRelativeValue = @(-DZCLabVCMapParallax);
+    mapVerticalEffect.maximumRelativeValue = @(DZCLabVCMapParallax);
+    [self.mapView addMotionEffect:mapVerticalEffect];
 
     [self.view addSubview:self.mapView];
     [self.view sendSubviewToBack:self.mapView];
