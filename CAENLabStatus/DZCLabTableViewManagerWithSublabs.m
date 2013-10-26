@@ -37,7 +37,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSParameterAssert(section == 0);
-    return self.sortedSubLabs.count;
+    return (NSInteger) self.sortedSubLabs.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -51,7 +51,7 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
 
-    DZCLab *lab = self.sortedSubLabs[indexPath.row];
+    DZCLab *lab = self.sortedSubLabs[(NSUInteger) indexPath.row];
 
     cell.textLabel.text = lab.humanName;
     cell.textLabel.font = [UIFont systemFontOfSize:cell.textLabel.font.pointSize];
@@ -68,7 +68,7 @@
 
         NSInteger freeCount = [total intValue] - [used intValue];
         float usedPercent = [used floatValue] / [total floatValue];
-        float freePercent = 1.0 - usedPercent;
+        float freePercent = 1.0f - usedPercent;
 
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%d (%d%%) free", freeCount, (int)roundf(freePercent*100)];
 
@@ -90,7 +90,7 @@
 {
     NSParameterAssert(indexPath.section == 0);
 
-    DZCLab *lab = self.sortedSubLabs[indexPath.row];
+    DZCLab *lab = self.sortedSubLabs[(NSUInteger)indexPath.row];
     DZCLabViewController *labVC = [[DZCLabViewController alloc] initWithLab:lab];
     labVC.dataController = self.dataController;
 

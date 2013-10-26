@@ -7,10 +7,10 @@
 #import <MapKit/MapKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-static const CGFloat DZCLabVCMapZoom = 0.35;
-static const CGFloat DZCLabVCMapVisibleHeight = 110.0;
-static const CGFloat DZCLabVCMapViewYOffsetPhone = -140.0;
-static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0;
+static const CGFloat DZCLabVCMapZoom = 0.35f;
+static const CGFloat DZCLabVCMapVisibleHeight = 110.0f;
+static const CGFloat DZCLabVCMapViewYOffsetPhone = -140.0f;
+static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0f;
 
 @interface DZCLabViewController () <UIScrollViewDelegate, MKMapViewDelegate>
 
@@ -107,7 +107,7 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0;
         self.mapImage = [self.dataController cachedMapImageForBuilding:self.lab.building];
     }
     
-    CGFloat mapViewTotalHeight = 2*fabs(self.mapViewYOffset)+DZCLabVCMapVisibleHeight;
+    CGFloat mapViewTotalHeight = 2*ABS(self.mapViewYOffset)+DZCLabVCMapVisibleHeight;
     CGRect mapViewFrame = CGRectMake(0, self.mapViewYOffset, self.view.bounds.size.width, mapViewTotalHeight);
     
     if (self.mapImage == nil) {
@@ -249,7 +249,7 @@ static const CGFloat DZCLabVCMapViewYOffsetPad = -220.0;
     CGRect bgViewFrame = self.bgView.frame;
 
     if (scrollOffset < 0) {
-        mapViewFrame.origin.y = self.mapViewYOffset - (scrollOffset / 3.0);
+        mapViewFrame.origin.y = self.mapViewYOffset - (scrollOffset / 3.0f);
     } else {
         // We're scrolling up, return to normal behavior
         mapViewFrame.origin.y = self.mapViewYOffset - scrollOffset;

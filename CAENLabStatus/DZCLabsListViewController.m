@@ -68,7 +68,7 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
     self.tableView.allowsSelection = YES;
-    self.tableView.rowHeight = 55.0;
+    self.tableView.rowHeight = 55.0f;
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:nil action:@selector(refreshData:) forControlEvents:UIControlEventValueChanged];
@@ -184,13 +184,13 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 
 - (DZCLabStatus)statusForSection:(NSInteger)section
 {
-    return [(self.statusForTableViewSection)[section] intValue];
+    return [self.statusForTableViewSection[(NSUInteger) section] integerValue];
 }
 
 - (DZCLab *)objectForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSNumber *statusForSection = @([self statusForSection:indexPath.section]);
-    return self.labsByStatus[statusForSection][indexPath.row];
+    return self.labsByStatus[statusForSection][(NSUInteger) indexPath.row];
 }
 
 #pragma mark - Sorting
@@ -269,13 +269,13 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.statusForTableViewSection count];
+    return (NSInteger) [self.statusForTableViewSection count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSNumber *statusForSection = @([self statusForSection:section]);
-    return [self.labsByStatus[statusForSection] count];
+    return (NSInteger) [self.labsByStatus[statusForSection] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -289,7 +289,7 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     }
 
     // this is clearly here to prevent some out-of-bounds error, but I wish I'd commented better why it was necessary
-    if ([self.labsByStatus[@(status)] count] < indexPath.row+1) {
+    if ((NSInteger)[self.labsByStatus[@(status)] count] < indexPath.row+1) {
         return cell;
     }
     
@@ -316,11 +316,11 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 
                 NSInteger freeCount = [total intValue] - [used intValue];
                 float usedPercent = [used floatValue] / [total floatValue];
-                float freePercent = 1.0 - usedPercent;
+                float freePercent = 1.0f - usedPercent;
 
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%d (%d%%) free", freeCount, (int)roundf(freePercent*100)];
                 
-                if (usedPercent >= 0.8) {
+                if (usedPercent >= 0.8f) {
                     cell.textLabel.font = [UIFont systemFontOfSize:cell.textLabel.font.pointSize];
                     cell.detailTextLabel.font = [UIFont systemFontOfSize:17.0];
                 } else {
@@ -376,17 +376,20 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     DZCLabStatus status = [self statusForSection:sourceIndexPath.section];
     NSMutableArray *labs = (NSMutableArray *)(self.labsByStatus[@(status)]);
 
-    DZCLab *lab = labs[sourceIndexPath.row];
-    [labs removeObjectAtIndex:sourceIndexPath.row];
-    [labs insertObject:lab atIndex:destinationIndexPath.row];
+    NSUInteger sourceRow = (NSUInteger) sourceIndexPath.row;
+    NSUInteger destRow = (NSUInteger) destinationIndexPath.row;
+
+    DZCLab *lab = labs[sourceRow];
+    [labs removeObjectAtIndex:sourceRow];
+    [labs insertObject:lab atIndex:destRow];
     
     [self.labOrdering removeObject:lab.humanName];
     
-    if (destinationIndexPath.row == [labs count]-1) {
+    if (destRow == [labs count]-1) {
         [self.labOrdering addObject:lab.humanName];
     } else {
-        DZCLab *aboveLab = labs[destinationIndexPath.row+1];
-        NSInteger aboveLabOrderIdx = [self.labOrdering indexOfObject:aboveLab.humanName];
+        DZCLab *aboveLab = labs[destRow];
+        NSUInteger aboveLabOrderIdx = [self.labOrdering indexOfObject:aboveLab.humanName];
         [self.labOrdering insertObject:lab.humanName atIndex:aboveLabOrderIdx];
     }
     

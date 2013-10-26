@@ -22,7 +22,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
 #define RETRIES ((NSUInteger) 3)
 
 /* Seconds to wait between retries */
-#define RETRY_DELAY_SECONDS ((double) 1.0)
+#define RETRY_DELAY_SECONDS ((NSTimeInterval) 1.0)
 
 #pragma mark - Data Controller
 
@@ -94,7 +94,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
         }
 
         NSNumber *total = [lab hostCount];
-        if ([hosts count] > [total intValue]) total = @([hosts count]);
+        if ([hosts count] > [total unsignedIntegerValue]) total = @([hosts count]);
 
         if (block) block(@(used), total, lab, nil);
     };
@@ -130,7 +130,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
             NSLog(@"Retrying lab status query...");
             retries--;
 
-            dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, RETRY_DELAY_SECONDS*NSEC_PER_SEC);
+            dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RETRY_DELAY_SECONDS*NSEC_PER_SEC));
             dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
                 [self makeLabStatusApiRequestWithBlock:weakRetryResultBlock];
             });
@@ -178,7 +178,7 @@ __attribute__((constructor)) static void __DZCInitLabStatusStrings()
             NSLog(@"Retrying host info query...");
             retries--;
 
-            dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, RETRY_DELAY_SECONDS*NSEC_PER_SEC);
+            dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RETRY_DELAY_SECONDS*NSEC_PER_SEC));
             dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
                 [self makeHostInfoApiRequestForLab:lab withBlock:weakRetryResultBlock];
             });
