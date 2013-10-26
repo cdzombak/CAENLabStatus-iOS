@@ -37,7 +37,7 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 @property (nonatomic, strong) NSMutableDictionary *labsByStatus;
 @property (nonatomic, strong) NSMutableArray *statusForTableViewSection;
 
-@property (nonatomic, strong) UISegmentedControl *filterControl;
+@property (nonatomic, readonly) UISegmentedControl *filterControl;
 @property (nonatomic, assign) DZCLabsListFilter selectedFilter;
 
 @property (nonatomic, readonly, assign) BOOL hidesFilterBarByDefault;
@@ -45,6 +45,8 @@ static const CGFloat DZCFilterBarHeight = 43.0;
 @end
 
 @implementation DZCLabsListViewController
+
+@synthesize filterControl = _filterControl;
 
 - (id)init
 {
@@ -55,18 +57,17 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     return self;
 }
 
-#pragma mark - UIViewController View lifecycle
+#pragma mark - UIViewController lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
+    self.navigationItem.title = NSLocalizedString(@"Labs", nil);
+    self.navigationItem.titleView = self.filterControl;
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
-    [self configureFilterControl];
-
     self.tableView.allowsSelection = YES;
-    self.tableView.allowsMultipleSelection = NO;
     self.tableView.rowHeight = 55.0;
 
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -77,58 +78,17 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     [self loadData];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    if (self.tableView.contentOffset.y < DZCFilterBarHeight && self.hidesFilterBarByDefault) {
-        self.tableView.contentOffset = (CGPoint) {0.0, DZCFilterBarHeight};
-    }
-}
-
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
 
     self.filterControl.enabled = !editing;
-}
-
-- (void)configureFilterControl
-{
-    UISegmentedControl *filterControl = [[UISegmentedControl alloc] initWithItems:@[
-                                         NSLocalizedString(@"All", nil),
-                                         NSLocalizedString(@"North", nil),
-                                         NSLocalizedString(@"Central", nil)
-                                         ]];
-    filterControl.tintColor = [UIColor colorWithRed:0.204 green:0.219 blue:0.483 alpha:1.000];
-    filterControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    filterControl.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-
-    filterControl.selectedSegmentIndex = DZCLabsListFilterAll;
-    self.selectedFilter = DZCLabsListFilterAll;
-    
-    CGRect filterControlFrame = filterControl.frame;
-    filterControlFrame.size.height = DZCFilterBarHeight - 10.0;
-    filterControlFrame.origin.y = 5.0;
-    filterControlFrame.size.width = self.view.bounds.size.width - 10.0;
-    filterControlFrame.origin.x = 5.0;
-    filterControl.frame = filterControlFrame;
-
-    [filterControl addTarget:self
-                      action:@selector(filterControlChanged:)
-            forControlEvents:UIControlEventValueChanged];
-
-    UIToolbar *filterControlContainer = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, DZCFilterBarHeight)];
-    filterControlContainer.tintColor = [UIColor colorWithRed:0.204 green:0.219 blue:0.483 alpha:1.000];
-    [filterControlContainer addSubview:filterControl];
-
-    self.tableView.tableHeaderView = filterControlContainer;
-    self.filterControl = filterControl;
+    self.filterControl.userInteractionEnabled = !editing;
 }
 
 #pragma mark - UI Actions
 
-- (void)filterControlChanged:(id)sender
+- (void)filterControlChanged:(UISegmentedControl *)sender
 {
     NSParameterAssert(sender == self.filterControl);
 
@@ -522,36 +482,6 @@ static const CGFloat DZCFilterBarHeight = 43.0;
     return headerView;
 }
 
-#pragma mark - UIScrollViewDelegate methods
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (!decelerate) {
-        [self adjustFilterBarVisibilityAfterScrollViewScrolled:scrollView];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self adjustFilterBarVisibilityAfterScrollViewScrolled:scrollView];
-}
-
-- (void)adjustFilterBarVisibilityAfterScrollViewScrolled:(UIScrollView *)scrollView
-{
-    static const CGFloat DZCFilterBarMagnetismProportion = 1.6;
-
-    // quick flick scroll up/down issue happens when you try to scroll down while
-    // [scrollView setContentOffset:… animated:YES] is still happening
-
-    if (scrollView.contentOffset.y < (DZCFilterBarHeight/DZCFilterBarMagnetismProportion)) {
-        [scrollView setContentOffset:(CGPoint){0.0, 0.0} animated:YES];
-    }
-    else if (scrollView.contentOffset.y > (DZCFilterBarHeight/DZCFilterBarMagnetismProportion)
-             && scrollView.contentOffset.y < DZCFilterBarHeight) {
-        [scrollView setContentOffset:(CGPoint){0.0, DZCFilterBarHeight} animated:YES];
-    }
-}
-
 #pragma mark - Property overrides
 
 - (NSMutableDictionary *)labsByStatus
@@ -568,6 +498,23 @@ static const CGFloat DZCFilterBarHeight = 43.0;
         _statusForTableViewSection = [NSMutableArray array];
     }
     return _statusForTableViewSection;
+}
+
+- (UISegmentedControl *)filterControl {
+    if (!_filterControl) {
+        _filterControl = [[UISegmentedControl alloc] initWithItems:@[
+                                                                     NSLocalizedString(@"All", nil),
+                                                                     NSLocalizedString(@"North", nil),
+                                                                     NSLocalizedString(@"Central", nil)
+                                                                     ]];
+        _filterControl.selectedSegmentIndex = DZCLabsListFilterAll;
+        self.selectedFilter = DZCLabsListFilterAll;
+
+        [_filterControl addTarget:self
+                          action:@selector(filterControlChanged:)
+                forControlEvents:UIControlEventValueChanged];
+    }
+    return _filterControl;
 }
 
 - (BOOL)hidesFilterBarByDefault
