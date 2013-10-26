@@ -13,7 +13,7 @@
 
 @implementation DZCLabTableViewManager
 
-#pragma mark Class methods
+#pragma mark - Class methods
 
 + (DZCLabTableViewManager *)tableViewManagerForLab:(DZCLab *)lab dataController:(DZCDataController *)dataController
 {
@@ -53,6 +53,24 @@
     NSAssert(NO, @"%s is an abstract method and must be overriden\n%@",
              __PRETTY_FUNCTION__,
              [NSThread callStackSymbols]);
+}
+
+#pragma mark - Abstract UITableViewDataSource methods
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSAssert(NO, @"%s is an abstract method and must be overriden\n%@",
+             __PRETTY_FUNCTION__,
+             [NSThread callStackSymbols]);
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSAssert(NO, @"%s is an abstract method and must be overriden\n%@",
+             __PRETTY_FUNCTION__,
+             [NSThread callStackSymbols]);
+    return nil;
 }
 
 @end
