@@ -1,8 +1,11 @@
 #import "DZCLabTableViewManagerNoSublabs.h"
+
 #import "DZCDataController.h"
+#import "DZCLab.h"
 
 typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
     DZCNoSublabsTableViewSectionUsage = 0,
+    DZCNoSublabsTableViewSectionFeatures,
     DZCNoSublabsTableViewSectionHosts,
     DZCNoSublabsTableViewSumSections
 };
@@ -13,6 +16,7 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
 @property (nonatomic, weak) UITableView *tableView;
 
 @property (nonatomic, strong) NSArray *hosts;
+@property (nonatomic, strong) NSArray *featureStrings;
 
 @end
 
@@ -40,21 +44,47 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
         }];
         [self.tableView reloadData];
     }];
+
+    NSMutableArray *featureStrings = [NSMutableArray array];
+    if (self.lab.isReservable) [featureStrings addObject:NSLocalizedString(@"Reservable", nil)];
+    if (self.lab.hasColorPrinting) [featureStrings addObject:NSLocalizedString(@"Color Printing", nil)];
+    if (self.lab.hasScanningCopying) [featureStrings addObject:NSLocalizedString(@"Scanning/Copying", nil)];
+    self.featureStrings = featureStrings;
 }
 
 #pragma mark - UITableViewDataSource methods
 
+- (BOOL)hasHostsSection {
+    return self.hosts.count != 0;
+}
+
+- (BOOL)hasFeaturesSection {
+    return self.featureStrings.count != 0;
+}
+
+- (DZCNoSublabsTableViewSections)UISectionAdjustedForMissingSections:(NSInteger)section {
+    if (![self hasFeaturesSection] && section >= DZCNoSublabsTableViewSectionFeatures) section++;
+    if (![self hasHostsSection] && section >= DZCNoSublabsTableViewSectionHosts) section++;
+    return section;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.hosts.count) return DZCNoSublabsTableViewSumSections;
-    else return 1;
+    NSInteger sections = DZCNoSublabsTableViewSumSections;
+    if (![self hasFeaturesSection]) sections--;
+    if (![self hasHostsSection]) sections--;
+    return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    switch(section) {
+    DZCNoSublabsTableViewSections adjustedSection = [self UISectionAdjustedForMissingSections:section];
+
+    switch(adjustedSection) {
         case DZCNoSublabsTableViewSectionUsage:
             return 1;
+        case DZCNoSublabsTableViewSectionFeatures:
+            return (NSInteger) self.featureStrings.count;
         case DZCNoSublabsTableViewSectionHosts:
             return (NSInteger) self.hosts.count;
         default:
@@ -65,11 +95,19 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == DZCNoSublabsTableViewSectionUsage) {
+    DZCNoSublabsTableViewSections adjustedSection = [self UISectionAdjustedForMissingSections:indexPath.section];
+
+    if (adjustedSection == DZCNoSublabsTableViewSectionUsage) {
         return self.usageCell;
     }
 
-    NSParameterAssert(indexPath.section == DZCNoSublabsTableViewSectionHosts);
+    if (adjustedSection == DZCNoSublabsTableViewSectionFeatures) {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FeatureCell"];
+        cell.textLabel.text = self.featureStrings[(NSUInteger)indexPath.row];
+        return cell;
+    }
+
+    NSParameterAssert(adjustedSection == DZCNoSublabsTableViewSectionHosts);
 
     static NSString *HostCellIdentifier = @"HostCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HostCellIdentifier];
@@ -86,13 +124,15 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    switch (section) {
+    DZCNoSublabsTableViewSections adjustedSection = [self UISectionAdjustedForMissingSections:section];
+
+    switch (adjustedSection) {
         case DZCNoSublabsTableViewSectionHosts:
             return NSLocalizedString(@"Hosts", nil);
-            break;
+        case DZCNoSublabsTableViewSectionFeatures:
+            return NSLocalizedString(@"Features", nil);
         case DZCNoSublabsTableViewSectionUsage:
             return NSLocalizedString(@"Usage", nil);
-            break;
         default:
             return nil;
     }
