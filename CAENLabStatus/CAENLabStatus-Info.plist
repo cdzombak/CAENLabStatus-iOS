@@ -23,11 +23,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.0</string>
+	<string>4.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>4.0</string>
+	<string>4.0.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -43,9 +43,9 @@
 			<key>TintColor</key>
 			<dict>
 				<key>Blue</key>
-				<real>0.3098039215686275</real>
+				<real>0.30980392156862752</real>
 				<key>Green</key>
-				<real>0.1411764705882353</real>
+				<real>0.14117647058823529</real>
 				<key>Red</key>
 				<real>0.1137254901960784</real>
 			</dict>
