@@ -30,8 +30,8 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
 @interface DZCLabsListViewController () 
 
 @property (nonatomic, strong) NSMutableArray *labOrdering;
-@property (nonatomic, strong) NSMutableDictionary *labsByStatus;
-@property (nonatomic, strong) NSMutableArray *statusForTableViewSection;
+@property (nonatomic, strong) NSDictionary *labsByStatus;
+@property (nonatomic, strong) NSArray *statusForTableViewSection;
 
 @property (nonatomic, readonly) UISegmentedControl *filterControl;
 @property (nonatomic, assign) DZCLabsListFilter selectedFilter;
@@ -113,7 +113,6 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
 
 - (void)refreshData
 {
-    self.labsByStatus = nil; // TODO I think this causes some interaction which can cause a crash sometimes
     [self.dataController clearCache];
     [self loadData];
 }
@@ -123,8 +122,6 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
     [self.dataController labsAndStatusesWithBlock:^(NSDictionary *labsResult, NSError *error) {
         
         [self.refreshControl endRefreshing];
-
-        self.labsByStatus = nil;
         
         if (error) {
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Retrieving Data", nil)
@@ -134,51 +131,54 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
                               otherButtonTitles:nil]
              show];
 
-            self.labsByStatus = nil;
+            self.labsByStatus = @{};
+            self.statusForTableViewSection = @[];
             [self.tableView reloadData];
 
             return;
         }
 
         // labsResult is a dict mapping DZCLab => (NSNumber)status
-        NSMutableDictionary *filteredLabs = [NSMutableDictionary dictionary];
-        [labsResult enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSMutableDictionary *filteredLabStatusesByLab = [NSMutableDictionary dictionary];
+        [labsResult enumerateKeysAndObjectsUsingBlock:^(DZCLab *lab, NSNumber *status, BOOL *stop) {
             BOOL includeThisLab = (self.selectedFilter == DZCLabsListFilterAll);
 
-            DZCLab *lab = key;
             // 42.285 // todo remove hardcoded values
             BOOL isNorth = ([lab.latitude doubleValue] > 42.285);
             if (self.selectedFilter == DZCLabsListFilterNorth && isNorth) includeThisLab = YES;
             if (self.selectedFilter == DZCLabsListFilterCentral && !isNorth) includeThisLab = YES;
 
-            if (includeThisLab) filteredLabs[key] = obj;
+            if (includeThisLab) filteredLabStatusesByLab[lab] = status;
             
             if (stop != NULL) *stop = NO;
             return;
         }];
 
-        NSArray* sortedLabs = [self sortedLabsFrom:[filteredLabs allKeys]];
+        NSArray *sortedLabStatusesByLab = [self sortedLabsFrom:[filteredLabStatusesByLab allKeys]];
 
-        self.statusForTableViewSection = nil;
+        NSMutableDictionary *labsByStatus = [NSMutableDictionary dictionary];
 
-        for (id lab in sortedLabs) {
-            DZCLabStatus status = [(NSNumber *)filteredLabs[lab] intValue];
+        for (id lab in sortedLabStatusesByLab) {
+            DZCLabStatus status = [(NSNumber *)filteredLabStatusesByLab[lab] integerValue];
 
-            NSMutableArray *labs = self.labsByStatus[@(status)];
-            if (!labs) {
-                self.labsByStatus[@(status)] = [NSMutableArray array];
-                labs = self.labsByStatus[@(status)];
+            NSMutableArray *labsWithThisStatus = labsByStatus[@(status)];
+            if (!labsWithThisStatus) {
+                labsWithThisStatus = [NSMutableArray array];
+                labsByStatus[@(status)] = labsWithThisStatus;
             }
-
-            [labs addObject:lab];
+            [labsWithThisStatus addObject:lab];
         }
+
+        NSMutableArray *statusForTableViewSection = [NSMutableArray array];
 
         for (DZCLabStatus i=0; i<DZCLabStatusCount; ++i) {
             if (self.labsByStatus[@(i)] != nil) {
-                [self.statusForTableViewSection addObject:@(i)];
+                [statusForTableViewSection addObject:@(i)];
             }
         }
 
+        self.labsByStatus = labsByStatus;
+        self.statusForTableViewSection = statusForTableViewSection;
         [self.tableView reloadData];
     }];
 }
@@ -442,18 +442,18 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
 
 #pragma mark - Property overrides
 
-- (NSMutableDictionary *)labsByStatus
+- (NSDictionary *)labsByStatus
 {
     if(!_labsByStatus) {
-        _labsByStatus = [NSMutableDictionary dictionaryWithCapacity:5];
+        _labsByStatus  = @{};
     }
     return _labsByStatus;
 }
 
-- (NSMutableArray *)statusForTableViewSection
+- (NSArray *)statusForTableViewSection
 {
     if (!_statusForTableViewSection) {
-        _statusForTableViewSection = [NSMutableArray array];
+        _statusForTableViewSection = @[];
     }
     return _statusForTableViewSection;
 }
