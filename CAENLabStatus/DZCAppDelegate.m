@@ -5,7 +5,11 @@
 #import "UIColor+DZCColors.h"
 #import "AFNetworkActivityIndicatorManager.h"
 
+#import <BugSense-iOS/BugSenseController.h>
+
 static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
+
+static NSString * const DZCCAENLabsBugSenseAPIKey = @"989bc067";
 
 @interface DZCAppDelegate ()
 
@@ -20,6 +24,10 @@ static const NSTimeInterval DZCAppBackgroundRefreshTimeout = 60.0;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [BugSenseController sharedControllerWithBugSenseAPIKey:DZCCAENLabsBugSenseAPIKey];
+    [BugSenseController setLogMessagesCount:10];
+    [BugSenseController setLogMessagesLevel:8];
+
     [self applyStyles];
 
     UIViewController *rootVC;

@@ -1,10 +1,13 @@
 PODS:
   - AFNetworking (1.1.0)
+  - BugSense (3.5.1)
 
 DEPENDENCIES:
   - AFNetworking
+  - BugSense
 
 SPEC CHECKSUMS:
   AFNetworking: 761a418233d280c1e0580bcb76ff9cb4c3073d17
+  BugSense: d6c7be4f7edef7ac0d3867a0aa83bc339587a9b2
 
 COCOAPODS: 0.27.1
