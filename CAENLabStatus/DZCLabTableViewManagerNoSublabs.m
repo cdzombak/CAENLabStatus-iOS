@@ -144,6 +144,7 @@ typedef NS_ENUM(NSInteger, DZCNoSublabsTableViewSections) {
 {
     if (!_usageCell) {
         _usageCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UsageCell"];
+        _usageCell.textLabel.text = NSLocalizedString(@"Loading…", nil);
 
         CDZWeakSelf wSelf = self;
         [self.dataController machineCountsInLab:self.lab
