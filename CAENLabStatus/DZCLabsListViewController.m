@@ -172,7 +172,7 @@ typedef NS_ENUM(NSUInteger, DZCLabsListFilter) {
         NSMutableArray *statusForTableViewSection = [NSMutableArray array];
 
         for (DZCLabStatus i=0; i<DZCLabStatusCount; ++i) {
-            if (self.labsByStatus[@(i)] != nil) {
+            if (labsByStatus[@(i)] != nil) {
                 [statusForTableViewSection addObject:@(i)];
             }
         }
