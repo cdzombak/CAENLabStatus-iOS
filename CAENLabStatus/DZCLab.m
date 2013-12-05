@@ -57,6 +57,10 @@
     [super dealloc];
 }
 
+- (NSString *)description {
+    return self.humanName;
+}
+
 /**
  * Sort labs based on human name.
  */
